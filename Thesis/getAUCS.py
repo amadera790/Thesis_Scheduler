@@ -139,10 +139,53 @@ def getNumofCourses():
         diction[header[x]] = diction.get(header[x]) - inProgress 
         x=x+1
 
-    print(courseList)
-    return diction
+    return courseList
 
-print(getNumofCourses())
+def getSemCourses():
+
+    soup = BeautifulSoup(open('springSem2021.html'), "html.parser")
+    courses = {}
+
+    for i in soup.find_all("tr",{"valign": "top"}):
+        if i.find("a") is not None and i.find("a").text != "\n\n\t\t\t\tLogin":
+            courses[i.find("a").text] = {}
+            courses[i.find("a").text]["Credits"] = i.find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").text
+            dayTimeRoom = i.find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").text.strip().splitlines()
+            try:
+                courses[i.find("a").text]["Day"] = dayTimeRoom[0].strip()
+            except:
+                courses[i.find("a").text]["Day"] = "NA"
+            try:
+                courses[i.find("a").text]["Time"] = dayTimeRoom[1].strip()
+            except:
+                courses[i.find("a").text]["Time"] = "NA"
+            try:
+                courses[i.find("a").text]["Room"] = dayTimeRoom[2].strip()
+            except:
+                courses[i.find("a").text]["Room"] = "NA"
+
+    return courses
+
+courseList = {}
+courses = {}
+
+courses = getSemCourses()
+courseList = getNumofCourses()
+available = {}
+
+print(courseList)
+print(courses)
+
+for key in courseList:
+    for k in range(len(courseList[key])):
+        for x in courses:
+            if courseList[key][k] in x:
+                if key not in available:
+                    available[key] = []
+                available[key].append(x)
+
+print(available)
+
 '''
 if __name__ == '__main__':
     AUC, placement_tags = getAUC()
