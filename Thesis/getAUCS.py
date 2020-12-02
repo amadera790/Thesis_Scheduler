@@ -3,6 +3,7 @@ from selenium.webdriver.chrome.options import Options
 import time
 from bs4 import BeautifulSoup
 import re
+import requests
 
 # options = webdriver.ChromeOptions()
 # options.add_argument('user-data-dir={}'.format('C:\\Users\\BigMo\\AppData\\Local\\Google\\Chrome\\User Data\\Default'))
@@ -92,11 +93,11 @@ def getNumofCourses():
     header = [values.text.strip() for values in soup.find_all("h2",{"class": "tabSliderHeaderLight"})]
     diction = {}
     courseList = {}
+    completedList = []
     orList = []
     Or = False
     inProgress = 0
     x = 0
-
 
     for line in remaining:
         if (re.search("Courses",line)):
@@ -133,12 +134,24 @@ def getNumofCourses():
                     if header[x] not in courseList:
                         courseList[header[x]] = []
                     courseList[header[x]].append(td.text.strip())
+                if i == 3 and (completed or in_progress):
+                    completedList.append(td.text.strip())
                 if Or and i == 3:
                     orList.append(td.text.strip())
 
         diction[header[x]] = diction.get(header[x]) - inProgress 
         x=x+1
 
+    for k in soup.find_all("table", {"class": "text75em"}):
+        for tr in k.find_all("tr"):
+            for td in tr.find_all("td"):
+                try:
+                    if(td.find("img")["title"] == "Course has been completed." or td.find("img")["title"] == "In Progress"):
+                        completedList.append(td.find_next("td").text.strip())
+                except:
+                    continue
+
+    print(completedList)
     return courseList
 
 def getSemCourses():
@@ -166,6 +179,29 @@ def getSemCourses():
 
     return courses
 
+
+def currentSem():
+
+    #(?<=\Prerequisites: ).*
+    soup = BeautifulSoup(open('springSem2021.html'), "html.parser")
+    preReqs = {}
+
+    for i in soup.find_all("tr", {"valign": "top"}):
+        for a in i.find_all("a", href=True):
+            if "sectiondetailsdialog" in a['href']:
+                print(a['href'])
+                page = requests.get(a['href'])
+                courseWindow = BeautifulSoup(page.content, "html.parser")
+                td = courseWindow.find("td")
+                if re.search("(?<=Prerequisites: ).*", td.text) != None:
+                    preReqs[td.find_next("span").find_next("span").text.split()[0]] = re.search("(?<=Prerequisites: ).*", td.text).group()
+                else:
+                    preReqs[td.find_next("span").find_next("span").text.split()[0]] = "None"
+    
+    print(preReqs)
+currentSem()
+
+'''
 courseList = {}
 courses = {}
 
@@ -186,7 +222,8 @@ for key in courseList:
 
 print(available)
 
-'''
+
+
 if __name__ == '__main__':
     AUC, placement_tags = getAUC()
     print(AUC, placement_tags)
