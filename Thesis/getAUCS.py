@@ -4,6 +4,9 @@ import time
 from bs4 import BeautifulSoup
 import re
 import requests
+import json
+import random
+import unicodedata
 
 # options = webdriver.ChromeOptions()
 # options.add_argument('user-data-dir={}'.format('C:\\Users\\BigMo\\AppData\\Local\\Google\\Chrome\\User Data\\Default'))
@@ -12,21 +15,32 @@ import requests
 # driver.get("https://selfservice.arcadia.edu/SelfService/Records/AcademicPlan.aspx")
 # time.sleep(10)
 # soup = BeautifulSoup(driver.page_source,"html.parser")
+
 def getAUC() -> (dict, list):
-    soup = BeautifulSoup(open('AUCS.html'), "html.parser")
+    soup = BeautifulSoup(open('BioAUCS.html'), "html.parser")
 
     courses_tags    = [values.text for values in soup.findAll(id="Courses")]
     categories_tags = [values.text for values in soup.findAll(id="Category")]
+    code_tags = [values.text for values in soup.findAll(id="Code")]
     placement_tags  = [values.text.strip() for values in soup.findAll(id="Score")]
 
     AUC = {}
+    Code = {}
+    Needed = {}
+  
 
-    for i, category in enumerate(categories_tags):
-        category = re.search('\s{2,}(.*)', category)
+    for i, _ in enumerate(categories_tags):
+        category = re.search('\s{2,}(.*)', categories_tags[i])
+        code_tag = re.search('\s{2,}(.*)', code_tags[i])
         if category:
             course_list  = re.findall('[A-Z]{2}[0-9]{3}\.[0-9A-Z]{1,3}', courses_tags[i])
-            AUC[category.group(1)] = course_list
 
+            AUC[category.group(1)] = course_list
+            Code[code_tag.group(1)[0:-1]] = course_list
+
+
+    print(AUC)
+    print(Code)
 
     try:
         if len(AUC.get("Natural/Physical World (or 2nd NPL)")) < 1 and len(AUC.get("Natural/Physical World with Lab")) > 1:
@@ -53,27 +67,72 @@ def getAUC() -> (dict, list):
         elif len(values) == 0:
             needed_AUC[key] = values
                 
-    return needed_AUC, placement_tags
+    Needed = Code.copy()
+    remove = []
+
+    for key in Code:
+        if key in ['-CL-', '-W-', '-SS-', '-CB-']:
+            if len(Needed[key]) >= 2:
+                remove.append(key)
+        elif key in ['-NPL-', '-NP-']:
+            if len(Needed['-NPL-']) >= 2 or (len(Needed['-NPL-']) > 0 and len(Needed['-NP-']) > 0):
+                remove.append(key)
+        elif key in ['-QRM-', '-QR-']:
+            if len(Needed['-QRM-']) >= 2 or (len(Needed['-QRM-']) > 0 and len(Needed['-QR-']) > 0):
+                remove.append(key)
+        else:
+            if len(Needed[key]) > 0:
+                remove.append(key)
+
+    for key in remove:
+        del Needed[key]
+        
+    print(Needed)
+    print(needed_AUC)
+    return needed_AUC, Needed
 
 def getMaj():
     
 
-    soup = BeautifulSoup(open('plan.html'), "html.parser")
+    soup = BeautifulSoup(open('BioPlan.html'), "html.parser")
 
     # parse remaining list
     remaining = []
+    section = []
+    sectionClass = {}
+    Or = False
+    orList = []
+    
+    for name in soup.find_all("a", {"href": "javascript:void(0)"}):
+        section.append(name.text.strip())
+
+    section = section[1:-1]
 
     for t, major in enumerate(soup.find_all("table",{"class": "defaultTableAlignTop"})):
         # remaining[t] - this will be the remaining number of courses for this specific table
+        sectionClass[section[t]] = []
         for tr in major.find_all("tr"):
             completed, in_progress = False, False
             for i, td in enumerate(tr.find_all("td")):
+                if td.text.strip() == "(" and section[t] != "300 Level Major Elec" and section[t] != "Major Electives":
+                    Or = True
+                if td.text.strip() == ")":
+                    Or = False
+                    for orIndex in orList:
+                        if not (orIndex in sectionClass[section[t]]):
+                            for k in orList:
+                                if k in sectionClass[section[t]]:
+                                    sectionClass[section[t]].remove(k)
+                    orList.clear()
                 if td.find("a") and td.find("a")["title"] == "Completed":
                     completed = True
                 if td.find("a") and td.find("a")["title"] == "In Progress":
                     in_progress = True
                 if i == 3 and not completed and not in_progress:
-                    print(td.text)
+                    sectionClass[section[t]].append(td.text.strip())
+
+    print(sectionClass)
+    return sectionClass
 
     '''
     major_tags = soup.find("table", {"class": "defaultTableAlignTop"})
@@ -87,8 +146,8 @@ def getMaj():
         atags = [values.text for values in soup.find_all("a")]
         print(atags)
     '''
-def getNumofCourses():
-    soup = BeautifulSoup(open('plan.html'), "html.parser")
+def getCompletedCourses():
+    soup = BeautifulSoup(open('BioPlan.html'), "html.parser")
     remaining = [values.text for values in soup.find_all("div",{"class": "classCols"})]
     header = [values.text.strip() for values in soup.find_all("h2",{"class": "tabSliderHeaderLight"})]
     diction = {}
@@ -152,32 +211,60 @@ def getNumofCourses():
                     continue
 
     print(completedList)
-    return courseList
+    print(courseList)
+    return courseList, completedList
 
 def getSemCourses():
 
     soup = BeautifulSoup(open('springSem2021.html'), "html.parser")
     courses = {}
+    coursesSla = {}
 
     for i in soup.find_all("tr",{"valign": "top"}):
-        if i.find("a") is not None and i.find("a").text != "\n\n\t\t\t\tLogin":
-            courses[i.find("a").text] = {}
-            courses[i.find("a").text]["Credits"] = i.find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").text
+        if i.find("a") is not None and i.find("a").text != "\n\n\t\t\t\tLogin" and "summary=\"Course/Session\"" not in str(i):
+           
+            
+            name = i.find("a").text.split("/")[0]
+            slash = i.find("a").text
+            courses[name] = {}
+            coursesSla[slash] = {}
+            try:
+                courses[name]["Seats"] = unicodedata.normalize("NFKD", i.find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").get_text(separator = ", "))
+                coursesSla[slash]["Seats"] = unicodedata.normalize("NFKD", i.find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").get_text(separator = ", "))            
+            except:
+                del courses[name]
+                del coursesSla[slash]
+                continue
+            courses[name]["Credits"] = i.find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").text
+            coursesSla[slash]["Credits"] = i.find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").text
+
             dayTimeRoom = i.find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").text.strip().splitlines()
             try:
-                courses[i.find("a").text]["Day"] = dayTimeRoom[0].strip()
+                courses[name]["Day"] = dayTimeRoom[0].strip()
+                coursesSla[slash]["Day"] = dayTimeRoom[0].strip()
             except:
-                courses[i.find("a").text]["Day"] = "NA"
+                courses[name]["Day"] = "NA"
+                coursesSla[slash]["Day"] = "NA"
             try:
-                courses[i.find("a").text]["Time"] = dayTimeRoom[1].strip()
+                courses[name]["Time"] = dayTimeRoom[1].strip()
+                coursesSla[slash]["Time"] = dayTimeRoom[1].strip()
             except:
-                courses[i.find("a").text]["Time"] = "NA"
+                courses[name]["Time"] = "NA"
+                coursesSla[slash]["Time"] = "NA"
             try:
-                courses[i.find("a").text]["Room"] = dayTimeRoom[2].strip()
+                courses[name]["Room"] = dayTimeRoom[2].strip()
+                coursesSla[slash]["Room"] = dayTimeRoom[2].strip()
             except:
-                courses[i.find("a").text]["Room"] = "NA"
+                courses[name]["Room"] = "NA"
+                coursesSla[slash]["Room"] = "NA"
+            try:
+                courses[name]["AUCS"] = i.find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").text
+                coursesSla[slash]["AUCS"] = i.find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").text
+            except:
+                courses[name]["AUCS"] = ""
+                coursesSla[slash]["AUCS"] = ""
 
-    return courses
+    return courses, coursesSla
 
 
 def currentSem():
@@ -193,13 +280,40 @@ def currentSem():
                 page = requests.get(a['href'])
                 courseWindow = BeautifulSoup(page.content, "html.parser")
                 td = courseWindow.find("td")
-                if re.search("(?<=Prerequisites: ).*", td.text) != None:
-                    preReqs[td.find_next("span").find_next("span").text.split()[0]] = re.search("(?<=Prerequisites: ).*", td.text).group()
+                if re.search("(?<=Prerequisites: ).*|(?<=Prerequisite: ).*", td.text) != None:
+                    preReqs[td.find_next("span").find_next("span").text.split("\/")[0]] = re.search("(?<=Prerequisites: ).*|(?<=Prerequisite: ).*", td.text).group()
                 else:
-                    preReqs[td.find_next("span").find_next("span").text.split()[0]] = "None"
+                    preReqs[td.find_next("span").find_next("span").text.split("\/")[0]] = "None"
+
+    with open('data.json', 'w') as fp:
+        json.dump(preReqs, fp,  indent=4)
+
+def availableCourses(courses, sectionClass, neededAUCS, aucCodes, coursesSla):
+    preData = open('data.json',)
+    preReq = json.load(preData)
+    dupe = []
+    print("Availibale Major Courses and Electives")
+    for section,neededCor in sectionClass.items():
+        for cla in neededCor:
+            if cla in courses and courses[cla] not in dupe:
+                print(cla + " " + str(courses[cla]))
+                if cla in preReq and courses[cla] not in dupe:
+                    print(preReq[cla])
+                dupe.append(courses[cla])
+
+    print("Availiable Auc requirements")
+    for section in coursesSla.keys():
+        for key in aucCodes.keys():
+            if key in coursesSla[section]["AUCS"]:
+                print(section + " " +str(coursesSla[section]))
+                break
     
-    print(preReqs)
-currentSem()
+
+
+neededAUCS, aucCodes = getAUC()
+remCourses, compCourses  = getCompletedCourses()
+courses, coursesSla = getSemCourses()
+availableCourses(courses, remCourses, neededAUCS, aucCodes, coursesSla)
 
 '''
 courseList = {}

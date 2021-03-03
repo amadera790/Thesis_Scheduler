@@ -1,0 +1,134 @@
+// *********************************************************************
+// Copyright 2005 - 2013 Ellucian Company L.P. and its affiliates.
+// *********************************************************************
+
+// *********************************************************************
+// Permission Requests Display (To Do: make reusable)
+// *********************************************************************
+function trShowHide(r1, r2) {
+	// defRow = Default row containing student info
+	// expRow = expand/collapse row containing Comments, Colleagues Requests, & Overrides
+	var defRow = document.getElementById(r1);
+	var expRow = document.getElementById(r2);
+	if(expRow.style.display == "none") {
+		// expand row
+		expRow.style.display = "";
+		defRow.className = "noBorder";
+	}
+	else {
+		// collapse row
+		expRow.style.display = "none"
+		defRow.className = "";
+	}
+}
+// *********************************************************************
+// Class List > Image View Mini Dossier
+// *********************************************************************
+
+// show the mini dossier
+function showMiniDossier (el, posElement, offset) {
+	closeAll();
+	var yTop = findPosY(posElement) + offset;
+	var xLeft = findPosX(posElement) + offset;
+	var card = document.getElementById(el).style;
+	card.display = "block"
+	card.top = yTop + "px";
+	card.left = xLeft + "px";
+}
+
+// closeAll(id, tagName)
+// note: make reusable
+function closeAll() {
+	var theCards = document.getElementById("miniDossierDivs").getElementsByTagName("div");
+	for(i = 0; i < theCards.length; i++) {
+		if(theCards[i].className == "miniDossierContainer") {
+			theCards[i].style.display = "none";
+		}
+	}
+}
+
+// *********************************************************************
+// Tab Slider (Module headers for left col and center content area)
+// *********************************************************************
+
+// tab slider center col expand/contract - handling for Activity Grade Report
+function tabSliderReportShowHide(el, lnk) {
+    var theItemStyle = document.getElementById(el).style;
+    if (theItemStyle.display == "none") {
+        theItemStyle.display = "block";
+        lnk.className = "arrowUpReport";
+        // firefox fix (TODO: find better solution)	
+        lnk.blur();
+    }
+    else {
+        theItemStyle.display = "none";
+        lnk.className = "arrowDownReport";
+        // firefox fix (TODO: find better solution)	
+        lnk.blur();
+    }
+}
+
+// tab slider center col expand/contract
+function tabSliderShowHide(el, lnk) {
+	var	theItemStyle = document.getElementById(el).style;
+	if(theItemStyle.display == "none") {
+		theItemStyle.display = "block";
+		lnk.className = "arrowUp";
+		// firefox fix (TODO: find better solution)	
+		lnk.blur();
+	}
+	else {
+		theItemStyle.display = "none";
+		lnk.className = "arrowDown";
+		// firefox fix (TODO: find better solution)	
+		lnk.blur();
+	}
+}
+// tab slider center col expand/contract (for tables)
+function tabSliderShowHideTbl(el, lnk) {
+	var	theItemStyle = document.getElementById(el).style;
+	if(theItemStyle.display == "") {
+		theItemStyle.display = "none";
+		lnk.className = "arrowUp";
+		// firefox fix (TODO: find better solution)	
+		lnk.blur();
+	}
+	else {
+		theItemStyle.display = "";
+		lnk.className = "arrowDown";
+		// firefox fix (TODO: find better solution)	
+		lnk.blur();
+	}
+}
+
+// left col
+function leftColShowHide(el, lnk, img) {
+	var	theItemStyle = document.getElementById(el).style;
+	if(theItemStyle.display == "none") {
+		theItemStyle.display = "block";
+		document.getElementById(img).className = "tabSliderArrowUp";
+		lnk.blur();
+	}
+	else {
+		theItemStyle.display = "none";
+		document.getElementById(img).className = "tabSliderArrowDown";
+		lnk.blur();
+	}
+}
+
+function trShowHideComments(r1, r2, id, openLabel, closeLabel) {
+	var defRow = document.getElementById(r1);
+	var expRow = document.getElementById(r2);
+	if (expRow.style.display == "none") {
+		// expand row
+		expRow.style.display = "";
+		defRow.className = "noBorder";
+		id.childNodes[0].nodeValue = closeLabel;
+	}
+	else {
+		// collapse row
+		expRow.style.display = "none"
+		defRow.className = "";
+		id.childNodes[0].nodeValue = openLabel;
+	}
+}

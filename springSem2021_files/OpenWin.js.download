@@ -1,0 +1,180 @@
+﻿// *********************************************************************
+// Copyright 2005 - 2014 Ellucian Company L.P. and its affiliates.
+// *********************************************************************
+
+//************************************************************
+// move these to the common js file that we create.
+function OpenWinMenu(target){
+  var newwin = window.open("",target,'toolbar=0,location=0,directories=0,status=0,menubar=1,scrollbars=1,width=675,height=400,resizable=1');
+  newwin.focus();
+}
+
+function OpenWinToolbar(target){
+  var newwin = window.open("",target,'toolbar=1,location=0,directories=0,status=0,menubar=0,scrollbars=1,width=675,height=400,resizable=1');
+  newwin.focus();
+}
+
+function OpenWin(url, target) {
+   
+  var newwin = window.open(url, target,'toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=1,width=675,height=400,resizable=1');
+  newwin.focus();
+}
+
+function newWin(url, target, w, h) {
+var theWindow = window.open(url, target,"toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=1,width=" + w +",height=" + h + ",resizable=1");
+  theWindow.focus();
+}
+
+function popupWin(url, target, w, h) {
+var popupWindow = window.open(url, target,"toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=0,width=" + w +",height=" + h + ",resizable=1");
+  popupWindow.focus();
+}
+
+function OpenModalDialog(url, target) {
+    window.showModalDialog(url, null, "dialogHeight:400px,dialogWidth:675px, resizable:1");
+}
+//************************************************************
+
+
+
+
+// show/hide class list menu
+// todo: reuse generic show/hide functions in ui.js and remove this functio
+function menuShowHide(el) {
+    var menuStyle = document.getElementById(el).style;
+    if(menuStyle.display == "block")
+        menuStyle.display = "none";
+    else {
+        menuStyle.display = "block";
+    }
+}
+
+// check/uncheck all checkboxes with same name
+// also changes text on any hyperlink containing the attribute "checkall"
+	var checkFlag = "false";
+	function chkSelectAll(elName) {
+		var chkBoxes = document.forms[0].elements[elName];
+		var linkText = document.getElementsByTagName("a");
+
+		if(checkFlag == "false") {
+			for(i = 0; i < chkBoxes.length; i++) {
+				chkBoxes[i].checked = true;
+				checkFlag = "true";
+			}
+		    for(i = 0; i < linkText.length; i++) {
+		        if(linkText[i].getAttribute("checkall")) {
+		            linkText[i].innerHTML = "Uncheck All";
+		        }
+		    }
+		}
+		else {
+			for(i = 0; i < chkBoxes.length; i++) {
+				chkBoxes[i].checked = false;
+				checkFlag = "false";
+			}
+		    for(i = 0; i < linkText.length; i++) {
+		        if(linkText[i].getAttribute("checkall")) {
+		            linkText[i].innerHTML = "Check All";
+		        }
+		    }
+		}
+	}
+
+// generic check all checkbox function
+
+	var checkFlag = "false";
+	function checkAll(el) {
+		var chkBoxes = document.getElementById(el).getElementsByTagName("input");
+		if(checkFlag == "false") {
+			for(i = 0; i < chkBoxes.length; i++) {
+				if(chkBoxes[i].type == "checkbox" && !chkBoxes[i].disabled) {
+					chkBoxes[i].checked = true;	
+				}
+			}
+			checkFlag = "true";
+		}
+		else {
+			for(i = 0; i < chkBoxes.length; i++) {
+				if(chkBoxes[i].type == "checkbox") {
+					chkBoxes[i].checked = false;
+				}
+			}
+			checkFlag = "false";
+		}
+	}
+
+// generic functions to find position of HTML elements on a page
+function findPosX(obj)
+  {
+    var curleft = 0;
+    if(obj.offsetParent)
+        while(1) 
+        {
+          curleft += obj.offsetLeft;
+          if(!obj.offsetParent)
+            break;
+          obj = obj.offsetParent;
+        }
+    else if(obj.x)
+        curleft += obj.x;
+    //alert(curleft);
+	return curleft;
+  }
+
+  function findPosY(obj)
+  {
+    var curtop = 0;
+   if (obj)
+   { 
+        if(obj.offsetParent)
+            while(1)
+            {
+              curtop += obj.offsetTop;
+              if(!obj.offsetParent)
+                break;
+              obj = obj.offsetParent;
+            }
+        else if(obj.y)
+            curtop += obj.y;
+    }
+    return curtop;
+	//alert(curtop);
+  }
+
+// Student IdCard (Mini Dossier)
+function showCard (el, posTop, posLeft) {
+	//temp IE fix
+	
+	//parseInt(navigator.appVersion)
+	var yTop = findPosY(posTop);
+	var xLeft = findPosX(posLeft);
+	if(navigator.userAgent.indexOf("MSIE")) {
+		yTop = eval(yTop - 1)
+	}
+	var card = document.getElementById(el).style;
+	card.display = "block"
+	card.top = eval(yTop + 15);
+	card.left = xLeft;
+}
+
+function hideCard (el) {
+document.getElementById(el).style.display = "none";
+}
+
+function calendarPicker(strField) {
+		popupWin('../DatePicker.aspx?field=forms[0].' + strField,'calendarPopup',272,217);
+}
+
+function calendarPickerForTable(cell, name) {
+	var popup = window.open('../DatePicker.aspx',
+		'calendarPopup','width=272,height=217,resizable=yes');
+	var inputs = cell.getElementsByTagName("input");
+	for (var i = 0; i < inputs.length; i++) {
+		if (inputs[i].name == name) {
+			_dateTarget = inputs[i];
+		}
+	}
+}
+
+
+

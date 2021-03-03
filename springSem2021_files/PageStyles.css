@@ -1,0 +1,2085 @@
+﻿
+
+/* registration nav */
+#regNav { list-style:none; font: bold .65em Verdana, Arial, Helvetica, sans-serif; margin:0px 0px 20px 0px; padding:0px 0px 0px 0px; height:16px; }
+#regNav li {float:left; margin:0px; padding:0px; }
+#regNav li span {display:block; padding:7px 30px 7px 15px;}
+/* 3 styles necessary for the first step */
+/* only 1st step complete */
+#regNav .done { background:url(../../app_themes/default/images/regnav/regnav_done_bg.gif) no-repeat right top; }
+#regNav .done span { background:url(../../app_themes/default/images/regnav/regnav_done_leftcap.gif) no-repeat left top; padding-left:30px; }
+/* 1st step complete, 2nd step is current step */
+#regNav .done2 { background:url(../../app_themes/default/images/regnav/regnav_done_rt2.gif) no-repeat right top; color:#597a04;}
+#regNav .done2 span { background:url(../../app_themes/default/images/regnav/regnav_done_leftcap.gif) no-repeat left top; padding-left:30px; }
+#regNav .done2 a { text-decoration:none; color:#597a04; }
+/* when following element is also complete */
+#regNav .done3 { background:url(../../app_themes/default/images/regnav/regnav_done_rt3.gif) no-repeat right top; color:#597a04; }
+#regNav .done3 span { background:url(../../app_themes/default/images/regnav/regnav_done_leftcap.gif) no-repeat left top; padding-left:30px; }
+/* default element, not done, not current step */
+.regNavDef { background: #e5e5e5 url(../../app_themes/default/images/regnav/regnav_rightcap.gif) no-repeat right top; color:#999; }
+.regNavDefEnd { background: #e5e5e5 url(../../app_themes/default/images/regnav/regnav_right_end.gif) no-repeat right top; color:#999; }
+/* any current element other than the 1st */
+.regNavCurrent { background: #e5e5e5 url(../../app_themes/default/images/regnav/regnav_cur_rt.gif) no-repeat right top; color:#003659; }
+#regNav	.regNavCurrent span { background: transparent url(../../app_themes/default/images/regnav/regnav_cur_leftcap.gif) no-repeat left top; padding-left:30px; }
+/* current element, 1st step*/
+.regNavCurrentStep1 { background: #e5e5e5 url(../../app_themes/default/images/regnav/regnav_cur_rt.gif) no-repeat right top; color:#003659; }
+#regNav	.regNavCurrentStep1 span { background: transparent url(../../app_themes/default/images/regnav/regnav_cur_leftcap_round.gif) no-repeat left top; padding-left:30px; }
+#regNav	.regNavCurrentStep1 span a { text-decoration:none; color:#597a04; }
+/* current element, last step */
+.regNavCurrentLast { background: #e5e5e5 url(../../app_themes/default/images/regnav/regnav_cur_last.gif) no-repeat right top; color:#003659; }
+#regNav	.regNavCurrentLast span { background: transparent url(../../app_themes/default/images/regnav/regnav_cur_leftcap.gif) no-repeat left top; padding-left:30px; }
+/* completed steps != first or last (see #regNav .done, above) */
+.regNavDone { background: transparent url(../../App_Themes/Default/Images/regnav/regnav_done_rt2.gif) no-repeat right top; color:#597a04;}
+#regNav	.regNavDone span { background: transparent url(../../App_Themes/Default/Images/regnav/regnav_done_checkmark.gif) no-repeat left top; padding-left:30px; }
+.regNavDoneLink:link, .regNavDoneLink:visited { text-decoration:none; color:#597a04; }
+.regNavDone2 { background: transparent url(../../App_Themes/Default/Images/regnav/regnav_done_rt3.gif) no-repeat right top; color:#597a04;}
+#regNav	.regNavDone2 span { background: transparent url(../../App_Themes/Default/Images/regnav/regnav_done_checkmark.gif) no-repeat left top; padding-left:30px; }
+/* completed step, last step */
+.regNavDoneLast { background: transparent url(../../App_Themes/Default/Images/regnav/regnav_done_rt_last.gif) no-repeat right top; color:#597a04;}
+#regNav	.regNavDoneLast span { background: transparent url(../../App_Themes/Default/Images/regnav/regnav_done_checkmark.gif) no-repeat left top; padding-left:30px; }
+
+
+/* button list (used in: Registration/ShoppingCart.aspx) */
+/* reset back to .7em after */
+/*.btnList { margin:0px; padding:0px; font-size:.7em; }*/
+.btnList { margin:0px; padding:0px; }
+.btnList li { float:left; margin: 0px 8px 0px 0px; list-style-type:none; }
+.btnList li a:hover { border:1px #999 solid; color:#000; }
+.btnList li a:active { border:1px #999 solid; color:#f00; }
+
+a.btnNavLink, .btnNavLink:link .btnNavLink:visited { 
+	border:1px #ccc solid; background-color:#ebebed; padding:4px 8px; color:#666; 
+	text-decoration:none; display:block; background:url(../../app_themes/default/images/bg_btn_grey.jpg) repeat-x top left;
+}
+
+.divider { background:url(../../app_themes/default/images/search_divider_grey.gif) repeat-x top left; }
+.noBg { background-image:none; }
+.noBorder { border-width:0px; border-style:none; }
+/* for search results and cart display */
+.courseName { color:#444456; font:bold 1.1em Arial, Helvetica, sans-serif; }
+/* horizontal list items */
+.ulHoriz { margin:0px; padding:0px; }
+.liHoriz { display:inline; }
+
+.liGreySquare {list-style-image:url(../../app_themes/default/images/square_bullet_grey.gif) }
+
+.textGrey { color:#999; }
+.textGreySm { color:#999; font-size:.7em; }
+
+/* registration styles */
+h3.cartHeader,
+h3.regHeader {
+    vertical-align:bottom; color:#275e86; font-weight:bold; font-size:1em; 
+    background:url(../../App_Themes/Default/Images/gradient_header_blue.gif) repeat-x bottom left; 
+    height:19px; margin:0px 0px 0px 0px; padding:20px 0px 0px 10px; text-transform:uppercase; letter-spacing:1px;
+    z-index:0;
+     }
+.emptyCart { color:#86a5bb; font-size:1.2em; font-weight:bold; }
+.msgRegistration { color:#86a5bb; font-size:1.2em; font-weight:bold; }
+.registrationInstructions { font-weight:bold; color:#86a5bb; clear:both; padding-top:10px; }
+.pad10 { padding:10px; }
+.pad-10H { padding:0px 10px; }
+.pad-10V { padding:10px 0px; }
+.pad-20V { padding:20px 0px; }
+
+
+
+/* search, cart, registered courses, etc... */
+.ulResults { margin:0px 0px 0px 15px; padding:0px }
+
+.sessionOpenIndicator { background:url(../../App_Themes/Default/Images/icon_open_book.gif) repeat-x top left; width:13px; height:15px; margin-top:1px; padding:0px; }
+.sessionClosedIndicator { background:url(../../App_Themes/Default/Images/icon_closed_book.gif) repeat-x top left; width:13px; height:15px; margin-top:1px; padding:0px; }
+
+.legendOpenIcon {
+	background:url(../../App_Themes/Default/Images/icon_open_book.gif) no-repeat 0px 2px;
+	font-size:.7em;
+	padding:3px 0px 3px 17px;
+	margin-left:10px;
+}
+
+.legendClosedIcon {
+	background:url(../../App_Themes/Default/Images/icon_closed_book.gif) no-repeat 0px 2px;
+	font-size:.7em;
+	padding:3px 0px 3px 17px;
+	margin-left:10px;
+}
+
+.resultsR1 { background-color:#ffffff; }
+.resultsR2 { background-color:#fafafa; }
+
+.legendRequiredIcon {
+	background:url(../../App_Themes/Default/Images/form_alert_icon.gif) no-repeat 0px 2px;
+	font-size:.7em;
+	padding:3px 0px 3px 17px;
+	margin-left:10px;
+}
+
+/* class list */
+a.btnLinkSm, .btnLinkSm:link, .btnLinkSm:active, .btnLinkSm:visited { 
+	border:1px #ccc solid; background-color:#ebebed; padding:2px 6px; color:#369; 
+	text-decoration:none; display:block; background:url(../../App_Themes/Default/Images/bg_btn_grey.jpg) repeat-x top left;
+	font: 1em normal Arial, Helvetica, sans-serif; white-space:nowrap; text-align:center;
+}
+.btnLinkSm:hover { border:1px #999 solid; color:#000; text-decoration:none; }
+.trDottedLine { background:transparent url(../../App_Themes/Default/Images/dotted_line_1px.gif) bottom left repeat-x; }
+.trGradientBlue { background:transparent url(../../App_Themes/Default/Images/gradient_header_blue.gif) bottom left repeat-x; }
+
+.trTableHeader { background:transparent url(../../App_Themes/Default/Images/gradient_header_blue.gif) bottom left repeat-x; text-align:left; color:#036; height:30px; vertical-align:bottom; }
+.trTableHeaderR { background:transparent url(../../App_Themes/Default/Images/gradient_header_blue.gif) bottom left repeat-x; text-align:right; color:#036; height:30px; vertical-align:bottom; }
+.trTableFooter { background:transparent url(../../App_Themes/Default/Images/gradient_footer_blue.gif) top left repeat-x; }
+.trFooterHilite { background:transparent url(../../App_Themes/Default/Images/gradient_footer_hilite.gif) top left repeat-x; }
+.emptyHeader { background:transparent url(../../App_Themes/Default/Images/gradient_header_blue.gif) bottom left repeat-x; height:42px; }
+.msgNoData { font-weight:bold; color:#999; margin:20px}
+.tdMsgNoData {font-weight:bold; color:#999; padding-top:20px; }
+
+.ulNoStyle {margin:0px; padding:0px; list-style-type:none; }
+/****************************************************************/
+/* Left Nav or "tertiary" menu */
+#leftNavMenu { position:absolute; top:223px; left:210px; display:none; z-index:500; }
+ul#leftNavMenu, ul#leftNavMenu ul { margin: 0px; padding: 0px; width: 190px; border-bottom: 1px solid #8aa0b0; background: #fff; font-size:.9em; }
+ul#leftNavMenu li { position: relative; list-style: none; background:url(../../App_Themes/Default/Images/menu_bg.gif) bottom left; }
+ul#leftNavMenu li a { display: block; text-decoration: none; color: #777; padding: 5px; border: 1px solid #8aa0b0; border-bottom: 0px; width:178px; }
+/* Fix IE. Hide from IE Mac \*/
+* html ul#leftNavMenu li { float: left; height: 1%; }
+* html ul#leftNavMenu li a { height: 1%; }
+* html ul#leftNavMenu { position:absolute; top:61px; }
+/* End */
+
+ul#leftNavMenu ul { position: absolute; display: none; left: 189px;	top: 0px; }
+ul#leftNavMenu li ul li a { padding: 5px 5px; } /* Sub Menu Styles */
+/* Hide sub-menus initially */
+ul#leftNavMenu li:hover ul ul, ul#leftNavMenu li:hover ul ul ul, ul#leftNavMenu li.over ul ul, ul#leftNavMenu li.over ul ul ul { display: none; }
+ul#leftNavMenu li:hover ul, ul#leftNavMenu li li:hover ul, ul#leftNavMenu li li li:hover ul, ul#leftNavMenu li.over ul, ul#leftNavMenu li li.over ul, ul#leftNavMenu li li li.over ul { display: block; }
+
+/* ul#leftNavMenu li.menuparent { background: transparent url(../../App_Themes/Default/Images/menu_arrow_down.gif) right center no-repeat; }
+*/
+ul#leftNavMenu li.menuparent:hover,
+ul#leftNavMenu li.over { background-color: #def1ff; }
+ul#leftNavMenu li a:hover { color: #275e86; background-color: #def1ff; }
+/****************************************************************/
+
+/****************************************************************/
+/* Course Manager > Class List */
+.selectCourse { margin:0px; font-weight:bold; background:transparent url(../../App_Themes/Default/Images/menu_arrow_down.gif) left center no-repeat; padding:5px 2px 5px 14px; display:block; float:left; }
+.clCourseInfo { margin:0px; color:#777; padding:5px 20px; background: url(../../App_Themes/Default/Images/dotted_line_vert.gif) center left repeat-y; clear:both; float:left; }
+.clCourseInfo ul { list-style:none; margin:0px; padding:5px 0px 0px; }
+.clCourseInfo li { padding: 0px 0px 2px; }
+.clStatusFilter { margin:0px; color:#777; padding:5px 20px; background: url(../../App_Themes/Default/Images/dotted_line_vert.gif) center left repeat-y; float:left; clear:both; }
+.clStatusFilterLabel { display:block; padding:0px 0px 6px 0px; font-weight:bold; font-size:.75em; }
+.clStatusFilterSelect { font-size: .75em; width:100px; }
+.clPreReqs { clear:both; padding:10px; width:94%; font-size:.75em; }
+/* image hover display */
+.studentDiv { position:absolute; display:none; background-color:#fff; height:62px; width:60px; }
+a.studentLink, .studentLink:link, .studentLink:active, .studentLink:visited  { display:block; width:100%; border-right:4px #fff solid; }
+.studentLink:hover { background-color:#f2f8ff; border-right:4px #dfe9f7 solid; }
+.waitlistThumbnail { border:1px #b2b2b2 solid; }
+
+/* Image View */
+#classListImageView { clear:both; font-size:.7em; }
+#classListImageView ul { list-style:none; margin:0px; padding:0px; }
+#classListImageView ul li { float:left; width:100px; height:120px; padding:15px 15px 15px 15px; text-align:center; }
+
+.miniDossierContainer { position:absolute; top:10px; left:10px; display:none; width:260px; background:url(../../App_Themes/Default/Images/bg_trans_shadow.gif) repeat bottom right; }
+.miniDossier { font-size: .7em; background-color:#fff; border:1px #000 solid; position:relative; left:-8px; top:-8px; padding:5px 8px; background: #fff url(../../App_Themes/Default/Images/bg_student_card.jpg) no-repeat top left; }
+.miniDossier ul, .miniDossier ul li { margin:0px; list-style:none; padding:0px; line-height:14px; clear:both; }
+.miniDossier ul li ul li { display:inline; padding:0px 6px; }
+.miniDossier ul li strong { font-weight:bold; color:#47a; }
+.miniDossier .liList { list-style:disc; margin-left:20px; padding:0px 6px 0px 0px; float:left; clear:none }
+/*.miniDossier .ulList { clear:both  }*/
+
+.miniDossier .cardClose { text-align:center; margin: 4px -8px -5px -8px; padding:3px 4px; background-color:#c2d3df; }
+.miniDossier .cardClose a, .miniDossier .cardClose a:link, .miniDossier .cardClose a:visited,.miniDossier .cardClose a:active { font-weight:bold; background: url(../../App_Themes/Default/Images/close_icon.gif) center right no-repeat; padding-right:20px; text-decoration:none; color:#00355e; }
+.miniDossier .cardClose a:hover { text-decoration:underline; }
+
+.imgLink { cursor:pointer; border:1px #000 solid; }
+.imgLink:hover { border:1px #369 solid; }
+.imgLinkBorderless { cursor:pointer; }
+
+/* Permission Requests */
+.statusSelect { font-size:.9em; }
+.commentsTextArea { width:95%; font: 1em Verdana, Arial, Helvetica, sans-serif; border:1px #667 solid; padding:2px 4px; background-color:#f7fcff; color:#275e86 }
+.commentsTextArea2 { width:400px; font: 1em Verdana, Arial, Helvetica, sans-serif; border:1px #667 solid; padding:2px 4px; background-color:#f7fcff; color:#275e86 }
+.divHeader{ clear:both; text-transform:uppercase; color:#667; font-weight:bold; border-bottom:1px #ddd solid; width:98%; margin-bottom:3px; padding:0px 0px 3px 0px; }
+.divHeader1{ clear:both; text-transform:uppercase; color:#667; font-weight:bold; border-bottom:1px #ddd solid; width:100%; margin-bottom:3px; padding:0px 0px 3px 0px; }
+.divCols { float:left; padding:0px 20px 4px 0px; width:30%; color:#445; }
+.divCols50 { float:left; padding:0px 20px 4px 0px; width:45%; color:#445; }
+.divCols25 { float:left; padding:0px 20px 4px 0px; width:21%; color:#445; }
+.divOverride { clear:both; text-transform:uppercase; color:#667; font-weight:bold; }
+.dataLabel { font-weight:bold; }
+.dataLabelBlock { display:block; padding:10px 0px 4px 0px; font-weight:bold; }
+
+
+/****************************************************************/
+
+.btnIcon { padding: 3px 4px 0px 0px; border-width:0px; vertical-align:top; }
+a.btnLink, .btnLink:link, .btnLink:visited { 
+	border:1px #ccc solid; background-color:#ebebed; padding:4px 8px; color:#666; 
+	text-decoration:none; display:block; background:url(../../App_Themes/Default/Images/bg_btn_grey.jpg) repeat-x top left;
+}
+/* .btnLink:active { border:1px #999 solid; color:#f00; } */
+.btnLink:hover { border:1px #999 solid; color:#000; text-decoration:none; }
+
+
+.btnLinkBevel, .btnLinkBevel:link, .btnLinkBevel:visited {
+	border-width:2px; border-style:solid; border-color: #eee #ccc #ccc #eee;
+	height:14px; padding:7px 0px 7px 0px; color:#666; text-decoration:none; display:block;
+	background:url(../../App_Themes/Default/Images/bg_btn_grey.jpg) repeat-x top left;	
+}
+.btnLinkBevel:hover {
+	border-width:2px; border-style:solid; border-color: #ddd #999 #999 #ddd;
+	color:#000; text-decoration:none; }
+
+a.btnLinkLight, .btnLinkLight:link, .btnLinkLight:visited { 
+	border:1px #ccc solid; background-color:#ebebed; padding:4px 0px 4px 4px; color:#666; 
+	text-decoration:none; display:block; background:url(../../App_Themes/Default/Images/bg_btn_grey.jpg) repeat-x top left;
+}
+.btnLinkLight:hover { border:1px #999 solid; color:#000; text-decoration:none; }
+
+.arrowLinkList {
+	list-style:none;
+	margin:5px 0px 0px 12px;
+	padding:0;
+	font-size:.75em;
+}
+
+.arrowLinkList li {
+	background:url(../../App_Themes/Default/Images/arrow_rt_blue.gif) 0px 6px no-repeat;
+	padding:0px 0px 2px 14px;
+}
+
+
+/* bulleted list */
+.arrowList { background:url(../../App_Themes/Default/Images/arrow_rt_blue.gif) 0px 4px no-repeat; 
+	padding:0px 0px 0px 14px; }
+
+	
+a.arrowLink, .arrowLink:link, .arrowLink:visited {
+	background:url(../../App_Themes/Default/Images/arrow_rt_blue.gif) center left no-repeat;
+	padding:0px 0px 0px 14px;
+}
+
+a.arrowLinkBlock, .arrowLinkBlock:link, .arrowLinkBlock:visited {
+	background:url(../../App_Themes/Default/Images/arrow_rt_blue.gif) 0px 4px no-repeat;
+	padding:0px 0px 0px 14px;
+	display:block;
+}
+
+
+
+a.arrowLinkR, .arrowLinkR:link, .arrowLinkR:visited, .arrowLinkR:active {
+	background:url(../../App_Themes/Default/Images/arrow_rt_blue.gif) center right no-repeat;
+	padding:0px 0px 0px 0px; display:block; margin-right:40px;
+}
+
+a.arrowLinkR:hover{ background-color:#e9f2f7; }
+
+
+a.arrowLinkR2, .arrowLinkR2:link, .arrowLinkR2:visited, .arrowLinkR2:active {
+	background:url(../../App_Themes/Default/Images/arrow_rt_blue.gif) center right no-repeat;
+	padding:0px 0px 0px 0px; display:block; margin-right:10px;
+}
+
+a.arrowLinkBoldR, a.arrowLinkBoldR:link, a.arrowLinkBoldR:active, a.arrowLinkBoldR:visited, a.arrowLinkBoldR:hover {
+	background:url(../../App_Themes/Default/Images/arrow_rt_blue.gif) no-repeat 25px 4px;
+	padding:0px 30px 0px 0px; font-weight:bold; text-decoration:underline; }
+
+/*a.arrowLinkR2:hover{ background-color:#e9f2f7; padding:4px 4px 4px 0px; }*/
+
+.arrowListMultiline {
+	list-style:none;
+	margin:5px 0px 0px 12px;
+	padding:0;
+	font-size:.7em;
+}
+
+.arrowListMultiline li {
+	background:url(../../App_Themes/Default/Images/arrow_menu.gif) 0px 4px no-repeat;
+	padding:0px 0px 6px 14px;
+}
+
+
+.recentCoursesList 
+{
+	margin-top:5px;
+	margin-left:5px;
+	margin-right:5px;
+	padding-left:20px;
+	font-size:.7em;
+	color:#666;
+}
+
+.recentCoursesList li { padding-bottom:6px;}
+
+.msgNoData { font-weight:bold; color:#778; clear:both; padding-top:10px; }
+/****************************************************/
+/************        -- FORMS --        *************/
+/****************************************************/
+/*
+.formButton { background:url(../../App_Themes/Default/Images/bg_btn_grey.jpg) bottom left repeat-x; border:2px #ccc solid; font-weight: bold; font-size:.9em; color:#667; padding:6px; border-top: 2px #efefef solid; border-right: 2px #ccc solid; border-bottom: 2px #ccc solid; border-left:2px #efefef solid; text-transform:uppercase; letter-spacing:1px; }
+  .formButton:hover { border-top: 2px #ccc solid; border-right: 2px #efefef solid; border-bottom: 2px #efefef solid; border-left:2px #ccc solid; color:#369; }  */
+.formButton { background:url(../../App_Themes/Default/Images/bg_btn_grey.jpg) bottom left repeat-x; border:2px #ccc solid; font-weight: bold; font-size:.9em; color:#667; padding:6px; border-top: 2px #efefef solid; border-right: 2px #ccc solid; border-bottom: 2px #ccc solid; border-left:2px #efefef solid; letter-spacing:1px; }
+.formButton:hover {  border-top: 2px #efefef solid; border-right: 2px #ccc solid; border-bottom: 2px #ccc solid; border-left:2px #efefef solid; }
+
+.formButtonSm { background:url(../../App_Themes/Default/Images/bg_btn_grey.jpg) bottom left repeat-x; border:1px #ccc solid; font-weight: bold; font-size:.7em; color:#667; padding:4px 8px; border-top: 2px #efefef solid; border-right: 2px #ccc solid; border-bottom: 2px #ccc solid; border-left:2px #efefef solid; letter-spacing:1px; }
+.formButtonSm:hover {  border-top: 2px #efefef solid; border-right: 2px #ccc solid; border-bottom: 2px #ccc solid; border-left:2px #efefef solid; }
+
+.formLabel { font-weight:bold; font-size:.9em; }
+.formList { list-style:none; margin:0px; padding:0px; }
+.formList li { padding:4px 0px; }
+
+.smallForm { background: #d9e7f2 url(../../App_Themes/Default/Images/bg_small_form_blue.jpg) repeat-x top left; margin:0px; padding:0px; list-style:none; }
+.smallForm li { margin:0px 16px; padding:12px 0px; }
+.smallForm .formLabel { color:#258 }
+.smallForm li.formRow { background:url(../../App_Themes/Default/Images/divider_blue.gif) repeat-x bottom left; }
+.smallForm .formButton { text-transform:none; }
+.smallForm .formButton:hover { border-top: 2px #efefef solid; border-right: 2px #ccc solid; border-bottom: 2px #ccc solid; border-left:2px #efefef solid; }
+.smallForm .formLabel-90 { display:block; float:left; width:90px; }
+.smallForm .formLabel-90b { display:block; float:left; width:90px; font-weight:bold; color:#258; padding-top:3px; }
+.smallForm .formLabel-100 { display:block; float:left; width:100px; }
+.smallForm .formLabel-120 { display:block; float:left; width:120px; }
+.smallForm .formLabel-120b { display:block; float:left; width:125px; font-weight:bold; color:#258; padding-top:2px; }
+.smallForm .conEdFormLabel { display:block; float:left; width:100px; font-size:.75em; font-weight:bold; color:#258 }
+.smallForm .twoColRow { background-image:none; background-color:transparent; margin:0px; padding:0px 20px 0px 0px; height:24px; border:0px #ccf solid; }
+.smallForm .twoColRow li { float:left; list-style:none; margin:0px; padding:0px 0px 0px 0px; border:0px #ccf solid; width:40%; }
+.smallForm select { font: 1.1em verdana; height:20px; }
+.smallForm .buttonRowL { text-align:left; }
+.smallForm .buttonRowC { text-align:center; }
+.smallForm .buttonRowR { text-align:right; }
+
+
+.smallForm select { margin:0px; padding:0px; border:1px #bbc solid; }
+.smallForm .txtInput { margin:0px; padding:0px; border:1px #bbc solid; }
+#ConEdFormContainer .moduleBlue { width:370px; }
+
+#peopleSearch { margin:0px; padding:0px 0px 0px 0px; }
+#peopleSearch li { list-style:none; float:left; padding-left:10px; }
+#peopleSearch li label { font-weight:bold; color:#445; }
+.peopleSearchBar { text-align:right; padding:4px 15px; clear:both; }
+
+#organizationSearch { margin:0px; padding:0px 0px 0px 0px; }
+#organizationSearch li { list-style:none; float:left; padding-left:10px; }
+#organizationSearch li label { font-weight:bold; color:#445; }
+.organizationSearch { text-align:right; padding:4px 15px; clear:both; }
+
+.pad20r10l { padding:0px 20px 0px 10px; }
+.pad10r20l { padding:0px 10px 0px 20px; }
+.btnListPlain { margin:0px; padding:0px; list-style:none; }
+.dlListBox { width:150px; border:1px #ccc solid; }
+
+/* horizontal form with labels above inputs */
+.horizForm { }
+.horizForm label { display:block; font-weight:bold; font-size:.7em; color:#666; margin-bottom:3px; }
+.horizForm label.hList { display:inline; font-weight:normal; font-size:.75em; color:#666; position:relative; top:-2px; }
+.horizForm span {font-weight:bold; font-size:.7em; color:#666; margin-bottom:3px; position:relative; top:-4px;}
+.horizForm span.normalFont {font-weight:normal; font-size:.7em; color:#666; margin-bottom:3px; position:relative; top:5px;}
+.horizForm span.normalFontAdvisee {font-weight:normal; font-size:.7em; color:#666; margin-bottom:3px; position:relative;}
+.horizForm div { float:left; margin:6px 20px 0px 0px; }
+.horizForm div select { margin-top:0px; }
+.horizForm .formDivider { background:url(../../App_Themes/Default/Images/divider_blue.gif) repeat-x 0 8px; padding-top:1.5em; }
+
+.horizFormCompact { clear:left; }
+.horizFormCompact label { display:block; font-weight:bold; font-size:.7em; color:#666; margin-bottom:3px; }
+.horizFormCompact div { float:left; margin:6px 20px 0px 0px; clear:none; }
+.horizFormCompact div select { margin-top:1px; }
+.horizFormCompact .formDivider { background:url(../../App_Themes/Default/Images/divider_blue.gif) repeat-x 0 8px; padding-top:1.5em; }
+.horizFormCompactButtonRow { clear:left; padding-top:10px; }
+/* advising simple search */
+#simpleSearchForm {
+	padding:10px 20px;
+	background: #d9e7f2 url(../../App_Themes/Default/Images/bg_small_form_blue.jpg) repeat-x 0px -40px;
+	border-bottom:1px #adbac6 solid;	
+}
+
+/* section search form */
+.sectionSearchForm {
+	padding:10px 20px;
+	background: #d9e7f2 url(../../App_Themes/Default/Images/bg_small_form_blue.jpg) repeat-x 0px 0px;
+	border-bottom:1px #adbac6 solid;	
+}
+
+/* compact search form */
+.compactSearchForm {
+	background: #d9e7f2 url(../../App_Themes/Default/Images/bg_small_form_blue.jpg) repeat-x 0px 0px;
+	border-bottom:1px #adbac6 solid;
+	padding:0px 10px 10px 10px;
+	font-size:.9em;
+}
+
+
+/****************************************************/
+/************        -- CART --         *************/
+/****************************************************/
+
+.cartSession { font-size:.75em; border:0px #ccc solid; }
+.sessionHeader { font-weight: bold; }
+
+
+.vertDivider { background:#86a5bb url(../../App_Themes/Default/Images/vert_divider_top.gif) no-repeat top center; width:1px; float:left; margin:0px; padding:0px; }
+.vertDivider div { background: url(../../App_Themes/Default/Images/vert_divider_bot.gif) no-repeat bottom left; width:1px; margin:0px; }
+/****************************************************/
+/************* -- IDENTIFY YOURSELF -- **************/
+/****************************************************/
+#idBody .vertDivider { background:#86a5bb url(../../App_Themes/Default/Images/vert_divider_top.gif) no-repeat top center; width:1px; float:left; margin:0px; padding:0px; }
+#idBody .vertDivider div { background: url(../../App_Themes/Default/Images/vert_divider_bot.gif) no-repeat bottom left; width:1px; margin:0px; }
+#idLeftCol { width:200px; float:left; margin:0px; padding-right:45px; }
+#idRightCol { width:200px; float:left; margin:0px; padding-left:45px; }
+#idBody { clear:both; margin:20px 0px; }
+#idBody, #idBody div { height:150px; }
+#idBody .arrowAnim { background:url(../../App_Themes/Default/Images/arrow_anim_green.gif) center left no-repeat; width:100%; height:120px; margin:0px; padding:0px; }
+#idBody .arrowAnim span { display:block; margin:0px; color:#126601; font-weight:bold; text-align:right; position:relative; top:50px; }
+#idBody .bigButtonBlue { background:url(../../App_Themes/Default/Images/bg_button_blue.gif) no-repeat top left; height:68px; width:210px; margin:30px 0px 0px 0px; }
+#idBody .bigButtonBlue a,
+#idBody .bigButtonBlue a:link,
+#idBody .bigButtonBlue a:visited,
+#idBody .bigButtonBlue a:active { color:#275e86; font-size:.9em; font-weight:bold; text-decoration:none; display:block; padding:20px 8px 20px 0px; height:24px; width:190px; margin:0px; text-align:center; }
+
+#idHead { height:40px; padding:0px; width:580px; }
+#idHead h3 { font-size:1em; font-weight:bold; float:left; color:#00355e; padding:0px 0px 0px 45px; margin:17px 0px 0px 0px; width:200px; }
+#idHead h3.rit { text-align:right; padding:0px 45px 0px 0px; width:200px; border-right:1px #dde solid; }
+
+/****************************************************/
+/**************** -- TAB SLIDER -- ******************/
+/****************************************************/
+/* center col */
+h2.tabSliderHeaderLight { background:url(../../App_Themes/Default/Images/tab_slider_header_light.gif) repeat-x top left; 
+	margin:0px; font-size:1em; height:26px; border:1px #cbdeeb solid; cursor:pointer; }
+h2.tabSliderHeaderLight a,
+h2.tabSliderHeaderLight a:link,
+h2.tabSliderHeaderLight a:visited,
+h2.tabSliderHeaderLight a:active { color:#00355e; text-decoration:none; display:block; padding: 5px 9px 2px 9px; width:97%; }
+h2.tabSliderHeaderLight a.arrowDown { background:url(../../App_Themes/Default/Images/tab_slider_arrow_dn_light.gif) no-repeat top right; }
+h2.tabSliderHeaderLight a.arrowUp { background:url(../../App_Themes/Default/Images/tab_slider_arrow_up_light.gif) no-repeat top right; }
+h2.tabSliderHeaderLight a.arrowDownReport { background:url(../../App_Themes/Default/Images/tab_slider_arrow_left_dn_light.gif) no-repeat top left; padding-left:2em; }
+h2.tabSliderHeaderLight a.arrowUpReport { background:url(../../App_Themes/Default/Images/tab_slider_arrow_left_up_light.gif) no-repeat top left; padding-left:2em; }
+.tabSliderHeaderShadowLight { background:url(../../App_Themes/Default/Images/tab_slider_shadow_light.gif) repeat-x top left; height:4px; margin:0px; padding:0px; border:0px #ccc solid; font-size:1%;}
+
+/* search results */
+/* catalog */
+.catCourseName {font-weight:bold; color:#444456; }
+/****************************************************/
+/* GENERIC */
+/****************************************************/
+.pad5-10 { padding:5px 10px; }
+.msgNoData { font-weight:bold; color:#999; margin:20px}
+.noData { font-weight:bold; color:#999; }
+.padBot5 {padding-bottom:5px;}
+.padBot5 select {font-size:.75em; }
+.padBot1em {padding-bottom:1em}
+.marginBot1em { padding-bottom:1em }
+.padTop1em {padding-top:1em}
+.padTopHalfEm {padding-top:.5em}
+.displayNone { display:none; }
+.hide { visibility:hidden; }
+/* tables */
+.defaultTable { font-size:.7em; }
+.defaultTable th {
+	color:#00355e;
+	text-align:left;
+	vertical-align:bottom;
+}
+
+.defaultTable td {
+	background:url(../../App_Themes/Default/Images/1x1_light_blue.gif) repeat-x bottom left;
+}
+
+.defaultTable .noBorder td {
+	background-image:none;
+}
+
+.defaultTable .trTableFooter td {
+	background:transparent url(../../App_Themes/Default/Images/gradient_footer_blue.gif) top left repeat-x;
+}
+.newLineIndent { display:block; margin-left:2em; }
+
+.defaultTable .rowHeader {
+ 	color:#666;
+	
+	white-space:nowrap;
+	background:url(../../App_Themes/Default/Images/1x1_light_blue.gif) repeat-x bottom left;
+	vertical-align:middle;
+}
+.defaultTable .rowHeaderLast {
+ 	color:#666;
+	white-space:nowrap;
+	vertical-align:middle;
+}
+
+.defaultTableAlignTop { font-size:.7em; }
+
+.defaultTableAlignTop tr {
+	vertical-align:top; line-height:16px;
+}
+
+.defaultTableAlignTop th {
+	color:#00355e;
+	text-align:left;
+	vertical-align:bottom;
+}
+.defaultTableAlignTop td {
+	background:url(../../App_Themes/Default/Images/1x1_light_blue.gif) repeat-x bottom left;
+	padding-top:9px;
+}
+
+.defaultTableAlignTop .noBorder td {
+	background-image:none;
+}
+
+.defaultTableAlignTop .trTableFooter td {
+	background:transparent url(../../App_Themes/Default/Images/gradient_footer_blue.gif) top left repeat-x;
+}
+
+.defaultTableAlignTop .rowHeader {
+ 	color:#666;
+	
+	white-space:nowrap;
+	background:url(../../App_Themes/Default/Images/1x1_light_blue.gif) repeat-x bottom left;
+	vertical-align:middle;
+}
+.defaultTableAlignTop .rowHeaderLast {
+ 	color:#666;
+	white-space:nowrap;
+	vertical-align:middle;
+}
+
+.defaultTable .thRequired, defaultTableAlignTop .thRequired {
+	background:url(../../App_Themes/Default/Images/icon_required.gif) no-repeat left center;
+	padding-left:1.2em;
+}
+
+td.tableSubHeader, tr.tableSubHeader, tr.tableSubHeader td {
+	background-color:#eee;
+	font-weight:bold;
+}
+
+tr.tableSubHeader:hover {
+	background-color:#ccc;
+}
+
+.verticalTable th {
+	color:#00355e;
+	text-align:left;
+	vertical-align:top;
+	font-size:.7em;
+	background:url(../../App_Themes/Default/Images/1x1_light_blue.gif) repeat-x bottom left;
+}
+
+.verticalTable td {
+	background:url(../../App_Themes/Default/Images/1x1_light_blue.gif) repeat-x bottom left;
+	font-size:.7em;
+}
+
+
+/* temp hack for application status detail */
+#appStatus  td { border-bottom:1px #dfeaf0 solid; }
+.regMessage { color:#86a5bb; font-size:.9em; font-weight:bold; }
+
+.simpleTable { font-size:.9em;}
+
+/* table cell alignments (use first rule for generic use) */
+.numAlign,
+.defaultTable .numAlign, 
+.simpleTable .numAlign { text-align:right; }
+.txtAlign,
+.defaultTable .txtAlign,
+.simpleTable .txtAlign { text-align:left; }
+
+.numAlignBold {
+	text-align:right;
+	font-weight:bold;
+}
+
+.defaultTable .clearBorders td { border-bottom:0px #ccc solid; }
+.altCol {background-color: #f7f8f9 }
+.altColBorderL { border-left:1px #f7f8f9 solid; }
+
+/* group midterm & final data columns visually */
+.gradientColHeaderL { height:51px; background:url(../../App_Themes/Default/Images/gradient_head_l.gif) no-repeat bottom left; padding:0px; }
+.gradientColHeaderC { height:51px; background:url(../../App_Themes/Default/Images/gradient_head_c.gif) repeat-x bottom left; padding:0px 0px 0px 0px; }
+.gradientColHeaderR { height:51px; background:url(../../App_Themes/Default/Images/gradient_head_r.gif) no-repeat bottom right;  padding:0px 0px 0px 0px; }
+
+.colDataL { padding:0px 0px 0px 0px; background-color:#f4f5f8; }
+.colDataC { padding:0px 0px 0px 0px; background-color:#f4f5f8; }
+.colDataR { padding:0px 0px 0px 0px; background-color:#f4f5f8; }
+
+/* find better solution for spanned headers */
+/*.spanHeader { position:relative; top:22px; border-bottom:0px #ccc solid; color:#275e86; text-align:center; }*/
+.spanHeader { position:relative; top:27px; border-bottom:0px #ccc solid; color:#888899; text-align:center; }
+
+/* overall grades */
+#gradeTable .gradientColHeaderL, #gradeTable .gradientColHeaderC, #gradeTable .gradientColHeaderR,
+#attendanceTable .gradientColHeaderL, #attendanceTable .gradientColHeaderC, 
+#attendanceTable .gradientColHeaderR { font-size:.9em; }
+#gradeTable .gradientColHeaderL, #attendanceTable .gradientColHeaderL { padding:0px 5px 6px 10px; }
+#gradeTable .gradientColHeaderC, #attendanceTable .gradientColHeaderC { padding:0px 5px 6px 5px; }
+#gradeTable .gradientColHeaderR, #attendanceTable .gradientColHeaderR { padding:0px 10px 6px 5px; }
+
+#gradeTable .colDataL { padding:0px 5px 0px 10px; }
+#gradeTable .colDataC { padding:0px 5px 0px 5px; }
+#gradeTable .colDataR { padding:0px 10px 0px 5px; }
+
+/****************************************************/
+/* ACADEMIC PLAN */
+/****************************************************/
+.classCols, .pdcCols, .discCols { float:left; width:45%; color:#445; background-image:none; }
+
+/* pdc */
+.pdcCont { background:url(../../App_Themes/Default/Images/aca_pdc_header_c.jpg) repeat-x center center; height:80px; margin-bottom:10px; }
+.pdcCont div { background:url(../../App_Themes/Default/Images/aca_pdc_header_l.jpg) no-repeat top left; height:80px; }
+.pdcCont div div { background:url(../../App_Themes/Default/Images/aca_pdc_header_r.jpg) no-repeat top right; }
+.pdcCont div h2 { font-size:.8em; font-weight:bold;
+	background:url(../../App_Themes/Default/Images/options_divider.gif) repeat-x bottom left;
+	margin:0px 16px 4px 16px; padding:10px 8px 4px 0px; color:#666667;
+	 }
+.pdcCont div div div { background-image:none; }
+.pdcCont div .pdcCols {font-size:.7em; padding-left:16px; height:auto; }
+
+/* classification */
+.classCols { padding:2px 0px 6px 10px; }
+
+/* discipline */
+.discCont { background:url(../../App_Themes/Default/Images/aca_disc_header.jpg) repeat-x top left; border:1px #dedddd solid; height:70px; margin-bottom:10px; }
+.discCont div { background:url(../../App_Themes/Default/Images/aca_disc_cap.jpg) no-repeat top left; height:70px; }
+.discCont div h3 { font-size:.75em; font-weight:bold; margin:0px; padding:10px 0px 0px 30px; }
+.discCont div div { background-image:none;}
+.discCont div .discCols {font-size:.7em; padding:4px 0px 0px 30px; height:auto; }
+
+
+
+/* chart */
+.chartBarAbove { height:18px; margin:2px;
+	background:url(../../App_Themes/Default/Images/chart_bar_green.gif) repeat-x 0 0; }
+
+.chartBarMin { height:18px; margin:2px;
+	background:url(../../App_Themes/Default/Images/chart_bar_yellow.gif) repeat-x 0 0; }
+
+.chartBarBelow { height:18px; margin:2px;
+	background:url(../../App_Themes/Default/Images/chart_bar_red.gif) repeat-x 0 0; }
+
+
+
+.Chart
+{
+/*
+height: 1.0em;
+line-height: 1.0em;
+ 	margin: 0 auto;
+text-align: left;
+*/
+	height:22px;
+ 	width: 200px;
+ 	border: 1px solid #aec4d4;
+ 	overflow: hidden;
+ 	background-color: #f3f6f8;
+}
+
+.AboveChart
+{
+ 	background-color: Green;
+}
+.MinChart
+{
+  	background-color: Yellow;
+}
+.BelowChart
+{
+	background-color: Red;
+}
+
+
+/* what if? */
+
+#myWhatIfHome .optionsLabel {color:#ccc;}
+
+#createWhatIfHome .optionsLabel {  }
+
+#academicPlansHome { border:0px #ccc solid; }
+
+#academicPlansHome .RootNode { font-weight:bold; display:block; margin-bottom:2px; width:400px; border-bottom:1px #ccc solid; }
+#academicPlansHome .ParentNode { padding:2px 0px 0px 0px; display:block; }
+#academicPlansHome .Node { padding:2px 0px 0px 0px; display:block; }
+#academicPlansHome .Node a { background:url(../../App_Themes/Default/Images/arrow_rt_blue.gif) center left no-repeat;
+	padding:0px 0px 0px 14px; }
+#academicPlansHome .SelectedNode { font-weight:bold; display:block; }
+#academicPlansHome img { display:block; }
+/*#academicPlansHome a { display:block; border:1px #f00 solid; height:24px; }*/
+
+h3.optionsHeader{ margin:5px; padding:0px 0px 2px 0px; font-size:.75em; color:#555; border-bottom:1px #dde solid; }
+
+
+
+.leftModuleGreyContent .RootNode { font-weight:bold; }
+.leftModuleGreyContent .ParentNode { padding:2px 0px 0px 0px; }
+.leftModuleGreyContent .Node { padding:2px 0px 0px 0px; background:url() left center; }
+.leftModuleGreyContent .SelectedNode { font-weight:bold; }
+.leftModuleGreyContent .academicPlansOptions img { display:none; }
+
+			
+#narrowSearchCont a { margin:4px; }
+
+/* pager */
+/* wrap area that uses .NET paging with a container with the class = hasPager */
+/* temp fix until implementation of <PageTemplate /> */
+.hasPager a,
+.hasPager a:link, 
+.hasPager a:active, 
+.hasPager a:visited { float:left; width:20px; height:15px; padding:2px 0px 1px 0px; } 
+.hasPager a,
+.hasPager .trTableFooter a,
+.hasPager .trTableFooter span { display:block; width:25px; height:19px; text-align:center; padding:5px 0px 0px 0px; margin:2px 2px; }
+.hasPager a,
+.hasPager .trTableFooter a,
+.hasPager .trTableFooter a:link,
+.hasPager .trTableFooter a:visited {
+	background-color:#eef; border:1px #86a5bb solid; color:#369;
+	background:url(../../App_Themes/Default/Images/bg_pager_btn.gif) repeat-x top left;
+}
+.hasPager .trTableFooter a:hover { border:1px #00355e solid; text-decoration:none; color:#00355e }
+.hasPager .trTableFooter span {
+	font-weight:bold; background-color:#666; color:#fff; border:1px #86a5bb solid;
+	background:url(../../App_Themes/Default/Images/bg_pager_btn_current.gif) repeat-x top left;
+}
+
+
+.trTableFooterPager { background:transparent url(../../App_Themes/Default/Images/gradient_footer_blue.gif) top left repeat-x; }
+.trTableFooterPager a,
+.trTableFooterPager a:link, 
+.trTableFooterPager a:active, 
+.trTableFooterPager a:visited {
+	float:left;
+	padding:2px 0px 1px 0px;
+	background-color:#eef; border:1px #86a5bb solid; color:#369;
+	background:url(../../App_Themes/Default/Images/bg_pager_btn.gif) repeat-x top left;
+	display:block; width:25px; height:19px; text-align:center; padding:5px 0px 0px 0px; margin:2px 2px;
+	font-weight:normal;
+}
+.trTableFooterPager table td {
+	background-image:none;
+	font-weight:bold;
+	padding:2px 0px 1px 0px;
+	width:25px; height:19px; text-align:center;
+	
+}
+
+
+/* Non-Table/.NET based pager */
+.pager {
+	float:left;
+	width:100%;
+	padding:6px 0px 6px 0px;
+	background:transparent url(../../App_Themes/Default/Images/gradient_footer_blue.gif) top left repeat-x;
+}
+.pager a:link,
+.pager a:active,
+.pager a:visited,
+.pager span {
+	float:left; 
+	width:20px; 
+	height:15px; 
+	padding:2px 0px 1px 0px;
+	background-color:#eef; 
+	border:1px #86a5bb solid; 
+	color:#369;
+	background:url(../../App_Themes/Default/Images/bg_pager_btn.gif) repeat-x top left;
+	font-size:.75em;
+	display:block; width:25px; height:19px; text-align:center; padding:5px 0px 0px 0px; margin:2px 2px;
+}
+.pager a:hover {
+	border:1px #00355e solid; 
+	text-decoration:none; 
+	color:#00355e
+}
+.pager span {
+	font-weight:bold; background-color:#666; color:#fff; border:1px #86a5bb solid;
+	background:url(../../App_Themes/Default/Images/bg_pager_btn_current.gif) repeat-x top left;
+}
+.pager a.pagerNext,
+.pager a.pagerNext:link,
+.pager a.pagerNext:active,
+.pager a.pagerNext:visited,
+.pager a.pagerPrevious:link,
+.pager a.pagerPrevious:active,
+.pager a.pagerPrevious:visited,
+.pager a.pagerPrevious {
+	width:auto;
+	padding-left:10px;
+	padding-right:10px;
+}
+
+	
+/* course setup - assignments */
+.txtField, .txtFieldEditable { text-align:right; padding-right:3px; }
+.txtField { border-width:1px; border-style:solid; border-color: #ccd2e2 #f2f2f2 #f2f2f2 #ccd2e2; cursor:pointer; }
+.divTotal { font-weight:bold; height:30px; }
+.txtFieldEditable { border-width:1px; border-style:solid; border-color: #6a6e85 #b8b8b8 #b8b8b8 #6a6e85; background-color:#f9f9fc; }
+
+.txtField:hover { border-width:1px; border-style:solid; border-color: #6a6e85 #b8b8b8 #b8b8b8 #6a6e85;}
+
+.trSeparatorLine td { border-bottom:1px #dfeaf0 solid; }
+.txtFieldEditable1 {width:30px; text-align:right; padding-right:3px; }
+
+.csActMenu { position:absolute; width:120px; background:url(../../App_Themes/Default/Images/cs_act_menu_bg.gif) no-repeat top left; border:1px #ccc solid; display:none; }
+.csActMenu ul { list-style:none; margin:0px; padding:4px 0px; }
+.csActMenu ul li { padding:6px 30px; background:url(../../App_Themes/Default/Images/cs_act_menu_separator.gif) no-repeat bottom left; }
+.csActMenu ul li.last { background-image:none; }
+
+.csActMenu li a:link,
+.csActMenu li a:active,
+.csActMenu li a:visited { color:#4a5d70; font-weight:bold; margin:0px; padding:0px; display:block; font-size:.9em; }
+.csActMenu li a:hover { text-decoration:none; color:#6699cc }
+
+.csActMenuLink, .csActMenuLink:hover { display:block; width:38px; height:20px; background:url(../../App_Themes/Default/Images/cs_act_menu_icon.gif) no-repeat top left; text-decoration:none; }
+
+/* assignments & rules */
+.actTypeHead { 
+background:url(../../App_Themes/Default/Images/aca_disc_header.jpg) repeat-x top left; 
+border:1px #dedddd solid; height:70px; margin:0px; clear:both; }
+.actTypeHead div { 
+background:url(../../App_Themes/Default/Images/aca_disc_cap.jpg) no-repeat top left; 
+height:68px; padding:4px 0px 4px 30px; }
+.actTypeHead div h3 { font-size:.80em; font-weight:bold; margin:0px 0px 4px 0px; }
+
+.actTypeSubHead { font-weight:bold; font-size:.65em; padding:2px 8px; color:#334; }
+.actTypeSubData { font-size:.7em; padding:0px 8px; }
+.actTypeSubLabel { color:#275e86; font-weight:bold; font-size:.75em; padding-right:10px; }
+.actTypeSubContainerL { float:left; margin:0px 10px 0px 10px; }
+.actTypeSubContainerR { float:left; background:url(../../App_Themes/Default/Images/vert_divider_sunken.gif) repeat-y center left; }
+
+.actTypeSubContainerR .actTypeSubLabel { padding-left:18px; }
+.actNumericCol { width:14% }
+.actTitleCol {width:20%;}
+.actEditCol { width:50px; }
+.actFootNote { width:160px; font-size:.75em; color:#555; margin-top:10px; }
+
+/* default text field - TODO:  */
+.defTextField { margin:2px 0px; border-width:1px; border-style:solid; border-color: #6a6e85 #b8b8b8 #b8b8b8 #6a6e85; }
+.defTextFieldLite { height:16px; margin:2px 0px; padding:2px 1px 1px 2px; border-width:1px; border-style:solid; border-color: #ccd2e2 #f2f2f2 #f2f2f2 #ccd2e2; }
+.defTextAreaLite { margin:2px 0px; padding:2px 1px 1px 2px; border-width:1px; border-style:solid; border-color: #ccd2e2 #f2f2f2 #f2f2f2 #ccd2e2; }
+
+.calIconLink { position:relative; top:2px; left:5px; border-width:0px; }
+
+/* course setup - Add assignments form TODO: generalize */
+.greyForm { background:url(../../App_Themes/Default/Images/form_back.jpg) repeat-y top right; width:400px; }
+.greyFormWrapText { background:url(../../App_Themes/Default/Images/form_back.jpg) repeat-y top right; width:585px; }
+.formHead { background:url(../../App_Themes/Default/Images/form_header_r.gif) no-repeat top right; }
+.formHead h2 { background:url(../../App_Themes/Default/Images/form_header_l.gif) no-repeat top left; height:22px; font-weight:bold; font-size:.7em; color:#667; padding:8px 10px 0px 20px; margin:0px; }
+.formHeadAutoHeight { background-color: #E9E9EA; border-left: 1px #CCC solid; border-right: 1px #CCC solid; border-top: 1px #CCC solid;}
+.formHeadAutoHeight h2 { font-weight:bold; font-size:.7em; color:#667; padding:8px 10px 10px 20px; margin:0px; }
+.formFooter { background:url(../../App_Themes/Default/Images/form_footer.jpg) no-repeat bottom right}
+.formFooterWrapText { background:url(../../App_Themes/Default/Images/form_footer_585.jpg) no-repeat bottom right}
+.greyFormContent { border-left:1px #ccc solid; border-right:1px #ccc solid; margin:0px; padding:0px; list-style:none; }
+.greyFormRow, .greyFormRowLast { 
+	background:url(../../App_Themes/Default/Images/form_separator.gif) repeat-x bottom left; 
+	margin-left:20px; 
+	margin-right:20px; padding:8px 0px 8px 0px; font-size:.7em;
+}
+.greyFormRowWrapText{ background:url(../../App_Themes/Default/Images/form_separator.gif) repeat-x bottom left;}
+
+.greyFormRowForPhoneNumber { 
+	background:url(../../App_Themes/Default/Images/form_separator.gif) repeat-x bottom left; 
+	margin-left:20px; 
+	margin-right:20px; padding:8px 0px 8px 0px; font-size:.7em;
+}
+
+.greyFormRowMulti, .greyFormRowMultiLast { 
+	background:url(../../App_Themes/Default/Images/form_separator.gif) repeat-x bottom left; margin-left:20px; 
+	margin-right:20px; padding:8px 0px 16px 0px; font-size:.7em;
+}
+
+.greyFormRowLast, .greyFormRowMultiLast { background-image:none; }
+
+.greyFormRow label, 
+.greyFormRowLast label,
+.greyFormRowMulti label,
+.greyFormRowMultiLast label { display:block; float:left; font-weight:bold; width:120px; vertical-align:middle; color:#333; }
+.greyFormRowForPhoneNumber  label { display:block; float:left; font-weight:bold; width:160px; vertical-align:middle; color:#333; }
+
+/* button row */
+.greyFormButtonRow {
+	margin-left:20px; 
+	margin-right:20px;
+	padding:8px 0px 8px 0px;
+	text-align:center;
+}
+.greyFormHeaderRow {
+	margin-left:20px; 
+	margin-right:20px;
+	padding:8px 0px 0px 0px;
+	font-size:.7em;
+	font-weight:normal;
+	text-transform:uppercase;
+}
+.daysField,
+.timeField,
+.dateField { margin:2px 0px; padding-left:2px; border-width:1px; border-style:solid; border-color: #6a6e85 #b8b8b8 #b8b8b8 #6a6e85; }
+.daysField { width:4em; }
+.timeField { width:6em; }
+.dateField { width:6em; }
+
+.greyFormSm { background:url(../../App_Themes/Default/Images/form_back_280.jpg) repeat-y top right; width:280px; }
+.formFooterSm { background:url(../../App_Themes/Default/Images/form_footer_280.jpg) no-repeat bottom right; }
+.greyFormRowSm label, .greyFormRowSmLast label { display:block; font-weight:bold; width:120px; vertical-align:middle; color:#333; }
+/*.greyFormRowSm label { width:auto; display:inline; }*/
+
+.greyFormRowSm label,
+.greyFormRowSmLast label,
+.greyFormRowSmSub label { font-weight:bold; color:#333; font-size:.7em; display:inline; float:none; width:auto; }
+.greyFormRowSm, .greyFormRowSmLast { background:url(../../App_Themes/Default/Images/form_separator.gif) repeat-x bottom left; margin-left:20px;
+margin-right:20px; padding:8px 0px; }
+.greyFormRowSmLast { background-image:none; }
+.greyFormRowSmSub { padding:0px 0px 0px 40px; }
+
+.greyForm200 { background:url(../../App_Themes/Default/Images/form_back_200.jpg) repeat-y top right; width:200px; margin-right:20px; float:left; }
+.formFooter200 { background:url(../../App_Themes/Default/Images/form_footer_200.jpg) no-repeat bottom right}
+.greyFormRow200, .greyFormRow200Last { background:url(../../App_Themes/Default/Images/form_separator.gif) repeat-x bottom left; margin-left:20px;
+margin-right:20px; padding:8px 0px; font-size:.7em; }
+
+.greyFormRowSmLast,
+.greyFormRow200Last { background-image:none; }
+
+.greyFormRow200 label, .greyFormRow200Last label { font-size:100%; }
+
+
+/* course manager > gradebook selection page */
+.greyForm585 { background:url(../../App_Themes/Default/Images/form_back_585.jpg) repeat-y top right; width:585px; }
+.formFooter585 { background:url(../../App_Themes/Default/Images/form_footer_585.jpg) no-repeat bottom right; height:29px; }
+.greyForm585 .greyFormContent, 
+.greyForm640 .greyFormContent { border-left:1px #ccc solid; border-right:1px #ccc solid; margin:0px; padding:10px; font-size:.75em; }
+.greyForm640 .greyFormContent { padding-bottom:0px; }
+
+.greyForm640 { background:url(../../App_Themes/Default/Images/form_back_640.jpg) repeat-y top right; width:640px; }
+.formFooter640 { background:url(../../App_Themes/Default/Images/form_footer_640.jpg) no-repeat bottom right; height:19px; }
+
+
+
+/* vert nav */
+/* initial use: grade mappings */
+
+/* nav styles */
+.vertNav { background:url(../../App_Themes/Default/Images/vert_tabs_back.jpg) repeat-y top right; float:left; width:215px; position:relative; z-index:100; clear:both; margin-top:20px; }
+.vertNavHead { background:url(../../App_Themes/Default/Images/vert_tabs_head.jpg) no-repeat top right; height:29px; font-weight:bold; font-size:.8em; color:#00355e; padding:11px 0px 0px 20px; width:195px; }
+.vertNavList { list-style:none; margin:0px; padding:0px; }
+.vertNavList li a:link,
+.vertNavList li a:active,
+.vertNavList li a:visited { display:block; font-size:.8em; color:#333; text-decoration:none; padding:8px 0px 7px 20px; border:0px #ff0 solid; width:195px;  }
+.vertNavItemOn { background:url(../../App_Themes/Default/Images/vert_tabs_selected.jpg) no-repeat top left; width:215px; min-height:35px; }
+.vertNavList .vertNavItemOn a:link,
+.vertNavList .vertNavItemOn a:active,
+.vertNavList .vertNavItemOn a:visited { color:#275e86; font-weight:bold; }
+.vertNavItem { background:url(../../App_Themes/Default/Images/vert_tabs_separator.jpg) no-repeat bottom right; width:215px; min-height:35px;  }
+.vertNavBot { background:url(../../App_Themes/Default/Images/vert_tabs_botfade.jpg) no-repeat top right; float:left; height:236px; width:215px; }
+
+#mappings { float:left; z-index:0; margin-left:-1px; margin-top:20px; background-color:#fff; position:relative;  }
+
+/*  Field Validation Alerts  */
+/* alert */
+.alert { 
+	border:1px #eda0a0 solid; width:auto;
+	background:#fff url(../../App_Themes/Default/Images/form_alert_icon.gif) no-repeat 4px 4px;
+	margin-left:5px; padding:2px 10px 4px 20px;
+	font-size:1em; color:#db4242; text-align:left;
+	position:absolute; z-index:1000; display:inline;
+}
+
+.actTypeHead .alert { background:#fff url(../../App_Themes/Default/Images/form_alert_icon.gif) no-repeat 4px 4px; padding:2px 10px 4px 20px; margin:0px 0px 0px 5px; height:auto; }
+/* alert box arrow */
+.alertArrow { position:relative; top:2px; left:-25px; margin:0px -5px 0px 0px; }
+
+.mappingHead {background:url(../../App_Themes/Default/Images/aca_disc_header.jpg) repeat-x top left; 
+	border:1px #dedddd solid; height:20px; margin:0px 0px 0px 6px; clear:both;
+	padding:8px 10px 6px 10px; float:none; font-size:.75em; width:705px; text-align:right;
+	position:relative; top:10px;
+}
+.mappingHead label { margin:0px 0px 0px 10px; }
+
+
+
+
+/* Activity Rules (summary) */
+
+/* Rules warnings */
+/* warning row for activity rules */
+.warningRow, .warningRow td  { background-color:#fafbff; border-bottom:1px #dfeaf0 solid; }	 
+.warningRow, .warningRow input { font-weight:normal; }
+.warningRow .colDataL,
+.warningRow .colDataC,
+.warningRow .colDataR { background-color:#fafbff; }
+.warningCell, .warningCell input { color:#fa9849; font-weight:bold; }
+
+/* warning */
+.warning { 
+	border:1px #fac398 solid; width:200px;
+	background-color:#fff;
+	padding:8px 10px; margin:22px 0px 0px 0px;
+	font-size:1em; color:#d37325;
+	position:absolute; z-index:1000; left:369px;
+	display:none;
+	text-align:left;
+	
+}
+
+.warningArrowUp { position:relative; top:-19px; left:17px; margin: 0px 0px 0px -18px; }
+.warningIcon { margin:-12px 4px 0px 4px; float:right; }
+
+.warningTextField { border-width:1px; border-style:solid; border-color: #6a6e85 #b8b8b8 #b8b8b8 #6a6e85; 
+	background-color:#fff; text-align:right; padding-right:3px; width:30px; color:#fac398 }
+
+.warningList { font-size:.75em; clear:both; float:none; margin:0px 0px 0px 0px; padding-top:10px; }
+.warningList li {  }
+
+.warning2 { 
+	border:1px #fac398 solid; width:200px;
+	background-color:#fff;
+	padding:8px 10px; margin:22px 0px 0px 0px;
+	font-size:1em; color:#d37325;
+	position:absolute; z-index:1000; left:369px;
+	display:none;
+	text-align:left;
+	background-image:none;
+	
+}
+
+.radioList {font-size:.7em; border:0px #ccc solid; margin-left:-5px; }
+.radioList td { padding:0px; margin:0px; }
+.radioList input { display:block; float:left; margin-top:1px; margin-bottom:2px; }
+.radioList label { display:block; width:120px; margin-left:24px; }
+
+/* checkbox list style for .net checkbox controls */
+.chkList { font-size:.7em; display:block; }
+.chkList { margin:1px 0px 2px 0px; }
+.chkList label { margin-left:3px; }
+
+
+/* Copy from... popup */
+.ulListYTS { list-style:none; margin:0px; padding:0px; font-size:.9em; }
+.ulListYTS li { font-weight:bold; padding:10px 0px; border-bottom:1px #dfeaf0 solid; float:left; width:45%; margin:0px 10px 0px 10px; color:#556; }
+.ulListYTS li ul { list-style:none; margin:0px; padding:0px; height:100%; float:none; }
+.ulListYTS li ul li { padding:4px 0px 0px 0px; font-weight:normal; border-width:0px; white-space:nowrap; color:#369; float:none; }
+
+/* Course Selector  */
+.courseSelectorList { list-style:none; margin:0px; padding:0px; font-size:95%; }
+.courseSelectorList li { font-weight:bold; padding:10px 0px; float:left; width:30%; margin:0px 10px 0px 10px; color:#556; white-space:nowrap; }
+.courseSelectorList li ul { list-style:none; margin:0px; padding:0px; float:none; }
+.courseSelectorList li ul li { padding:4px 0px 0px 0px; font-weight:normal; white-space:nowrap; color:#369; float:none; font-size:.8em; }
+
+/* vert nav small */
+.vertNavSm { background:url(../../App_Themes/Default/Images/vert_tabs_back_sm.jpg) repeat-y top right; float:left; width:145px; position:relative; z-index:100 }
+.vertNavHeadSm { background:url(../../App_Themes/Default/Images/vert_tabs_head_sm.jpg) no-repeat top right; height:29px; font-weight:bold; font-size:.8em; color:#00355e; padding:11px 0px 0px 20px; width:125px; }
+.vertNavListSm { list-style:none; margin:0px; padding:0px; }
+.vertNavListSm li a:link,
+.vertNavListSm li a:active,
+.vertNavListSm li a:visited { display:block; font-size:.8em; color:#333; text-decoration:none; padding:8px 0px 7px 20px; border:0px #ff0 solid; width:125px;  }
+.vertNavItemSmOn { background:url(../../App_Themes/Default/Images/vert_tabs_selected_sm.jpg) no-repeat top left; width:145px; height:35px; }
+.vertNavListSm .vertNavItemSmOn a:link,
+.vertNavListSm .vertNavItemSmOn a:active,
+.vertNavListSm .vertNavItemSmOn a:visited { color:#275e86; font-weight:bold; }
+.vertNavItemSm { background:url(../../App_Themes/Default/Images/vert_tabs_separator_sm.jpg) no-repeat bottom right; width:145px; height:35px;  }
+.vertNavBotSm { background:url(../../App_Themes/Default/Images/vert_tabs_botfade_sm.jpg) no-repeat top right; float:left; height:236px; width:145px; }
+
+/* content styles */
+.vertNavContentSm  { border:1px #afbec9 solid; border-bottom-width:0px; padding:20px; min-height:300px; width:70%; }
+.vertNavContentSm .roundCorner { 
+	background:url(../../App_Themes/Default/Images/vert_nav_top_right.gif) no-repeat top right;
+	padding:0px; margin:-21px -21px 0px 0px;
+}
+.vertNavContentSm ul  {margin:0px; padding:0px; list-style:none; }
+.vertNavContentSm ul ul { font-size:.7em; padding:0px 10px; }
+.vertNavContentSm ul ul ul { font-size:1em; padding-left:2px; margin-top:0px; }
+
+.vertNavContentSm ul ul { line-height:1.4em; margin-top:4px; }
+
+.vertNavContentSm .term { font-weight:bold; color:#667; float:left; margin-right:20px; width:auto;
+background:url(../../App_Themes/Default/Images/module_head_blue_r.gif) no-repeat top right; }
+.vertNavContentSm h3 { background:url(../../App_Themes/Default/Images/module_head_blue_l.gif) no-repeat top left; height:14px; font-weight:bold; font-size:.7em; color:#003659; padding:5px 10px; margin:0px; }
+.vertNavContentSm .term ul ul { font-weight:normal; }
+.vertNavContentSm .term .arrowLink { white-space:nowrap; }
+
+.rightContentSm { display:none; }
+#courses { float:left; z-index:0; margin-left:-1px; background-color:#fff; position:relative;  }
+
+.blueHeaderSm { background:url(../../App_Themes/Default/Images/module_head_blue_r.gif) no-repeat top right; }
+.blueHeaderSm h3 { background:url(../../App_Themes/Default/Images/module_head_blue_l.gif) no-repeat top left; height:14px; font-weight:bold; font-size:.7em; color:#003659; padding:5px 10px; margin:0px; }
+
+/* Grade Mapping */
+
+/* move to generic */
+
+/* ul/ol 3 cols */
+.ul3Col { margin:0; padding:0; list-style:none; }
+.ul3Col li { float:left; width:25%; padding-right:20px; }
+/* ul/ol 2 cols */
+.ul2Col { margin:0; padding:0; list-style:none; }
+.ul2Col li { float:left; width:40%; padding-right:20px; }
+
+
+
+/* Gradebook */
+/* light grey gradient header, 1-line */
+.greyHeadSm { 
+	background:url(../../App_Themes/Default/Images/bg_grey_head_sm.gif) repeat-x top left; 
+	border:1px #dedddd solid; height:34px; margin:0px; padding:0px;
+ }
+
+.greyHeadSm h2,.greyHeadSm h3 {
+	background:url(../../App_Themes/Default/Images/grey_head_cap_sm.gif) no-repeat top left;
+	margin:0px; padding:8px 0px 0px 30px; font-size:.8em; height:26px;
+}
+
+.greyHeadSm2 { 
+	background:url(../../App_Themes/Default/Images/bg_grey_head_sm.gif) repeat-x top left; 
+	border:1px #dedddd solid; height:26px; margin:0px; padding:0px;
+}
+.greyHeadSm2 h3 {
+	background:url(../../App_Themes/Default/Images/grey_head_cap_sm.gif) no-repeat top left;
+	margin:0px; padding:6px 0px 0px 30px; font-size:.7em; height:20px; color:#445;
+}
+
+.greyHeadSm3 { 
+	background:url(../../App_Themes/Default/Images/bg_grey_head_sm.gif) repeat-x top left; 
+	border:1px #dedddd solid; height:26px; margin:0px; padding:0px;
+}
+.greyHeadSm3 h2 {
+	background:url(../../App_Themes/Default/Images/grey_head_cap_sm.gif) no-repeat top left;
+	margin:0px; padding:6px 0px 0px 30px; font-size:.9em; height:20px; color:#445;
+}
+
+.greyHeadSm4 { 
+	background-color: rgb(243,242,242);
+	height:34px; margin:0px; padding:0px;
+ }
+ 
+ .greyHeadSm4 h2 {	
+	margin:0px; padding:5px 0px 5px 0px; font-size:.8em; height:26px;
+}
+
+/* overall grading */
+.divChangeGrade { background-color:#ffffff; margin:0px; padding:3px 0px 3px 0px; white-space:nowrap; display:none; }
+.divChangeGrade select { font-size:.75em; font-family:verdana; margin-right:6px; }
+ 
+.spacerCol10 { width:10px; }
+.spacerCol5 { width:5px; }
+
+
+/* Glass Buttons */
+.buttonRow .glassButtonMed { margin-right:6px }
+
+.glassButtonSm, .glassButtonSm:link, .glassButtonSm:visited { 
+	padding: 2px 8px 3px 8px; text-decoration:none; font-size:.7em; color:#56ab56;
+	border-style:solid; border-width:1px; border-color:#bfbfbf #919499 #919499 #bfbfbf;
+	background:url(../../App_Themes/Default/Images/bg_glass_button.gif) center center; margin:0px 10px 0px 10px; position:relative; top:-1px;
+}
+.glassButtonSm:hover { text-decoration:underline; }
+
+/*  */
+.optionsButtonSm, .optionsButtonSm:link, .optionsButtonSm:visited { 
+	padding: 2px 9px 3px 8px; text-decoration:none; font-size:.7em; color:#556; font-weight:bold;
+	border-style:solid; border-width:1px; border-color:#bfbfbf #919499 #919499 #bfbfbf;
+	background:url(../../App_Themes/Default/Images/bg_glass_button.gif) center center; 
+	margin:0px 0px 0px 0px; position:relative; top:-1px;
+}
+
+.glassButtonMed, .glassButtonMed:link, .glassButtonMed:visited { 
+	padding: 3px 10px 4px 9px; text-decoration:none; font-size:1em; color:#333; 
+	border-style:solid; border-width:1px; border-color:#bfbfbf #919499 #919499 #bfbfbf;
+	background:url(../../App_Themes/Default/Images/bg_glass_button.gif) center center; 
+	margin:0px 0px 0px 0px; position:relative; top:-1px;
+}
+.glassButtonMed:hover { text-decoration:underline; }
+
+.glassFormButtonMed { 
+	padding: 6px 13px 7px 12px;
+	text-decoration:none;
+	font-size:.75em;
+	font-weight:bold;
+	color:#556; 
+	border-style:solid;
+	border-width:1px;
+	border-color:#bfbfbf #919499 #919499 #bfbfbf;
+	background:url(../../App_Themes/Default/Images/bg_glass_button.gif) repeat-x center center; 
+	margin:0px 0px 0px 0px;
+	/*position:relative;
+	top:-1px;*/
+}
+
+.glassOptionsButtonMed { 
+	padding: 6px 13px 7px 12px; text-decoration:none; font-size:.75em; font-weight:bold; color:#556; 
+	border-style:solid; border-width:1px; border-color:#bfbfbf #919499 #919499 #bfbfbf;
+	background:url(../../App_Themes/Default/Images/bg_glass_button.gif) center center; 
+	margin:10px 0px 0px 0px;
+	display:block;
+	/*position:relative; top:-1px;*/
+}
+
+a.glassFormButtonMed, a.glassFormButtonMed:link, a.glassFormButtonMed:visited { padding: 7px 14px 8px 12px; font-size:.7em; color:#556; }
+
+.glassFormButtonSm, .glassFormButtonSm:link, .glassFormButtonSm:visited { 
+	padding: 4px 11px 5px 10px; text-decoration:none; font-size:.75em; font-weight:normal; color:#556; 
+	border-style:solid; border-width:1px; border-color:#bfbfbf #919499 #919499 #bfbfbf;
+	background:url(../../App_Themes/Default/Images/bg_glass_button.gif) center center; 
+	margin:0px 0px 0px 0px; position:relative; top:-1px;
+}
+
+.glassFormButtonWide, .glassFormButtonWide:link, .glassFormButtonWide:visited { 
+	padding: 6px 27px 7px 26px; text-decoration:none; font-size:.75em; font-weight:bold; color:#556; 
+	border-style:solid; border-width:1px; border-color:#bfbfbf #919499 #919499 #bfbfbf;
+	background:url(../../App_Themes/Default/Images/bg_glass_button.gif) center center; 
+	margin:0px 0px 0px 0px; position:relative; top:2px;
+}
+
+.glBtnSmR:link, .glBtnSmR:visited {
+	padding: 2px 8px 3px 8px; text-decoration:none; font-size:.7em; color:#c00;
+	border-style:solid; border-width:1px; border-color:#bfbfbf #919499 #919499 #bfbfbf;
+	background:url(../../App_Themes/Default/Images/bg_glass_button.gif) center center; position:relative; top:-1px;
+}
+.glBtnSmR:hover { text-decoration:underline; }
+
+.glBtnSmBlue {
+	padding: 2px 8px 3px 8px; text-decoration:none; font-size:.7em; color:#69c;
+	border-style:solid; border-width:1px; border-color:#bfbfbf #919499 #919499 #bfbfbf;
+	background:url(../../App_Themes/Default/Images/bg_glass_button.gif) center center;
+}
+.glBtnSmBlue:hover { text-decoration:underline; }
+	
+	
+.glBtnSmR:hover, glassButtonSm:hover { cursor:pointer; }
+
+.glassLoginButton, .glassLoginButton:link, .glassLoginButton:visited { 
+	padding: 6px 27px 7px 26px; text-decoration:none; font-size:.75em; font-weight:bold; color:#556; 
+	border-style:solid; border-width:1px; border-color:#bfbfbf #919499 #919499 #bfbfbf;
+	background:url(../../App_Themes/Default/Images/bg_glass_button.gif) center center; 
+	display:block; margin-top:6px;
+}
+
+.removeButton, .defaultTable .removeButton {
+	padding: 2px 10px 3px 9px;
+	color:#c00;
+	font-weight:bold;
+	border-style:solid;
+	border-width:1px;
+	border-color:#bfbfbf #919499 #919499 #bfbfbf;
+	background:url(../../App_Themes/Default/Images/bg_glass_button.gif) center center;
+}
+
+.changeableGrade, .changeableGrade:link, .changeableGrade:visited { font-weight:bold; text-decoration:underline; }
+ 
+.thDivider { padding-left:12px; margin-left:-5px; background:url(../../App_Themes/Default/Images/vert_divider_blue.gif) no-repeat center left; }
+ 
+.commentPopup { position:absolute; padding:10px; border:1px #ccc solid; background:#fff url(../../App_Themes/Default/Images/aca_disc_header.jpg) repeat-x bottom left; display:none; }
+.commentPopup textarea { width:250px; font: 1em Verdana, Arial, Helvetica, sans-serif; padding:3px; border-width:1px; border-style:solid; border-color: #ccd2e2 #f2f2f2 #f2f2f2 #ccd2e2; height:100px; }
+.commentPopup .btnLink { text-align:center; width:20%; margin:4px 90px 0px 90px; }
+.commentPopup label { white-space:nowrap; display:block; padding-bottom:4px; }
+/* popup form w/drop shadow */
+/* initial use: gradechange.aspx */
+/*
+.popupFormContainer { width:320px; background:url(../../App_Themes/Default/Images/bg_trans_shadow2.gif) repeat bottom right; position:relative; left:7px; top:7px;}
+.popupForm { font-size: .7em; background-color:#fff; border:1px #999 solid;  padding:10px; background:#fff url(../../App_Themes/Default/Images/bg_small_form_blue.jpg) repeat-x 0px 0px; position:relative; left:-7px; top:-7px; }
+.popupForm h3 { font-size:1em; margin:-11px -10px 10px -10px; padding:5px 0px 7px 10px; background:url(../../App_Themes/Default/Images/module_head_blue_c.gif) repeat-x top left; }
+.popupForm select { margin-right:10px }	
+.popupForm textarea { width:290px; height:50px; font: 1em Verdana, Arial, Helvetica, sans-serif; padding:3px; margin:10px 0px;
+border-width:1px; border-style:solid; border-color: #ccd2e2 #f2f2f2 #f2f2f2 #ccd2e2; }
+.popupForm .btnRowC { text-align:center; font-size:1.3em; }
+*/
+.popupFormContainer { width:320px; }
+.popupForm {
+	border:1px #7ba6c6 solid;
+	padding:10px;
+	background:#fff url(../../App_Themes/Default/Images/bg_small_form_blue.jpg) repeat-x 0px 0px;
+}
+.popupFormLarge {
+	border:1px #7ba6c6 solid;
+	padding:10px;
+	background:#fff url(../../App_Themes/Default/Images/bg_large_form_blue.jpg) repeat-x 0px 0px;
+}
+.popupForm h3 {
+	font-size:.7em;
+	margin:-11px -10px 10px -10px;
+	padding:5px 0px 7px 10px; 
+	background:url(../../App_Themes/Default/Images/module_head_blue_c.gif) repeat-x top left;
+	color:#00355e;
+}
+.popupForm select { margin-right:10px }
+.popupForm label {
+	display:block;
+	clear:both;
+	color:#556;
+	padding:0px;
+	margin:10px 0px 3px 0px;
+	font-size:.7em;
+	font-weight:bold;
+}
+.popupForm textarea {
+	width:290px;
+	height:50px;
+	font: .7em Verdana, Arial, Helvetica, sans-serif;
+	padding:3px;
+	margin:0px 0px 10px 0px;
+	border-width:1px; 
+	border-style:solid; 
+	border-color: #ccd2e2 #f2f2f2 #f2f2f2 #ccd2e2;
+}
+.popupForm .btnRowC { text-align:center; font-size:.7em; }
+
+.popupFormLarge .btnRowC { text-align:center; font-size:.7em; }
+
+.popupIFrame { position:absolute; padding:0px; width:370px; height:200px; visibility:hidden; }
+ 
+.dateColNoWrap { text-align:right; white-space:nowrap; width:10em; }
+
+/* popup window (first use: section search, when adding a course)  */
+
+.popupWindow {
+	width:450px;
+	padding:0px;
+	position:absolute;
+	border:0px #ccc solid;
+	z-index: 10;
+}
+
+.headerContainer {
+	background:url(../../App_Themes/Default/Images/module_head_blue_c.gif) repeat-x top left;
+
+	
+	}
+
+.popupWindow h3 {
+	font-size:.7em;
+	margin:0px 0px 0px 0px;
+	padding:5px 0px 6px 10px; 
+	background:url(../../App_Themes/Default/Images/module_head_blue_r.gif) no-repeat top right;
+	color:#00355e;
+	border-style:solid;
+	border-width:0px 0px 0px 1px;
+	border-color:#7ba6c6;
+}
+.popupWindow h3 a:link,
+.popupWindow h3 a:active,
+.popupWindow h3 a:visited {
+	color:#036;
+	background:url(../../App_Themes/Default/Images/arrow_rt_blue.gif) center left no-repeat;
+	padding:0px 0px 1px 12px;
+	font-weight:normal;
+	margin-left:60%;
+	 
+}
+
+.popupWindowBody {
+	background:#fff url(../../App_Themes/Default/Images/bg_small_form_blue.jpg) repeat-x 0px 0px;
+	margin:0px 0px 0px 0px;
+	padding:0px 15px 14px 15px;
+	font-size:.7em;
+	border-style:solid;
+	border-width:0px 1px 1px 1px;
+	border-color:#7ba6c6;
+	float:left;
+	width:418px;
+}
+
+.popupWindowBody li a:link,
+.popupWindowBody li a:active,
+.popupWindowBody li a:visited {
+	white-space:nowrap;
+}
+
+/* since message is in the sectionsearch.aspx.cs file, minimize markup in cs code  */
+.popupWindow p span span {
+	font-weight:bold;
+	color:#334;
+	}
+/* close link */
+.popupWindow .closeBar { text-align:center; margin:20px -10px -10px -10px; 
+	clear:both;	padding:1px 10px 3px 10px; background-color:#dde6ed; }
+
+.popupWindow .closeLink, 
+.popupWindow .closeLink:link, 
+.popupWindow .closeLink:visited,
+.popupWindow .closeLink:active {
+	font-weight:bold; font-size:.7em;
+	background: url(../../App_Themes/Default/Images/close_icon.gif) center right no-repeat; 
+	padding-right:20px; 
+	text-decoration:none;
+	color:#00355e;
+}
+.popupWindow .closeLink:hover { text-decoration:underline; }
+
+.popupWindow br {clear:both;}
+
+/*  */
+.commentInput { font: 1.1em Verdana, Arial, Helvetica, sans-serif; width:95%; border-width:1px; border-style:solid; border-color: #ccd2e2 #f2f2f2 #f2f2f2 #ccd2e2; padding:2px 4px; height:30px; }
+
+/* generic version of the menu used in course setup */
+.popupMenu { position:absolute; background:url(../../App_Themes/Default/Images/bg_popup_menu.gif) no-repeat top left; border:1px #ccc solid; display:none; }
+.popupMenu ul { list-style:none; margin:0px; padding:4px 0px; }
+/*TODO: add separator to li. see csActMenu */
+.popupMenu ul li { padding:6px 10px 6px 0px; margin:0px 12px 0px 30px; }
+.popupMenu ul li.last { background-image:none; }
+
+.menuFirstItem { border-bottom:1px #d2d4d6 solid; }
+.menuItem { border-bottom:1px #d2d4d6 solid; border-top:1px #fff solid; }
+.menuLastItem { border-top:1px #fff solid; }
+
+.popupMenu li a:link,
+.popupMenu li a:active,
+.popupMenu li a:visited { color:#4a5d70; font-weight:bold; margin:0px; padding:0px; display:block; font-size:.9em; }
+.popupMenu li a:hover { text-decoration:none; color:#6699cc }
+
+.popupMenuLink, .popupMenuLink:hover { display:block; width:38px; height:20px; background:url(../../App_Themes/Default/Images/cs_act_menu_icon.gif) no-repeat top left; text-decoration:none; }
+
+.e-mailAll { background:url(../../App_Themes/Default/Images/icon_mail.gif) no-repeat 8px 25px; }
+
+/* divider for default table header */
+.defTabVertDiv {background:url(../../App_Themes/Default/Images/vert_divider_blue.gif) no-repeat center right;}
+.tableHeaderLink {background:url(../../App_Themes/Default/Images/vert_divider_blue.gif) repeat-y center right; 
+	display:block; padding-right:10px; }
+
+/* cart module (originally for integrated search) */
+
+/* cart module styles */
+.cartTable {border-left:1px #7ba7c6 solid;border-right:1px #7ba7c6 solid; font-size:.7em; margin:0px}
+.cartTable td { padding: 3px 10px 0px 10px; }
+.cartTable .cartModuleLastItem { padding-bottom:6px; }
+.cartModuleHeaderTop {
+	background:#ededed url(../../App_Themes/Default/Images/cart_header_shadow.gif) repeat-x top left;
+}
+.cartModuleHeaderTop th {
+	font-weight:bold; text-align:left;
+	padding:4px 9px; color:#556;
+}
+.cartModuleHeader {
+	font-weight:bold; text-align:left;
+	padding:4px 9px; background-color:#ededed; color:#556;
+}
+.cartModuleBot { background: url(../../App_Themes/Default/Images/right_module_bot_r.gif) no-repeat top right; height:13px; }
+.cartModuleBot div { background: url(../../App_Themes/Default/Images/right_module_bot_l.gif) no-repeat top left; }
+
+/* Grid View of Class Schedule () */
+
+.GridColHeader {
+	position: absolute;
+	background:transparent url(../../App_Themes/Default/Images/gradient_header_blue.gif) bottom left repeat-x;
+	text-align: center;
+	color:#036;
+	vertical-align:bottom;
+	font-weight: bold;
+	font-size:.7em;
+}
+.GridRowHeader {
+	font-size:.7em;
+	text-align: right;
+	position: absolute;
+	font-weight: bold;
+	
+	color:#667;
+}
+.GridRowMajor {
+	border-top: 1px solid #7495ad;
+	position: absolute;
+}
+.GridRowMinor {
+	border-top: 1px dashed #7495ad;
+	position: absolute;
+}
+.GridColMajor {
+	border-left: 1px solid #7495ad;
+	position: absolute;
+}
+.GridWaitlist
+ {
+	border: 2px solid #FF6600;
+	background-image: url(../../App_Themes/Default/Images/bg_waitlist.png);
+}
+.GridSchedule 
+{
+	border: 2px solid #6633FF;
+	background-image: url(../../App_Themes/Default/Images/bg_scheduled.png);
+}
+.GridCart
+{	
+	border: 2px solid #009933;
+	background-image: url(../../App_Themes/Default/Images/bg_cart.png);
+}
+
+.GridEvent
+{
+	padding: 4px;
+	font-size: small;
+	font-weight:bold;
+}
+
+.GridLocation
+{
+	font-size: xx-small;
+}
+
+.GridItemUnderFlow
+{
+	border-top-color:red;
+}
+
+.GridItemOverFlow
+{
+	border-bottom-color:red;
+}
+
+/* Narrow Search Nav Menus */
+.narrowSearchContainer {
+	background:url(../../App_Themes/Default/Images/bg_narrow_search.jpg) repeat-x center center;
+	float:left;
+	width:100%;
+	min-width:768px;
+}
+.narrowSearchContainer div {
+	background:url(../../App_Themes/Default/Images/bg_narrow_search_right.jpg) no-repeat top right;
+	float:left;
+	width:100%;
+}
+
+#narrowSearchNav li ul { font-size: 100%; }
+
+#narrowSearchNav,
+#narrowSearchNav ul {
+	width: 150px; 
+	margin: 0;
+	padding: 0;
+	background: #dfe9f6; /* IE6 Bug */
+	font: normal .7em verdana;
+}
+	
+#narrowSearchNav {
+	float: left;
+	width: 100%;
+	background:url(../../App_Themes/Default/Images/bg_narrow_search_left.jpg) no-repeat top left;
+	height:34px;
+	/*margin-left:10px;
+	margin-right:10px;*/
+}
+
+#narrowSearchNav li {
+	position: relative;
+	list-style: none;
+	float: left;
+	width: 150px; /* Width of Menu Items */
+}
+
+/* link: level 1 */
+#narrowSearchNav li a:link,
+#narrowSearchNav li a:active,
+#narrowSearchNav li a:visited {
+	display: block;
+	text-decoration: none;
+	color: #48627b;
+	font-weight:bold;
+	padding:10px 10px;
+	background:url(../../App_Themes/Default/Images/bg_narrow_search_divider.gif) no-repeat bottom right;
+}
+
+#narrowSearchNav li a.last:link,
+#narrowSearchNav li a.last:active,
+#narrowSearchNav li a.last:visited {
+	background-image:none;
+}
+
+/* link: level 2 */
+#narrowSearchNav li li a:link,
+#narrowSearchNav li li a:active,
+#narrowSearchNav li li a:visited {
+	display: block;
+	text-decoration: none;
+	color: #48627b;
+	font-weight:normal;
+	/* separator */
+	border-bottom:1px #fff solid;
+	padding:5px;
+	background-image:none;
+}
+
+#narrowSearchNav li li a.last {
+	border-width:0px;
+}
+
+#narrowSearchNav ul {
+	position: absolute;
+	display: none;
+	border:1px #95a6bd solid
+}
+
+#narrowSearchNav div {
+	background:url(../../App_Themes/Default/Images/trans_back_25_opacity.png) repeat left top;
+	position: absolute;
+	display: none;
+	height:122px; width:150px;
+}
+/* Sub Menu Styles */
+#narrowSearchNav li ul li a { padding: 5px 5px; }
+
+/* Sub Menu Hover Styles */
+#narrowSearchNav li ul li a:hover { background-color:#95a6bd; color:#fff; } 
+
+/* Hide sub-menus initially */
+#narrowSearchNav li:hover ul ul,
+#narrowSearchNav li:hover ul ul ul,
+#narrowSearchNav li.over ul ul,
+#narrowSearchNav li.over ul ul ul { display: none; }
+/* The magic */
+#narrowSearchNav li:hover ul,
+#narrowSearchNav li li:hover ul,
+#narrowSearchNav li li li:hover ul,
+#narrowSearchNav li:hover div,
+#narrowSearchNav li li:hover div,
+#narrowSearchNav li li li:hover div,
+#narrowSearchNav li.over div,
+#narrowSearchNav li li.over div,
+#narrowSearchNav li li li.over div,
+#narrowSearchNav li.over ul,
+#narrowSearchNav li li.over ul,
+#narrowSearchNav li li li.over ul { display: block; }
+
+/* arrows for menu */
+#narrowSearchNav li.menuparent { background: transparent url(../../App_Themes/Default/Images/bg_narrow_search_arrow.gif) 11em 1.2em no-repeat; width:13.5em; }
+
+#narrowSearchNav li.menuparent:hover,
+#narrowSearchNav li.over { background: transparent url(../../App_Themes/Default/Images/bg_narrow_search_arrow_on.gif) 11em 1.2em no-repeat; }
+
+#narrowSearchNav li a:hover { color: #e59722; }
+
+#narrowSearchNav li .scrollBars {
+	height:34em;
+	overflow:scroll;
+	width:165px;	
+}
+
+.searchBreadCrumb {
+	font-size:.75em;
+}
+
+
+
+
+/* course setup activities totals display */
+.actFinalTotals {
+	background-color:#f3f3f5;
+	margin-bottom:-20px;
+	margin-top:10px;
+	padding:10px;
+	font-size:.75em;
+	text-align:center
+}
+
+.actFinalTotals #midtermTotalPoints {
+	margin-right:20px;
+	font-weight:bold;
+	border-right:1px #000 solid;
+	padding-right:20px
+}
+
+.actFinalTotals #finalTotalPoints {
+	font-weight:bold;
+}
+
+/* cart */
+.deleteSessionLink {
+	font-size:.7em;
+	/* font-weight:bold; */
+	float:right;
+	margin-top:-22px;
+	margin-right:20px;
+	display:block;
+	padding:2px 8px 3px 12px;
+	background:url(../../App_Themes/Default/Images/module_separator.gif) no-repeat center left;
+	
+}
+.deleteSessionLink a:link,
+.deleteSessionLink a:active,
+.deleteSessionLink a:visited {
+	background:url(../../App_Themes/Default/Images/arrow_rt_blue.gif) center left no-repeat;
+	padding:0px 0px 0px 12px;
+	color:#275e86;
+}
+
+/* create multiple user */
+.addMultipleUsersModule {
+	position:absolute;
+	left:0px;
+	top:292px;
+	width:180px;
+}
+/* checkbox labels */
+.addMultipleUsersModule label {
+	font-weight:normal;
+	padding-left:0px;
+}
+/* checkboxes */
+.addMultipleUsersModule span input {
+	margin-left:20px;
+}
+
+.addMultipleUsersModule p {
+	padding:0px 10px;
+}
+
+
+/* transcript request */
+
+.recipientFormOnly {
+	float:left;
+	width:100%;
+	/* width:60% */
+}
+
+.recipientAndExisting {
+	 float:left;
+	 width:60%;
+	 margin-right:30px;
+	 padding-right:30px;
+	 border-right:1px #ddd solid;
+}
+
+/****************************************/
+/************ ADDRESS CHANGE ************/
+/****************************************/
+
+/* card view */
+.cardCurrent {
+	background:url(../../App_Themes/Default/Images/bg_blue_card.jpg) repeat-x top left;
+	height:auto;
+	width:230px;
+	border:1px #7995AC solid;
+	padding:5px 7px;
+	font-size:.75em;
+	line-height:1.2em;
+	color:#333;
+	float:left;
+	margin-right:2em;
+	margin-bottom:1.5em;
+}
+
+.cardFuture {
+	background:url(../../App_Themes/Default/Images/bg_orange_card.jpg) repeat-x top left;
+	height:auto;
+	width:230px;
+	border:1px #999999 solid;
+	padding:5px 7px;
+	font-size:.75em;
+	line-height:1.2em;
+	color:#333;
+	float:left;
+	margin-bottom:1.5em;
+	margin-right:2em;
+}
+.cardCurrent ul, .cardFuture ul {
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+.addressType {
+	clear:both;
+}
+
+.typeHead {
+	clear:both;
+	float:none;
+}
+
+.typeHead h3 {
+	color:#00355e;
+	font-weight:bold;
+	border-bottom:1px #ccc solid;
+	padding-bottom:4px;
+	font-size:.75em;
+	clear:both;
+	margin:0;
+	margin-bottom:2em;
+}
+
+.typeHead a:link,
+.typeHead a:active,
+.typeHead a:visited {
+	float:right;
+	margin-top:-42px;
+	font-size:.75em;
+}
+
+.typeHead a:hover {
+	
+}
+
+.preferredAddress {
+	font-weight:bold;
+}
+
+.activeDate {
+	margin-top:6px
+}
+
+.buttonGreySmList,
+.cardCurrent .buttonGreySmList,
+.cardFuture .buttonGreySmList {
+	margin:0px;
+	padding:0px;
+	list-style:none;
+	height:18px
+}
+.buttonGreySmList li {
+	background:url(../../App_Themes/Default/Images/card_button_r.gif) no-repeat top right;
+	margin:0px;
+	padding:0px;
+	margin-right:2px;
+	float:left;
+}
+
+.buttonGreySmList li a:link,
+.buttonGreySmList li a:active,
+.buttonGreySmList li a:visited {
+	background:url(../../App_Themes/Default/Images/card_button_l.gif) no-repeat top left;
+	color:#fff;
+	font-size:.88em;
+	text-decoration:none;
+	display:block;
+	padding:2px 6px 3px 6px;
+}
+
+.buttonGreySmList li a:hover {
+	color:#000;
+}
+
+/* override styles for use in "defaultTable" cell */
+.buttonGreySmListCell {
+	font-size:1.1em;
+
+}
+.buttonGreySmListCell li {
+	margin-right:4px;
+	margin-bottom:4px;
+	font-weight:normal;
+}
+
+/* LINK VERSION */
+.buttonGreySmLink {
+	height:18px;
+	background:url(../../App_Themes/Default/Images/card_button_r.gif) no-repeat top right;
+	margin:0px;
+	padding:0px;
+	margin-right:2px;
+	float:left;
+}
+.buttonGreySmLink a,
+.buttonGreySmLink a:link, 
+.buttonGreySmLink a:active, 
+.buttonGreySmLink a:visited {
+	background:url(../../App_Themes/Default/Images/card_button_l.gif) no-repeat top left;
+	display:block;
+	font-size:.7em;
+	font-weight:bold;
+	color:#fff;
+	text-decoration:none;
+	padding:1px 6px 4px 6px;
+}
+.buttonGreySmLink a:hover {
+	color:#000;
+}
+
+.preferredAddress {
+	font-weight:bold;
+	}
+
+/* donations */
+
+#donationContainer {
+	font-weight:bold;
+	font-size:.75em;
+	color:#666;
+	margin:0;
+	padding:0;
+	margin-left:30px;
+	margin-bottom:4px;
+}
+
+#donationContainer li {
+	padding-bottom:4px;
+}
+
+#donationContainer .glassButtonSm {
+	font-size:1em;
+}
+
+#donationContainer input {
+	padding:1px 2px;
+	margin-right:8px;
+}
+
+#donationContainer select {
+	margin-right:10px;
+}
+
+.donationsAmountLabel {
+	margin-left:0px;
+	font-weight:bold;
+	font-size:.75em;
+	color:#666;
+	
+}
+.donationsCampaignLabel {
+	margin-left:10px;
+	font-weight:bold;
+	font-size:.75em;
+	color:#666;	
+}
+
+/* financial aid */
+
+.financialHeader {
+	background:url(../../App_Themes/Default/Images/tab_slider_header_light.gif) repeat-x top left; 
+	margin:0px;
+	padding:6px 14px;
+	font-size:.75em; height:14px; border:1px #cbdeeb solid;
+	color:#00355e;
+	
+}
+/* move to common? */
+.collapseHeight {
+	height:0px;
+	font-size:.01em;
+}
+
+.cellBullet {
+	background:url(../../App_Themes/Default/Images/arrow_rt_blue.gif) no-repeat 6px 10px;
+	
+}
+
+/* search iframe for ets code search */
+.searchIframe {
+	position:absolute;
+	right:0px;
+	top:45px;
+	width:40em;
+	background-color:#fff;
+	height:44em;
+	padding:0px;
+	margin:0px;
+	border-bottom:1px #86A5B9 solid;
+	border-left:2px #86A5B9 solid;
+	display:none;
+	overflow:auto;
+}
+.horizFormButtonRow {
+	float:none;
+	clear:left;
+	padding-top:20px;
+}
+
+	.dossierContainer {
+		background: url(../../App_Themes/Default/Images/default_container_bg.jpg) repeat-x 0px 29px;
+		margin:0px 10px 20px 0px;
+		padding:0px;
+		/*float:left;
+		min-width:300px;
+		min-height:40px;*/
+	}
+	.dossierContainer .defaultHeader {
+		background:#E5EBEF url(../../App_Themes/Default/Images/default_header_r.gif) no-repeat top right;
+	}
+	.dossierContainer .defaultHeader h2 {
+		margin:0px;
+		background:url(../../App_Themes/Default/Images/default_header_l.gif) no-repeat top left;
+		color:#0F4167;
+		text-align:left;
+		font-size:1em;
+		font-weight:bold;
+		padding:7px 14px 7px 14px;
+	}
+	.dossierContainer ul {
+		font-size:.75em;
+		margin-left:16px;
+		margin-top:8px;
+		float:left;
+	}
+	.dossierContainer img {
+		float:right;
+		margin:10px;
+		border:1px #333 solid;
+	}
+	.dossierContainer table {
+		font-size:.9em;
+		margin-left:14px;
+		margin-top:4px;
+	}
+	.dossierContainer table td {
+		padding:4px 20px 4px 0px;
+	}	
+	.dossierContainer table th {
+		color:#666;
+		font-weight:bold;
+		padding:4px 4px 4px 0px;
+		/*text-align:left;*/
+	}	
+	.dossierContainer h2 
+	{		
+		color:#666;
+		font-weight:bold;
+		font-size:1em;
+		margin:2px;
+		text-align:left;
+		background:url(../../App_Themes/Default/Images/form_separator.gif) repeat-x bottom right; 
+		padding:2px 0px 3px 0px;
+	}
+	
+	/* file type list for uploads */
+	
+	.fileTypes {
+		font-size:.7em;
+		color:#333;
+		margin:0px;
+		list-style:none;
+		padding-top:10px;
+		padding-bottom:20px;
+	}
+
+	.fileTypes li {
+		padding-bottom:14px;
+		white-space:nowrap;
+		float:left;
+		width:28em;
+	}
+
+	.fileTypes img {
+		padding:0px 4px;
+		vertical-align:middle;
+	}
+	
+	.selectedrow 
+	{
+		font-weight:bold;		
+		background-color: #eff3f6;
+	}
+	
+/* section instructions on entry forms */
+
+.formHelp {
+     background:url(../../App_Themes/Default/Images/bg_form_help.jpg) repeat-x top left;
+     border:1px #ededed solid;
+     margin:0px 0px 10px 0px;
+     font-size:.7em;
+}
+
+.formHelp p {
+     padding:0px 8px 0px 28px;
+}
+
+.formHelp .formHelpText {
+     background:url(../../App_Themes/Default/Images/icon_help.gif) no-repeat 6px 7px;
+     margin:0px;
+     padding:8px 8px 8px 28px;
+}
+
+a.signInButton , a.signInButton:link, a.signInButton:active, a.signInButton:visited
+{
+	display:block;
+	background-image:url(../../App_Themes/Default/Images/federated_signin.png);
+	background-repeat:no-repeat;
+	width: 153px;
+	height: 28px;
+	padding-top: 125px;
+	color: #28475f;
+	font: 16px Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	text-decoration: none;
+	text-shadow: 0px +2px 0 #d8dfd4;
+}

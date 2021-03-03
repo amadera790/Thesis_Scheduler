@@ -1,0 +1,176 @@
+﻿body {
+    font-family:Verdana, Arial, Helvetica, sans-serif;
+    font-size: 0.7em;
+}
+/*div {
+    display:inline-block;
+    clear:left;
+}*/
+h2 {
+
+    background:transparent url(https://selfservice.arcadia.edu/SelfService/App_Themes/Default/Images/gradient_header_blue.gif) bottom left repeat-x; 
+    text-align:left; 
+    color:#036; 
+    height:30px; 
+    vertical-align:bottom; 
+    padding: 0px 5px 0px 5px;
+    
+    /*background:url(https://selfservice.arcadia.edu/SelfService/App_Themes/Default/Images/tab_slider_header_light.gif) repeat-x top left; 
+	margin:0px; 
+	font-size:1em; 
+	height:26px; 
+	border:1px #cbdeeb solid; 
+	color:#00355e;
+	/*padding:4px 0px 0px 4px;*/
+}
+
+#Shadow{
+    background:url(https://selfservice.arcadia.edu/SelfService/App_Themes/Default/Images/bg_tab_slider_shadow.gif) repeat-x top left; 
+    height:4px; 
+    margin:0px; 
+    padding:0px; 
+    border:0px #ccc solid; 
+    font-size:1%;
+}
+#Header {
+    font-weight:bold;
+    /*width: 400px;*/
+    width:265px;
+    /*padding:4px;
+    border:1px solid lightgray;
+    margin:0px;*/
+    display:inline-block;
+    clear:left;
+    color:#00355e; /*#56778e; #6699cc*/
+    vertical-align:top;
+    font-size: 0.5em;
+}
+#Category {
+    font-weight:bold;
+    /*width: 400px;*/
+    width:265px;
+    /*padding:4px;
+    border:1px solid lightgray;
+    margin:0px;*/
+    display:inline-block;
+    clear:left;
+    color:#00355e; /*#56778e; #6699cc*/
+    vertical-align:top;
+}
+
+#Code{
+    font-weight:bold;
+    width: 50px;
+    /*padding:4px;
+    border:1px solid lightgray;
+    margin:0px;*/
+    display:inline-block;
+    clear:left;
+    color:#00355e; /*#56778e; #6699cc*/
+    vertical-align:top;
+}
+#Complete{
+    width: 30px;
+    /*padding:4px;
+    border:1px solid lightgray;
+    margin:0px;*/
+    display:inline-block;
+    clear:left;
+    vertical-align:top;
+}
+
+#Courses {
+    width:500px;
+    /*padding:4px;*/
+    /*border:3px solid gray;*/
+    /*margin:5px;*/
+    display:inline-block;
+    /*clear:left;*/
+    vertical-align:top;
+}
+
+#Test {
+    font-weight:bold;
+    /*width: 400px;*/
+    width:200px;
+    /*padding:4px;
+    border:1px solid lightgray;
+    margin:0px;*/
+    display:inline-block;
+    clear:left;
+    color:#00355e; /*#56778e; #6699cc*/
+    vertical-align:top;
+}
+
+#Score {
+    width:100px;
+    /*padding:4px;*/
+    /*border:3px solid gray;*/
+    /*margin:5px;*/
+    display:inline-block;
+    /*clear:left;*/
+    vertical-align:top;
+}
+.boldnbig{
+    font-weight:bold;
+    font-size: 17px;
+    color: #2864A0;  /*#6495ED; #4F4F4F;*/
+}
+a.whatsthis:link{    
+    color:#3683BA; 
+    text-decoration: underline;
+}
+
+#Event{
+    font-weight:bold;
+    width: 100px;
+    display:inline-block;
+    clear:left;
+    color:#00355e; 
+    vertical-align:top;
+    text-align:right;
+}
+#Title{
+    font-weight:bold;
+    width: 300px;
+    display:inline-block;
+    clear:left;
+    color:#00355e; 
+    vertical-align:top;
+}
+#Grade{
+    font-weight:bold;
+    width: 100px;
+    display:inline-block;
+    clear:left;
+    color:#00355e; 
+    vertical-align:top;
+}
+#AUC{
+    font-weight:bold;
+    width: 100px;
+    display:inline-block;
+    clear:left;
+    color:#00355e; 
+    vertical-align:top;
+}
+a:link    {    
+    color:#909090; 
+    text-decoration: none;
+}
+
+a:visited    {    
+    color:#909090; 
+    text-decoration: none;
+}
+
+a:hover    {    
+    color:#909090; 
+    text-decoration: underline;
+}
+
+a:active    {    
+    color:#909090; 
+    text-decoration: none;
+}
+

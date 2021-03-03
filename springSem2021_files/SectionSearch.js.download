@@ -1,0 +1,55 @@
+﻿// JScript File
+	function positionAddToCart() {
+		var winWidth;
+		if (window.innerWidth) { // all except Explorer
+			winWidth = window.innerWidth;
+		}
+		else if (document.documentElement && document.documentElement.clientHeight) { // Explorer 6 Strict Mode
+			winWidth = eval(document.documentElement.clientWidth + 16);
+		}
+		else if (document.body) { // other Explorers
+			winWidth = document.body.clientWidth;
+		}
+		posEl = document.getElementById("sectionSearchHeader");
+		// course added
+		theEl = document.getElementById("ctl00_mainContentZone_pnlAddedCart");
+		if(theEl) {
+			theEl.style.position = "absolute";
+			theEl.style.top = eval(findPosY(posEl)) + "px";
+			theEl.style.left = parseInt(winWidth - 495 ) + "px";		
+		}
+
+		// added to waitlist
+		if(document.getElementById("ctl00_mainContentZone_pnlAddedWaitList")) {
+			theEl2 = document.getElementById("ctl00_mainContentZone_pnlAddedWaitList");
+			theEl2.style.position = "absolute";
+			theEl2.style.top = eval(findPosY(posEl)) + "px";
+			theEl2.style.left = parseInt(winWidth - 495 ) + "px";		
+		}
+
+		
+	}	
+	
+//	if(window.location.href.indexOf("#") > -1) {
+		// old onload event
+		//window.onload = positionButtons;
+		
+		// set event listeners
+		if (typeof window.addEventListener != 'undefined') {
+			window.addEventListener("load", positionAddToCart, false);
+			window.addEventListener("resize", positionAddToCart, false);
+		}
+		else if (typeof document.addEventListener != 'undefined') {
+			document.addEventListener("load", positionAddToCart, false);
+			document.addEventListener("resize", positionAddToCart, false);
+		}
+		else if (typeof window.attachEvent != 'undefined') {
+			window.attachEvent("onload", positionAddToCart);
+			window.attachEvent("onresize", positionAddToCart);
+		}
+		else {
+			var msgalert = ResourceManager.GetString("JsSectionSearchFailed") + "\n\n" + ResourceManager.GetString("JsSectionSearchReport");
+			window.alert(msgalert);
+		}
+//	}
+

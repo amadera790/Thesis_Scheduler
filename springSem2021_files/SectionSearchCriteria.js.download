@@ -1,0 +1,7 @@
+﻿// *********************************************************************
+// Copyright 2005 - 2012 Ellucian Company L.P. and its affiliates.
+// *********************************************************************
+function calendarPicker(strField) {
+		window.open('../DatePicker.aspx?field=forms[0].' + strField,
+			'calendarPopup','width=250,height=180,resizable=yes');
+}

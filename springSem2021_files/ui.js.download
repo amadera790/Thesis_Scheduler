@@ -1,0 +1,1162 @@
+// *********************************************************************
+// Copyright 2005 - 2015 Ellucian Company L.P. and its affiliates.
+// *********************************************************************
+
+var GradeMappingsNumericValue;
+var GradeMappingsPositiveValue;
+var GradeMappingsPercentRange;
+var GradeMappingsWeightRange;
+var GradeMappingsDuplicateGradeValue;
+var GradeMappingsImagePath;
+
+// style webpart titles until removal
+function styleWebPartHeaders() {
+	if (document.getElementById("mainLeft")) {
+		var theCells = document.getElementById("mainLeft").getElementsByTagName("td");
+		for (i = 0; i < theCells.length; i++) {
+			if (theCells[i].id.indexOf("WebPartTitle_gwp") > -1) {
+				theCells[i].className = "webPartTitle";
+			}
+		}
+	}
+	if (document.getElementById("mainRight")) {
+		theCells = document.getElementById("mainRight").getElementsByTagName("td");
+		for (i = 0; i < theCells.length; i++) {
+			if (theCells[i].id.indexOf("WebPartTitle_gwp") > -1) {
+				theCells[i].className = "webPartTitle";
+			}
+		}
+	}
+}
+
+//		//temp save button pos on grade mapping
+//		function positionSaveButton(el) {
+//			findPosX("vertNavAllLink")
+//			findPosY("vertNavAllLink")
+//		}
+
+// support multiple load events on a page
+function addLoadEvent(func) {
+	var oldOnLoad = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	}
+	else {
+		window.onload = function () {
+			if (oldOnLoad) {
+				oldOnLoad();
+			}
+			func();
+		}
+	}
+}
+addLoadEvent(styleWebPartHeaders);
+addLoadEvent(editableTextBoxes);
+/* alternate call method
+addLoadEvent(function() {
+//more code to run on page load
+});
+*/
+
+
+//******************************************************************
+// find position of HTML element on a page
+//******************************************************************
+// X coords
+function findPosX(obj) {
+	var curleft = 0;
+	if (obj.offsetParent)
+		while (1) {
+			curleft += obj.offsetLeft;
+			if (!obj.offsetParent)
+				break;
+			obj = obj.offsetParent;
+		}
+	else if (obj.x)
+		curleft += obj.x;
+	return curleft;
+}
+// X coords
+function findPosY(obj) {
+	var curtop = 0;
+	if (obj.offsetParent)
+		while (1) {
+			curtop += obj.offsetTop;
+			if (!obj.offsetParent)
+				break;
+			obj = obj.offsetParent;
+		}
+	else if (obj.y)
+		curtop += obj.y;
+	return curtop;
+}
+
+// show/hide class list menu
+function menuShowHide(el) {
+	var menuStyle = document.getElementById(el).style;
+	if (menuStyle.display == "block")
+		menuStyle.display = "none";
+	else {
+		if (navigator.userAgent.indexOf("MSIE")) {
+			menuStyle.top = "225";
+		}
+		menuStyle.display = "block";
+	}
+}
+
+// Course Setup Activity Page Scripts
+function editableTextBoxes() {
+	if (!document.getElementById("editTable")) {
+		return;
+	}
+	var textInputs = document.getElementById("editTable").getElementsByTagName("input");
+
+	for (i = 0; i < textInputs.length; i++) {
+		if (textInputs[i].type == "text") {
+			textInputs[i].onfocus = function () { this.className = "txtFieldEditable"; }
+			textInputs[i].onblur = function () { this.className = "txtField"; }
+			textInputs[i].onclick = function () { this.className = "txtFieldEditable"; this.select(); }
+		}
+	}
+}
+
+// Show Alert
+function showAlert(oDiv, txtBox, msgType) {
+	var sAlertMsg = msgType;
+	var objDiv = document.createElement("div");
+	var objImg = document.createElement("img");
+
+	switch (sAlertMsg) {
+		case "numericValue":
+			sAlertMsg = GradeMappingsNumericValue;
+			break;
+		case "positiveValue":
+			sAlertMsg = GradeMappingsPositiveValue;
+			break;
+		case "percentRange":
+			sAlertMsg = GradeMappingsPercentRange;
+			break;
+		case "weightRange":
+			sAlertMsg = GradeMappingsWeightRange;
+			break;
+		case "duplicateGradeValue":
+			sAlertMsg = GradeMappingsDuplicateGradeValue;
+			break;
+        case "dateValue":
+            sAlertMsg = GradeMappingsDateValue;
+            break;
+        case "rangeDateValue":
+            sAlertMsg = GradeMappingsRangeDateValue;
+            break;
+	}
+	var objTxt = document.createTextNode(sAlertMsg);
+	var currentDiv = document.getElementById(oDiv);
+
+	if (currentDiv) {
+		currentDiv.innerHTML = "";
+		currentDiv.appendChild(objTxt);
+		return;
+	}
+
+	//add elements to DOM
+	//DIV
+	txtBox.parentNode.appendChild(objDiv);
+	objDiv.setAttribute("class", "alert");
+	objDiv.setAttribute("className", "alert");
+	objDiv.setAttribute("id", oDiv);
+	//IMG
+	objDiv.appendChild(objImg);
+	objImg.setAttribute("src", GradeMappingsImagePath);
+	objImg.setAttribute("class", "alertArrow");
+	objImg.setAttribute("className", "alertArrow");
+	objDiv.appendChild(objTxt);
+
+	objDiv.onclick = function () { this.style.display = "none" };
+	// set input text color
+	txtBox.style.color = "#db4242";
+}
+
+function hideAlert(oDiv, txtBox) {
+	var objDiv = document.getElementById(oDiv);
+	if (objDiv) {
+		try {
+			txtBox.parentNode.removeChild(objDiv);
+			txtBox.style.color = "#000";
+		} catch (e) { }
+	}
+}
+
+// Activity Menu
+function showActivityMenu(el, posEl) {
+	var yTop = findPosY(posEl) + 4;
+	var xLeft = findPosX(posEl) + 4;
+	var item = document.getElementById(el).style;
+	item.display = "block";
+}
+
+// ***************************************************************
+// STUDENT MENU
+// ***************************************************************
+function setStudentMenu(e, studentId, token, rootDir, imageDir, imageFileName, imageLocation, imgToken) {
+
+	if (document.getElementById("PermissionRequests") != undefined) {
+		var indexPermissionRequests = document.getElementById("PermissionRequests").href.indexOf("studentId") + 10;
+		document.getElementById("PermissionRequests").href = document.getElementById("PermissionRequests").href.substring(0, indexPermissionRequests) + studentId;
+	}
+
+	if (document.getElementById("ClassSchedule") != undefined) {
+		var indexClassSchedule = document.getElementById("ClassSchedule").href.indexOf("studentId") + 10;
+		document.getElementById("ClassSchedule").href = document.getElementById("ClassSchedule").href.substring(0, indexClassSchedule) + studentId;
+	}
+
+	if (document.getElementById("UnofficialTranscript") != undefined) {
+		var indexUnofficialTranscript = document.getElementById("UnofficialTranscript").href.indexOf("studentId") + 10;
+		document.getElementById("UnofficialTranscript").href = document.getElementById("UnofficialTranscript").href.substring(0, indexUnofficialTranscript) + studentId;
+	}
+
+	if (document.getElementById("AcademicPlan") != undefined) {
+		var indexAcademicPlan = document.getElementById("AcademicPlan").href.indexOf("studentId") + 10;
+		document.getElementById("AcademicPlan").href = document.getElementById("AcademicPlan").href.substring(0, indexAcademicPlan) + studentId;
+	}
+
+	if (document.getElementById("WhatIfAcademicPlan") != undefined) {
+		var indexWhatIfAcademicPlan = document.getElementById("WhatIfAcademicPlan").href.indexOf("studentId") + 10;
+		document.getElementById("WhatIfAcademicPlan").href = document.getElementById("WhatIfAcademicPlan").href.substring(0, indexWhatIfAcademicPlan) + studentId;
+	}
+
+	if (document.getElementById("ScheduleRequestHistory") != undefined) {
+		var indexScheduleRequestHistory = document.getElementById("ScheduleRequestHistory").href.indexOf("studentId") + 10;
+		document.getElementById("ScheduleRequestHistory").href = document.getElementById("ScheduleRequestHistory").href.substring(0, indexScheduleRequestHistory) + studentId;
+	}
+
+	if (document.getElementById("GradeReport") != undefined) {
+		var indexGradeReport = document.getElementById("GradeReport").href.indexOf("studentId") + 10;
+		document.getElementById("GradeReport").href = document.getElementById("GradeReport").href.substring(0, indexGradeReport) + studentId;
+	}
+
+	if (document.getElementById("ActivityGradeReport") != undefined) {
+		var indexGradeReport = document.getElementById("ActivityGradeReport").href.indexOf("studentId") + 10;
+		document.getElementById("ActivityGradeReport").href = document.getElementById("ActivityGradeReport").href.substring(0, indexGradeReport) + studentId;
+	}
+
+	if (document.getElementById("DossierStudentLink") != undefined) {
+		document.getElementById("DossierStudentLink").onclick = function () { OpenWin(rootDir + '/Account/DossierStudent.aspx?Id=' + studentId + '&token=' + token, 'dossier'); }
+	}
+
+	if (document.getElementById("DossierImageStudentLink") != undefined) {
+		document.getElementById("DossierImageStudentLink").onclick = function () { OpenWin(rootDir + '/Account/DossierStudent.aspx?Id=' + studentId + '&token=' + token, 'dossier'); }
+	}
+	if (document.getElementById("AttendanceLink") != undefined) {
+		var indexAttendance = document.getElementById("AttendanceLink").href.indexOf("studentId") + 10;
+		document.getElementById("AttendanceLink").href = document.getElementById("AttendanceLink").href.substring(0, indexAttendance) + studentId;
+	}
+	if (document.getElementById("ActivitiesLink") != undefined) {
+		var indexActivity = document.getElementById("ActivitiesLink").href.indexOf("studentId") + 10;
+		document.getElementById("ActivitiesLink").href = document.getElementById("ActivitiesLink").href.substring(0, indexActivity) + studentId;
+	}
+
+	if (document.getElementById("StudentImage") != undefined) {
+	    document.getElementById("StudentImage").src = imageDir + '/ShowStudentImage.ashx?pic=' + imageFileName + '&code=' + imageLocation + '&imgToken=' + imgToken + '&size=60'
+	}
+
+	var left = 0;
+	var top = 0;
+
+	while (e.offsetParent) {
+		left += e.offsetLeft;
+		top += e.offsetTop;
+		e = e.offsetParent;
+	}
+
+	left += e.offsetLeft;
+	top += e.offsetTop;
+
+	document.getElementById("csMenu").style.position = 'absolute';
+	document.getElementById("csMenu").style.top = top + 25 + "px";
+	document.getElementById("csMenu").style.left = left + "px";
+	document.getElementById("csMenu").style.display = "block";
+
+	return { x: left, y: top };
+}
+
+
+function showGradesMenu(e, SectionId) {
+	studentMenuHideAll();
+
+	var yTop = findPosY(e);
+	var xLeft = findPosX(e);
+
+	document.getElementById("csMenu" + SectionId).style.top = yTop + 21 + "px";
+	document.getElementById("csMenu" + SectionId).style.left = xLeft + "px";
+	document.getElementById("csMenu" + SectionId).style.display = "block";
+}
+
+
+function showStudentMenu(el, posEl) {
+	var yTop = findPosY(posEl) + 21;
+	var xLeft = findPosX(posEl) + 0;
+	var item = document.getElementById(el).style;
+	if (item.display == "block") {
+		item.display = "none";
+	}
+	else {
+		studentMenuHideAll()
+		//hideAll("tblAdvisingList", "div", "csMenu");
+		item.display = "block";
+		item.top = yTop + "px";
+		item.left = xLeft + "px";
+	}
+}
+
+function showActivityTemplateMenu(el, posEl) {
+	var yTop = posEl.offsetTop + 21
+	var xLeft = posEl.offsetLeft + 0
+	var item = document.getElementById(el).style;
+	if (item.display == "block") {
+		item.display = "none";
+	}
+	else {
+		studentMenuHideAll()
+		item.display = "block";
+	}
+}
+
+function showSectionMenu(el) {
+	var item = document.getElementById(el).style;
+	if (item.display == "block") {
+		item.display = "none";
+	}
+	else {
+		studentMenuHideAll()
+		item.display = "block";
+	}
+}
+
+function studentMenuHideAll() {
+	theElems = document.getElementById("content").getElementsByTagName("div");
+	for (i = 0; i < theElems.length; i++) {
+		if (theElems[i].id.indexOf("csMenu") > -1) {
+			theElems[i].style.display = "none";
+		}
+	}
+}
+function closeStudentMenu(e) {
+	if (!e) var e = window.event;
+	var tg = (window.event) ? e.srcElement : e.target;
+	if (tg.nodeName != 'DIV') return;
+	var reltg = (e.relatedTarget) ? e.relatedTarget : e.toElement;
+	while (reltg != tg && reltg.nodeName != 'BODY')
+		reltg = reltg.parentNode;
+	if (reltg == tg) return;
+	var el = document.getElementById(tg.id);
+	el.style.display = "none";
+}
+
+// ***************************************************************
+// HELP MENU
+// ***************************************************************
+function showHelpMenu(el, posEl) {
+	var yTop = findPosY(posEl) + 21;
+	var xLeft = findPosX(posEl) + 0;
+	var item = document.getElementById(el).style;
+	if (item.display == "block") {
+		item.display = "none";
+	}
+	else {
+		item.display = "block";
+		item.top = yTop + "px";
+		item.left = xLeft + "px";
+	}
+}
+
+function closeHelpMenu(e) {
+	if (!e) var e = window.event;
+	var tg = (window.event) ? e.srcElement : e.target;
+	if (tg.nodeName != 'DIV') return;
+	var reltg = (e.relatedTarget) ? e.relatedTarget : e.toElement;
+	while (reltg != tg && reltg.nodeName != 'BODY')
+		reltg = reltg.parentNode;
+	if (reltg == tg) return;
+	var el = document.getElementById(tg.id);
+	el.style.display = "none";
+}
+
+
+// generic
+// container: parent element, el: element to find, test: string to search for in elements id
+function hideAll(container, el, test) {
+	theElems = document.getElementById(container).getElementsByTagName(el);
+	for (i = 0; i < theElems.length; i++) {
+		if (theElems[i].id.indexOf(test) > -1) {
+			theElems[i].style.display = "none";
+		}
+	}
+}
+
+
+function hideElement(el) {
+	document.getElementById(el).style.display = "none";
+}
+
+function showElement(el) {
+	document.getElementById(el).style.display = "block";
+}
+
+function showHideElement(el) {
+	var theEl = document.getElementById(el);
+	if (theEl.style.display == "none") {
+		theEl.style.display = "";
+	}
+	else {
+		theEl.style.display = "none";
+	}
+
+}
+
+function showTrElement(el) {
+	document.getElementById(el).style.display = "";
+}
+
+function showElementInline(el) {
+	document.getElementById(el).style.display = "inline";
+}
+
+function showAndPositionElement(el, posEl, yOffset, xOffset) {
+	var yTop = findPosY(posEl) + yOffset;
+	var xLeft = findPosX(posEl) + xOffset;
+	var item = document.getElementById(el).style;
+	item.position = "absolute";
+	item.display = "block";
+	item.top = yTop + "px";
+	item.left = xLeft + "px";
+}
+
+
+
+// vert nav
+function vertNav(el, linkEl) {
+	var theEl = document.getElementById(el);
+	vertNavCloseAll();
+	resetLinks();
+	if (el == "all") {
+		vertNavShowAll();
+	}
+	else {
+		theEl.style.display = "";
+	}
+	if (linkEl.parentNode.className == "vertNavItem") {
+		linkEl.parentNode.className = "vertNavItemOn";
+	}
+	else {
+		linkEl.parentNode.className = "vertNavItem";
+	}
+}
+
+function resetLinks() {
+	var theLinks = document.getElementById("vertTabNav").getElementsByTagName("li");
+	for (i = 0; i < theLinks.length; i++) {
+		theLinks[i].className = "vertNavItem";
+	}
+}
+
+function vertNavCloseAll() {
+	var theDivs = document.getElementById("mappings").getElementsByTagName("table");
+	for (i = 0; i < theDivs.length; i++) {
+		theDivs[i].style.display = "none";
+	}
+}
+
+function vertNavShowAll() {
+	var theTables = document.getElementById("mappings").getElementsByTagName("table");
+	for (i = 0; i < theTables.length; i++) {
+		theTables[i].style.display = "";
+	}
+}
+
+// vert nav
+
+function vertNavSm(el, linkEl) {
+	var theEl = document.getElementById(el);
+	vertNavSmCloseAll();
+	resetLinksSm();
+	if (el == "all") {
+		vertNavSmShowAll();
+	}
+	else {
+		theEl.style.display = "block";
+	}
+	if (linkEl.parentNode.className == "vertNavItemSm") {
+		linkEl.parentNode.className = "vertNavItemSmOn";
+	}
+	else {
+		linkEl.parentNode.className = "vertNavItemSm";
+	}
+}
+
+function resetLinksSm() {
+	var theLinks = document.getElementById("vertTabNavSm").getElementsByTagName("li");
+	for (i = 0; i < theLinks.length; i++) {
+		theLinks[i].className = "vertNavItemSm";
+	}
+}
+
+function vertNavSmCloseAll() {
+	var theLists = document.getElementById("courses").getElementsByTagName("ul");
+	for (i = 0; i < theLists.length; i++) {
+		if (theLists[i].id.indexOf("li") > -1) {
+			theLists[i].style.display = "none";
+		}
+	}
+}
+
+function vertNavSmShowAll() {
+	var theTables = document.getElementById("courses").getElementsByTagName("ul");
+	for (i = 0; i < theTables.length; i++) {
+		theTables[i].style.display = "block";
+	}
+}
+
+// vert nav Row
+function vertNavRow(el, linkEl) {
+	var theEl = document.getElementsByTagName("tr");
+	vertNavCloseAllRow();
+	resetLinksRow();
+
+	for (i = 0; i < theEl.length; i++) {
+		if (theEl[i].id == el)
+			theEl[i].style.display = "";
+	}
+
+	if (linkEl.parentNode.className == "vertNavItem") {
+		linkEl.parentNode.className = "vertNavItemOn";
+	}
+	else {
+		linkEl.parentNode.className = "vertNavItem";
+	}
+}
+
+function resetLinksRow() {
+	var theLinks = document.getElementById("vertTabNav").getElementsByTagName("li");
+	for (i = 0; i < theLinks.length; i++) {
+		theLinks[i].className = "vertNavItem";
+	}
+}
+
+function vertNavCloseAllRow() {
+	var theDivs = document.getElementById("courses").getElementsByTagName("tr");
+	for (i = 0; i < theDivs.length; i++) {
+		if (theDivs[i].id != "")
+			theDivs[i].style.display = "none";
+	}
+}
+// vert nav Row Small
+function vertNavRowSm(el, linkEl) {
+	var theEl = document.getElementsByTagName("tr");
+	vertNavCloseAllRowSm();
+	resetLinksRowSm();
+
+	for (i = 0; i < theEl.length; i++) {
+		if (theEl[i].id == el)
+			theEl[i].style.display = "";
+	}
+
+	if (linkEl.parentNode.className == "vertNavItemSm") {
+		linkEl.parentNode.className = "vertNavItemSmOn";
+	}
+	else {
+		linkEl.parentNode.className = "vertNavItemSm";
+	}
+}
+
+function resetLinksRowSm() {
+	var theLinks = document.getElementById("vertTabNavSm").getElementsByTagName("li");
+	for (i = 0; i < theLinks.length; i++) {
+		theLinks[i].className = "vertNavItemSm";
+	}
+}
+
+function vertNavCloseAllRowSm() {
+	var theDivs = document.getElementById("courses").getElementsByTagName("tr");
+	for (i = 0; i < theDivs.length; i++) {
+		if (theDivs[i].id != "")
+			theDivs[i].style.display = "none";
+	}
+}
+
+//
+// Checkbox Check All
+//
+
+function ColumnCheckAll(checkBoxID, checkVal) {
+	for (i = 0; i < document.forms[0].elements.length; i++) {
+		var elm = document.forms[0].elements[i]
+		if (elm.type == 'checkbox') {
+			if (elm.id == checkBoxID)
+				elm.checked = checkVal
+		}
+	}
+}
+
+function ColumnPrefixCheckAll(checkBoxIDPrefix, checkVal) {
+	for (i = 0; i < document.forms[0].elements.length; i++) {
+		var elm = document.forms[0].elements[i]
+		if (elm.type == 'checkbox') {
+			if (elm.id.indexOf(checkBoxIDPrefix) >= 0) {
+				elm.checked = checkVal
+			}
+		}
+	}
+}
+
+function checkAllInRow(rowId, checkedValue) {
+	var chkBoxes = document.getElementById(rowId).getElementsByTagName("input");
+	for (i = 0; i < chkBoxes.length; i++) {
+		if (chkBoxes[i].type == "checkbox" && chkBoxes[i].id != "chkbxEmail") {
+			chkBoxes[i].checked = checkedValue;
+		}
+	}
+}
+
+//**************************************
+// Table Tab navigation
+//**************************************
+// el = element to show, linkEl = link to change, tabPos = tab position (ie, first, last or in between)
+function tableTabNav(el, linkEl, tabPos, page) {
+	var theEl = document.getElementById(el);
+	switch (page) {
+		case "search":
+			// use generic show / hide function
+			showHideElement(el);
+			break;
+		case "address":
+			tableTabNavCloseAll2();
+			theEl.style.display = "block";
+			break;
+		case "account":
+			tableTabNavCloseAll2();
+			theEl.style.display = "block";
+			break;
+		default:
+			tableTabNavCloseAll();
+			theEl.style.display = "block";
+			break;
+	}
+
+	tableTabNavResetLinks();
+	switch (tabPos) {
+		case "first":
+			linkEl.parentNode.className = "firstSelected";
+			break;
+		case "last":
+			linkEl.parentNode.className = "lastSelected";
+			break;
+		default:
+			linkEl.parentNode.className = "selected";
+			break;
+	}
+	linkEl.blur();
+}
+function tableTabNavCloseAll() {
+	var theDivs = document.getElementById("cont").getElementsByTagName("div");
+	for (i = 0; i < theDivs.length; i++) {
+		if (theDivs[i].id.indexOf("periodDiv") > -1) theDivs[i].style.display = "none";
+		//theDivs[i].style.display = "none";
+	}
+}
+
+function tableTabNavCloseAll2() {
+	var theDivs = document.getElementById("tableTabContent").getElementsByTagName("div");
+	for (i = 0; i < theDivs.length; i++) {
+		if (theDivs[i].id.indexOf("Div") > -1) theDivs[i].style.display = "none";
+		//theDivs[i].style.display = "none";
+	}
+}
+
+function tableTabNavResetLinks() {
+	var theLinks = document.getElementById("tableTabs").getElementsByTagName("li");
+	for (i = 0; i < theLinks.length; i++) {
+		//alert(i);
+		theLinks[i].className = "";
+		if (i == 0) theLinks[i].className = "first";
+	}
+}
+
+// Disable inputs in a div
+function setInputsEnabled(div, state) {
+	var els = div.getElementsByTagName("input");
+	for (i = 0; i < els.length; i++) {
+		els[i].disabled = !state;
+	}
+	els = div.getElementsByTagName("select");
+	for (i = 0; i < els.length; i++) {
+		els[i].disabled = !state;
+    }
+    els = div.getElementsByTagName("span");
+    for (i = 0; i < els.length; i++) {
+        els[i].disabled = !state;
+    }
+}
+
+// Clear inputs in a div
+function clearDiv(div) {
+	var els = div.getElementsByTagName("input");
+	for (i = 0; i < els.length; i++) {
+		if (els[i].type == "text") els[i].value = "";
+	}
+	els = div.getElementsByTagName("select");
+	for (i = 0; i < els.length; i++) {
+		els[i].value = "";
+	}
+}
+
+// functions to show text input format help within the text box, 
+// remove it when text box get's focus, and ensure format text doesn't interfere
+// with selecting the text box.
+
+// hide it onfocus
+function hideFormat(el) {
+	var theElStyle = document.getElementById(el).style;
+	theElStyle.visibility = "hidden";
+}
+// show it on blur if there is no value in the text box
+// if a value has been entered by a user, it stays hidden.
+// if the text box becomes empty, show it again.
+function showHelp(el, control) {
+	var theElStyle = document.getElementById(el).style;
+	if (control.value == '') {
+		theElStyle.visibility = "visible";
+	}
+	else {
+		theElStyle.visibility = "hidden";
+	}
+}
+
+function allowInputClick(el, txt) {
+	var theTextBox = document.getElementById(el);
+	var txtStyle = document.getElementById(txt).style;
+	txtStyle.visibility = 'hidden';
+	theTextBox.focus();
+}
+
+// new student menu (11/19/07) TODO: make reusable.
+
+function studentMenuOver(el) {
+	el.parentNode.parentNode.className = "studentMenuCellOver";
+}
+
+function studentMenuOut(el) {
+	el.parentNode.parentNode.className = "studentMenuCell";
+}
+
+// Drop-Down list helper functions
+function selectDropDownOption(dropDownList, selectedValue) {
+	for (var i = 0; i < dropDownList.options.length; i++) {
+		var option = dropDownList.options[i];
+		option.selected = (option.value == selectedValue);
+	}
+}
+
+function findSelectedText(dropDownList) {
+	var text;
+	var options = dropDownList.options;
+	for (var i = 0; i < options.length; i++) {
+		if (options[i].selected) {
+			text = options[i].text;
+			i = options.length + 1;
+		}
+	}
+	return text;
+}
+
+function findSelectedValue(dropDownList) {
+	var text;
+	var options = dropDownList.getElementsByTagName("option");
+	for (var i = 0; i < options.length; i++) {
+		if (options[i].selected) {
+			text = options[i].value;
+			i = options.length + 1;
+		}
+	}
+	return text;
+}
+
+function removeOptions(ddlId) {
+	_ddlId = ddlId;
+	var dropDownList = document.getElementById(ddlId);
+	if (dropDownList) {
+		var options = dropDownList.getElementsByTagName("option");
+		for (var i = options.length - 1; i >= 0; i--) {
+			dropDownList.removeChild(options[i]);
+		}
+	}
+}
+
+function addOptions(ddlId, newOptions) {
+	var dropDownList = document.getElementById(ddlId);
+	if (dropDownList) {
+		var myEle;
+		var txt;
+		for (var i = 0; i < newOptions.length; i++) {
+			var currOption = newOptions[i];
+			myEle = document.createElement("option");
+			if (currOption.childNodes[0]) {
+				myEle.text = currOption.childNodes[0].nodeValue;
+			}
+			myEle.value = currOption.getAttribute("value");
+			dropDownList.options.add(myEle);
+		}
+	}
+}
+
+function setCascadingDropDownValues(handler, sourceDropDown, destinationDropDown, queryKey) {
+	removeOptions(destinationDropDown);
+	xmlhttp = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
+	xmlhttp.onreadystatechange = function () {
+		changeDestinationOptions(destinationDropDown);
+	}
+	// Send the request. 
+	xmlhttp.open("POST", handler);
+	xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	var field = document.getElementById(sourceDropDown);
+	xmlhttp.send(queryKey + "=" + findSelectedValue(field));
+}
+
+function setCascadingDropDownValuesTwoParameters(handler, sourceDropDown, destinationDropDown, valueForm, firstQueryKey, queryKey) {
+	removeOptions(destinationDropDown);
+	xmlhttp = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
+	xmlhttp.open("POST", handler, false);
+	xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	var field = document.getElementById(sourceDropDown);
+	xmlhttp.send(firstQueryKey + "=" + valueForm + "&" + queryKey + "=" + findSelectedValue(field));
+	changeDestinationOptions(destinationDropDown);
+	changeDropDownWidth(destinationDropDown);
+}
+
+function changeDropDownWidth(ddlId) {
+	var dropDownList = document.getElementById(ddlId);
+	if (dropDownList.length == 1) {
+		dropDownList.style.width = "100px";
+	}
+	else {
+		dropDownList.style.width = "";
+	}
+
+}
+
+function changeDestinationOptions(destinationDropDown) {
+	if ((xmlhttp.readyState == 4) && (xmlhttp.status == 200)) {
+		dom = LoadXmlString(xmlhttp.responseText);
+		var tree = dom.documentElement;
+		var nodes = tree.childNodes;
+		addOptions(destinationDropDown, nodes);
+	}
+}
+
+function LoadXmlString(xmlString) {
+	var xmlDoc;
+	try { //Internet Explorer
+		xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+		xmlDoc.async = false;
+		xmlDoc.loadXML(xmlString);
+	}
+	catch (e) {
+		try { //Firefox, Mozilla, Opera, etc.
+			var parser = new DOMParser();
+			xmlDoc = parser.parseFromString(xmlString, "text/xml");
+		}
+		catch (e) { alert(e.Message); }
+	}
+	return xmlDoc;
+}
+
+
+/* help to transfers nodes */
+function nextObject(n) {
+	do n = n.nextSibling;
+	while (n && n.nodeType != 1);
+	return n;
+}
+
+/* generic css class changer */
+function swapClassName(el, curClass, newClass) {
+	var swapItem = document.getElementById(el);
+	if (swapItem.className == curClass) {
+		swapItem.className = newClass;
+	}
+	else {
+		swapItem.className = curClass;
+	}
+}
+
+
+function showInLightbox(overlay, box, isIe6) {
+
+	if (!isIe6) {
+		// dark background
+		document.getElementById(overlay).style.display = "block";
+		// content container
+		document.getElementById(box).style.display = "block";
+		// ensure background covers entire height of the page
+		document.getElementById(box).style.height = document.documentElement.scrollHeight + "px";
+	}
+
+	//fix ie6
+	else {
+		var divCont = document.getElementById("overlayContainer");
+		var theIframe = document.createElement("iframe");
+		theIframe.className = "lightboxDarkOverlay";
+		theIframe.id = "fade";
+		theIframe.frameBorder = "0";
+		divCont.appendChild(theIframe);
+		var iframeDoc = document.getElementById("fade").contentWindow.document;
+		iframeDoc.write("<html><body style='background-color:black; filter:alpha(opacity=80)'></body></html>");
+		document.getElementById(overlay).style.display = "block"; 									// dark background
+		document.getElementById(box).style.display = "block"; 										// content container
+		document.getElementById(box).style.height = document.documentElement.scrollHeight + "px"; 	// ensure background covers entire height of the page
+		document.getElementById(box).style.width = document.documentElement.scrollWidth + "px";
+		//document.getElementById(box).style.width = "400px";
+	}
+}
+
+function hideLightBox(lightBox) {
+	var divContentLightBox = document.getElementById(lightBox);
+	var divBackground = document.getElementById("fade");
+	if (divContentLightBox != null)
+		divContentLightBox.style.display = "none";
+	if (divBackground != null)
+		divBackground.style.display = "none";
+}
+
+
+function isIE6Explorer() {
+	var isIe6;
+	//Check the explorer    
+	if (navigator.appVersion.indexOf("IE 6.0") != -1) {
+		isIe6 = true;
+		//delete the fade div
+		var fadeDiv = document.getElementById("fade");
+		var content = fadeDiv.parentNode;
+		if (fadeDiv != null)
+			content.removeChild(fadeDiv);
+	}
+	else
+		isIe6 = false;
+
+	return isIe6;
+}
+
+//[SAT 03-May-2011] Code Change for Internationalization
+//Function called onchange of CountryDropDown and on tabbing out of TelephoneTextbox
+//to format the telephone entered based on the country selected in the dropdown
+function applyPhoneFormat(phoneMaskID, phoneFormatID, phoneValueID, countryID, calledFrom) {
+	var phoneNumber;
+	var formatConstant = "@";
+	//If the call is from on tab out of text box get the country value as the value entered in textbox
+	//If the call is from onchange of dropdown take the value from hidden unformatted phone value
+	if (calledFrom == "A")
+		phoneNumber = document.getElementById(phoneMaskID).value;
+	else
+		phoneNumber = document.getElementById(phoneValueID).value;
+
+	if (phoneNumber != "") {
+		var phoneFormat;
+		phoneFormat = getPhoneFormat(phoneFormatID, countryID);
+
+		if (phoneFormat) {
+			//Set the formatted value to the TelephoneTextbox
+			document.getElementById(phoneMaskID).value = applyFormat(phoneNumber, phoneFormat, formatConstant);
+		}
+		else {
+			document.getElementById(phoneMaskID).value = phoneNumber;
+		}
+	}
+	//Set the unformatted value to the hidden value
+	document.getElementById(phoneValueID).value = phoneNumber;
+}
+
+function applyFormat(phoneNumber, phoneFormat, formatConstant) {
+	var formattedPhoneValue = "";
+	var valueIndex = 0;
+	var extraChar;
+	extraChar = phoneNumber;
+
+	var formatLength = phoneFormat.length;
+	var phoneLength = phoneNumber.length;
+	//Loop through the format and substitute the phone format accordingly
+	for (var index = 0; index < formatLength; index++) {
+		var character;
+		character = phoneFormat.substring(index, index + 1);
+		if (character == formatConstant) {
+			formattedPhoneValue += phoneNumber.substring(valueIndex, valueIndex + 1);
+			extraChar = phoneNumber.substring(valueIndex + 1, phoneLength);
+			if (extraChar == "") {
+				break;
+			}
+			valueIndex++;
+		}
+		else {
+			formattedPhoneValue += character;
+		}
+	}
+
+	if (extraChar != "") {
+		formattedPhoneValue += extraChar;
+	}
+
+	return formattedPhoneValue;
+}
+//[SAT 03-May-2011] Code Change for Internationalization
+//Function to get the phone format of the selected country
+//from the array of countryID and Phoneformat stored in hidden value
+function getPhoneFormat(phoneFormatID, countryID) {
+	var countryDropDown = document.getElementById(countryID);
+	var selectedOption = countryDropDown.options[countryDropDown.selectedIndex];
+	var selectedID = selectedOption.value;
+
+	var phoneInfo = document.getElementById(phoneFormatID).value;
+	var arrPhoneFormat;
+	var arrPhoneInfo;
+	arrPhoneInfo = phoneInfo.split("~");
+	var arrPhoneInfoLength = arrPhoneInfo.length;
+
+	for (var index = 0; index < arrPhoneInfoLength; index++) {
+		arrPhoneFormat = arrPhoneInfo[index].split("^");
+		if (arrPhoneFormat[0] == selectedID) {
+			return arrPhoneFormat[1];
+		}
+	}
+}
+
+//[SAT 03-May-2011] Code Change for Internationalization
+//Function called onfocus of TelephoneTextbox
+//UnFormat the TelephoneTextbox and set the caretposition at the end
+function reFormat(phoneMaskID, phoneValueID) {
+	var obj = document.getElementById(phoneMaskID);
+	var hiddenPhoneValue = document.getElementById(phoneValueID).value;
+	if (hiddenPhoneValue) {
+		document.getElementById(phoneMaskID).value = hiddenPhoneValue;
+		var caretpos = hiddenPhoneValue.length;
+		setCaretPosition(obj, caretpos);
+	}
+}
+
+//[SAT 03-May-2011] Code Change for Internationalization
+//Function to set the caretposition of a control at the given length
+function setCaretPosition(ctrl, pos) {
+	if (ctrl.setSelectionRange) {
+		ctrl.focus();
+		ctrl.setSelectionRange(pos, pos);
+	}
+	else if (ctrl.createTextRange) {
+		var range = ctrl.createTextRange();
+		range.collapse(true);
+		range.moveEnd('character', pos);
+		range.moveStart('character', pos);
+		range.select();
+	}
+}
+
+//[Sathyan 19-Sep-2011] Code Change for Internationalization
+//Generic function to validate government id thru cusstom Validator
+//[Thirunavukkarasu 28 Dec 2012] Code change to validate govt Id format according to format stored in institution settings
+function validateCustomGovernmentID(source, clientside_arguments) {
+	//Fetch the length of values entered in govt id textbox
+	var govLength = document.getElementById(source.previousSibling.previousSibling.id).value.length;
+	var govId = document.getElementById(source.previousSibling.previousSibling.id).value;
+	var govFormat = source.govtIdFormat;
+	var errorFlag = 0;
+
+	if (govId.length != govFormat.length) {
+		clientside_arguments.IsValid = false;
+		return;
+	}
+
+	for (var i = 0; i < govFormat.length; i++) {
+		if (govFormat.charAt(i) == '#') {
+			if (isNaN(govId.charAt(i))) {
+				errorFlag = 1;
+				clientside_arguments.IsValid = false;
+				break;
+			}
+		}
+		else if (govFormat.charAt(i) == 'X') {
+			//No validation for X. This space is left in case validation needs to be added in future.
+		}
+		else {
+			errorFlag = 1;
+			clientside_arguments.IsValid = false;
+		}
+	}
+	if (errorFlag == 0) {
+		clientside_arguments.IsValid = true;
+	}
+}
+
+//Function to set word-wrapping style for element 
+function setStyle(tableID, tableValue, wrapElementID, wrapElementValue) {
+	var table = document.getElementById(tableID);
+	table.style.tableLayout = tableValue;
+
+	var element = document.getElementById(wrapElementID);
+	element.style.wordWrap = wrapElementValue;
+}
+
+//US007895: jQueryUI implementation to display the light box
+function showLightBoxUI(divId, title, height, width, calledFromSearch) {
+    $("#" + divId).dialog({
+        title: title,
+        position: { my: "center center", at: "center center" },
+        maxHeight: height,
+        width: width,
+        draggable: false,
+        resizable: false,
+        modal: true
+    });
+
+    if (calledFromSearch) {
+        $("#" + divId).on("dialogclose", search.ClearControls());
+        //Setting the minimum height required for the search results to be displayed in the window
+        $("#" + divId).dialog("option", "minHeight", height);        
+    }
+    else {
+        //Hiding the title since its already part of the div in Checklist pages
+        $("#" + divId).dialog("option", "dialogClass", "no-close");
+
+        //Handling the postback to fire for Save button in Checklist pages
+        $('.ui-widget-overlay').appendTo("form");
+        $("#" + divId).parent().appendTo("form");
+    }
+}
+
+function openDialog(divId, Url, NotificationMessage, Height, Width) {
+	var url = Url;
+	var message = NotificationMessage;
+	$("#" + divId).dialog({
+		height: Height,
+		width: Width,
+		modal: true,
+		resizable: false,
+		draggable: false,
+		closeOnEscape: false,
+		dialogClass: "no-close",
+		title: message.toString(),
+		open: function () {
+			$(this).load(url).parent();
+		},
+		close: function (e) {
+			$("#" + divId).empty();
+			$("#" + divId).dialog('close');
+		}
+	})
+	return false;
+}
+
+function CloseDialag(divId) {
+	$("#" + divId).dialog('close');
+	return false;
+}
+//US007895: jQueryUI implementation to hide the light box
+function hideLightBoxUI(divId) {
+    //Call to jQuery-ui function
+    $("#" + divId).dialog("close");
+}

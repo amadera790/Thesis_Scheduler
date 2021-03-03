@@ -1,0 +1,1701 @@
+﻿/************************************************************/
+/* web parts */
+/************************************************************/
+.webPartPadding { padding: 0px 10px; }
+/* temporary styles for demonstrations of app */
+table.webchromecontent { font-size:.7em; margin-bottom:10px; }
+td.webpartchromeheader { background:url(../../App_Themes/Default/Images/module_head_blue_r.gif) no-repeat top right; height:24px; padding:0px; margin:0px; }
+/* for standards browsers (not IE 6) */
+td.webpartchromeheader table tr td:first-child { background:url(../../App_Themes/Default/Images/module_head_blue_l.gif) no-repeat top left; height:24px; position:relative; top:-2px; left:-2px; padding:0px; margin:0px; }
+td.webpartchromeheader table tr td:first-child span { display:block; padding-left:10px; float:left; color:#003659; font-weight:bold; }
+td.webpartchromeheader a { position:relative; top:0px; left:-5px; }
+.thTableHead { border-bottom:1px #a4bcca solid }
+.transcripts { font-weight:bold; color:#999;  font-size:1em; border-bottom:1px #ccc dotted; padding:0px 0px 3px 0px; margin:0px 0px 6px 0px; } /* H2 */
+.transHeader3 { margin:0px; padding:0px; font-size:.8em; }
+
+.pageInstructions { font-size:.75em; }
+
+.nopad { padding:10px; margin:0px; }
+
+/* MODULES */
+/* General */
+.leftModuleGrey h2, #loginModule .leftModuleGrey h2  { background:url(../../App_Themes/Default/Images/module_head_grey.gif) no-repeat top left; height:14px; width:141px; font-weight:bold; font-size:.7em; color:#2c2c2c; padding:5px 10px; margin:0px; }
+.leftModuleGreyBot { width:161px; background: url(../../App_Themes/Default/Images/module_bot_grey.gif) no-repeat top left; }
+.leftModuleGreyContent { width:147px; background-color:#f8f8f8; border-left: 1px #a0a0a0 solid; border-right: 1px #a0a0a0 solid; padding:10px 6px 4px 6px; }
+
+.moduleBlue { margin:0px 10px 10px 0px; background:url(../../App_Themes/Default/Images/module_head_blue_r.gif) no-repeat top right; }
+.moduleBlue h2 { background:url(../../App_Themes/Default/Images/module_head_blue_l.gif) no-repeat top left; height:14px; font-weight:bold; font-size:.7em; color:#003659; padding:5px 10px; margin:0px; }
+/* expandable version of moduleBlue */
+.headerBlue { background:url(../../App_Themes/Default/Images/module_head_blue_c.gif) repeat-x top left; }
+.headerBlue div { background:url(../../App_Themes/Default/Images/module_head_blue_r.gif) no-repeat top right; }
+.headerBlue h2 { background:url(../../App_Themes/Default/Images/module_head_blue_l.gif) no-repeat top left; height:14px; font-weight:bold; font-size:.7em; color:#003659; padding:5px 10px; margin:0px; }
+
+/* non-rounded */
+.headerBlueSimple { background:url(../../App_Themes/Default/Images/module_head_blue_c.gif) repeat-x top left; height:14px; font-weight:bold; font-size:.7em; color:#003659; padding:5px 10px; margin:0px;  }
+.headerBlueSimple .up { background:url(../../App_Themes/Default/Images/header_blue_arrow_up.gif) no-repeat 98% .15em; }
+.headerBlueSimple .down { background:url(../../App_Themes/Default/Images/header_blue_arrow_down.gif) no-repeat 98% .17em; }
+
+.headerGreen { background:url(../../App_Themes/Default/Images/module_head_green_c.gif) repeat-x top left; }
+.headerGreen div { background:url(../../App_Themes/Default/Images/module_head_green_r.gif) no-repeat top right; }
+.headerGreen h2 { background:url(../../App_Themes/Default/Images/module_head_green_l.gif) no-repeat top left; height:14px; font-weight:bold; font-size:.7em; color:#115e3e; padding:5px 10px; margin:0px; }
+
+/* Dual Header (initial use: admin tool) */
+.h2Left { width:330px; }
+.h2WideLeft { width:520px; }
+.h2Right { background:url(../../App_Themes/Default/Images/module_separator.gif) no-repeat center left; white-space:nowrap; }
+.dualHeader { background:url(../../App_Themes/Default/Images/module_head_blue_c.gif) repeat-x top left; height:24px; }
+.dualHeader h2 { float:left; font-size:.7em; color:#003659; padding:5px 14px; height:14px; font-weight:bold; margin:0px; }
+.dualHeader .h2Left { background:url(../../App_Themes/Default/Images/module_head_blue_l.gif) no-repeat top left; }
+.dualHeader div {margin:0px; background:url(../../App_Themes/Default/Images/module_head_blue_r.gif) no-repeat top right; height:24px; }
+
+/* Login */
+#loginModule { width:160px; }
+/*#loginModule label { display:block; font-size:.7em; font-weight:bold; }*/
+#loginModule .txtBox {width:140px;}
+.loginLabel { display:block; font-size:.7em; font-weight:bold; }
+#loginModule span span { font-size:.7em; display:block; }
+
+
+
+/* left nav module: used for 3rd level nav and login */
+#leftNav { background:#eee url(../../App_Themes/Default/Images/leftnav_bg.jpg) no-repeat top left; width:140px; padding:10px 10px 0px 10px; }
+#leftLogin { background:#eee url(../../App_Themes/Default/Images/leftnav_bg.jpg) no-repeat top left; width:140px; padding:0px 10px; }
+#leftNavBot, .leftLoginBot { background:url(../../App_Themes/Default/Images/leftnav_bg_bot.jpg) no-repeat top left; height:14px; margin-bottom:10px; }
+#leftLogin .txtBox{border:1px #bbc solid; width:128px; margin:0px; padding:0px; height:20px; }
+#leftLogin h2 { background:url(../../App_Themes/Default/Images/login_line.gif) repeat-x bottom left; margin:0px 0px 8px 0px; padding:6px 0px 8px 0px; font-size:.8em; font-weight:bold; color:#333; }
+#leftLogin label { font:bold; color:#667; }
+#leftLogin .loginButton {color:#667; padding:2px 4px; background:url(../../App_Themes/Default/Images/bg_btn_grey.jpg) bottom left repeat-x;
+	 border-top: 2px #efefef solid; border-right: 2px #ccc solid; border-bottom: 2px #ccc solid; border-left:2px #efefef solid;}
+#leftLogin .forgotPasswordLink { display:block; margin-bottom:4px; padding-bottom:6px; font-weight:bold; font-size:.65em; background:url(../../App_Themes/Default/Images/login_line.gif) repeat-x bottom left; }
+
+
+/*#leftLogin span table, #leftLogin span, #leftLogin span span {border:1px #f00 solid; margin:0px; padding:0px;}*/
+
+ul#ulLeftNav { margin:0px; padding:0px; width:139px; border-bottom:1px solid #ccc; background:#fff; }
+ul#ulLeftNav li { position:relative; list-style:none; }
+ul#ulLeftNav li a, ul#ulLeftNav .leftNavSelected { display:block; text-decoration:none; color:#777; padding:4px 10px; border:1px solid #ccc; border-bottom:0px; width:118px; }
+ul#ulLeftNav li a:hover, ul#ulLeftNav .leftNavSelected { color:#237bba; background:transparent url(../../App_Themes/Default/Images/leftnav_selected_bg.jpg) repeat-y top left; }
+
+/* GLOBAL SEARCH */
+.searchButton { background:url(../../App_Themes/Default/Images/bg_btn_grey.jpg) bottom left repeat-x; 
+	border:2px #ccc solid; border-top:2px #efefef solid; border-left:2px #efefef solid; letter-spacing:1px;
+	font-weight: bold; font-size:.8em; color:#667; padding:4px 9px; }
+.searchButton:hover {  border:2px #aaa solid; border-top: 2px #dedede solid; border-left:2px #dedede solid; }
+
+/******************** CALENDAR DATE PICKER ********************/
+
+.calendarContainer {
+	border:1px #5a86Ad solid;
+	width:270px;
+}
+.calendarPopUp {
+	background: #fff url(../../App_Themes/Default/Images/bg_cal.jpg) no-repeat bottom right;
+	font-size:.75em;
+}
+
+.calendarPopUp td {
+	padding:0px;
+}
+.calendarPopUp td a:link,
+.calendarPopUp td a:active,
+.calendarPopUp td a:visited {
+	text-decoration:none;
+	color:#333;
+	display:block;
+	padding:6px 10px;
+	font-weight:bold;
+}
+.calendarNav td {
+	background:url(../../App_Themes/Default/Images/bg_cal_head.gif) repeat-x top center;
+	padding:4px;
+}
+
+.dayHeader { 
+	background:url(../../App_Themes/Default/Images/bg_cal_days_head.gif) repeat-x bottom left;
+	height:28px;
+	border-bottom:1px #8FABC0 solid;
+	font-size:.9em;
+	padding:3px;
+	color:#445;
+	
+}
+.selectedDay {
+	background-color:#f00;
+}
+
+.todayDay {
+	border:1px #69c solid;
+}
+
+.otherMonthDay {
+	background-color:#CEDCE6;
+}
+
+.calendarPopUp td.otherMonthDay a:link {
+	font-weight:normal;
+	color:#777;
+}
+.monthNavLinkL:link, 
+.monthNavLinkL:active,
+.monthNavLinkL:visited,
+.monthNavLinkR:link,
+.monthNavLinkR:active,
+.monthNavLinkR:visited {
+	width:28px;
+	height:10px;
+	display:block;
+	vertical-align:middle;
+	text-align:center;
+	border:1px #87A6BC solid;
+	background:url(../../App_Themes/Default/Images/bg_cal_btn.gif) repeat-x top left;
+	padding:4px;
+}
+
+/* COMMON FORM STYLES */
+.singleColumnForm { float:left; }
+.containerRow { clear:both; white-space:nowrap; padding:4px 0px; }
+.labelCell { 
+	float:left; 
+	width:150px; 
+	text-align:right; 
+	padding:0px 10px; 
+}
+.labelCellWide { 
+	float:left; 
+	width:30%; 
+	text-align:right; 
+	padding:0px 10px; 
+}
+.fieldCell {
+	float:left;
+	vertical-align:top;
+	font-size:.75em;
+	margin-top:4px;
+}
+.fieldCell span {
+
+}
+.labelCell label { float:right; }
+
+.labelCell .required, .labelText, .labelRequiredText, .labelReadOnly { font-size:.7em; font-weight:bold; text-align:right; color:#666; padding-left:20px; }
+.labelReadOnlyWithoutPadding {font-size:.7em; font-weight:bold; text-align:right; color:#666; padding-left:0px;}
+.labelText:first-letter { border-bottom:1px #666 solid; padding-bottom:2px; }
+.labelCell .required:first-letter, .labelRequiredText:first-letter { border-bottom:1px #666 solid; padding-bottom:2px; }
+.labelCell .required, .labelRequiredText { background:url(../../App_Themes/Default/Images/diamond.gif) no-repeat left center; }
+
+
+.leftCol { float:left; width:33%;  }
+.rightCol { float:left; width:33%; border:1px #ff0000 solid; }
+.thirdCol { float:left; width:33%; border:1px #ff0000 solid; }
+.fieldgroup {
+	border-width:0px;
+	border-top:1px #ccc solid;
+	padding:10px 0px 10px 0px;
+
+	/* 
+		border-bottom:1px #ccdae2 solid; padding:10px; margin:10px; width:95%;
+		background:#e5ecf0 url(../../App_Themes/Default/Images/bg_fieldset_gradient.jpg) repeat-x top left;
+	*/
+}
+
+.fieldgroup .containerRow { white-space:normal; }
+.fieldgroup label { 
+	float:left; 
+	width:150px; 
+	text-align:right; 
+	padding:0px 10px; 
+	display:block;
+	font-weight:bold; 
+	text-align:right; 
+	color:#666; 
+	padding-left:20px;
+}
+.fieldgroup input {
+	float:left;
+	vertical-align:top;
+}
+.fieldgroup .required:first-letter {
+	background:url(../../App_Themes/Default/Images/diamond.gif) no-repeat left center;
+	padding-left:10px;
+}
+
+legend {
+	padding:0px 10px 4px 10px;
+	/*
+	font-size:.75em; font-weight:bold; 
+	border:1px #ccdae2 solid; border-width:1px 1px 0px 1px;
+	background-color:#fff; padding:4px 15px; margin-left:-11px;
+	*/
+}
+.fieldgroup td label {
+	
+}
+
+.userInputContainer, .userRolesContainer, .userInputContainerNew, userRolesContainerDelete { float:left; padding:10px; }
+.userInputContainer { width:370px; } 
+.userInputContainer .labelCell, .userRolesContainerDelete .labelCell { width:150px; }
+.userRolesContainer {margin-left:-10px;}
+.userRolesContainer .labelText { font-weight:normal; padding:0px; color:#444; position:relative;top:-2px;}
+.userRolesContainerDelete {width:550px;padding-top:10px; line-height:10px; font-size:.7em; }
+.userInputContainerWide { width:100%; }
+.userInputContainerWide .labelCell { width:200px; }
+.userInputContainerNew { width:550px; }
+.userInputContainerNew .labelCell { width:200px; }
+
+.buttonRow { text-align:center; clear:both; 
+	background:url(../../App_Themes/Default/Images/gradient_footer_blue.gif) repeat-x top left;
+	padding:8px 0px 20px 0px; margin:0px; font-size:.75em;
+}
+
+div.buttonRow .glassFormButtonMed,
+.buttonRow2 .glassFormButtonMed,
+.buttonRow3 .glassFormButtonMed {
+	margin-right:4px; margin-left:4px;
+	padding-left:20px; padding-right:20px;
+}
+
+.buttonRow2 { text-align:center; clear:both; 
+	background:url(../../App_Themes/Default/Images/gradient_footer_blue.gif) repeat-x top left;
+	padding:8px 0px 20px 0px; margin:0px;
+}
+
+.buttonRow3 { text-align:center; clear:both; 	
+	padding:0px 0px 20px 0px; margin:0px;	
+}
+
+.pageMessage { font-weight:bold; color:#667; }
+.successMessage { font-weight:bold; color:#51734d; }
+.errorMessage { color:#bd3115; }
+.errorMessage2 {color:#db4242; font-size:.7em; font-weight:bold;} 
+
+/***********************************************************************************/
+/********************************     MESSAGES     *********************************/
+/***********************************************************************************/
+
+/* Form field validation Error */
+.formValidationError {
+	display:block;
+	background:url(../../App_Themes/Default/Images/form_alert_icon.gif) no-repeat left center;
+	padding:0px 0px 0px 18px;
+	color:#db4242;
+	font-size:.7em;
+}
+
+/* Form field validation Error */
+.formValidationError1 {
+	display:block;
+	background:url(../../App_Themes/Default/Images/form_alert_icon.gif) no-repeat left center;
+	padding:0px 0px 0px 18px;
+	color:#db4242;
+	font-size:1em;
+}
+
+/* Form field validation Error */
+/*.warningMessage {
+	display:block;
+	background:url(../../App_Themes/Default/Images/warning_icon.gif) no-repeat;
+	padding:0px 0px 0px 18px;
+	color:#FBB117;
+	font-size:1em;
+}*/
+
+.formValidationErrorInline {
+	display:inline;
+	background:url(../../App_Themes/Default/Images/form_alert_icon.gif) no-repeat left center;
+	padding:0px 0px 0px 18px;
+	color:#db4242;
+	font-size:.7em;
+}
+
+.formValidationErrorline {
+	display:inline;
+	padding:0px 0px 0px 18px;
+	color:#db4242;
+	font-size:1em;
+}
+
+.formValidationErrorColumn {
+	display:inline;
+	padding:0px 0px 0px 0px;
+	color:#db4242;
+	font-weight:bold;
+	font-size:1em;
+}
+
+.loginFailure {
+	display:block;
+	background:url(../../App_Themes/Default/Images/form_alert_icon.gif) no-repeat 0px 2px;
+	padding:0px 0px 0px 18px;
+	color:#db4242;
+	font-size:.7em;
+	margin-top:0px;
+}
+/* login module */
+.loginFailureSm {
+	display:block;
+	background:url(../../App_Themes/Default/Images/form_alert_icon.gif) no-repeat 0px 2px;
+	padding:0px 0px 10px 18px;
+	color:#db4242;
+	font-size:.7em;
+	margin-top:0px;
+	width:12em;
+}
+
+/* Alert Messages For Registration */
+.msgAlert { 
+	padding:0px 0px 0px 24px;
+	color:#db4242;
+	font-size:.8em; font-weight:bold;
+	display:block;
+}
+
+/* Information Messages For ConEd Registration */
+.msgInfo { 
+	color:#db4242;
+	font-size:.8em; font-weight:bold;
+	display:block;
+}
+
+.msgWarning {
+	background: url(../../App_Themes/Default/Images/warning_icon.gif) no-repeat 4px 3px;
+	padding:0px 0px 0px 24px;
+	color:#d37325;
+	font-size:.8em; font-weight:bold;
+}
+
+.msgWarningReg {
+	background:#fff url(../../App_Themes/Default/Images/warning_icon.gif) no-repeat 4px 3px;
+	padding:0px 0px 0px 30px;
+	color:#d37325;
+	font-size:.8em; font-weight:bold;
+}
+
+.msgTableWarning {
+	background: url(../../App_Themes/Default/Images/icon-warning.png) no-repeat;
+	padding:0px 0px 0px 24px;	
+	color:#d37325;
+	font-size:.8em; font-weight:bold;	
+}
+
+/*
+.rolesContainer { position:absolute; top:250px; left:600px; width:300px; }
+.rolesContainer .labelText, 
+.rolesContainer .labelText:first-letter { font-weight:normal; padding:0px; border-width:0px; }
+*/
+
+
+/* admin - settings form */
+#settingsForm { margin:0; }
+#settingsForm .formHeader {
+	background:url(../../App_Themes/Default/Images/tab_slider_header_light.gif) repeat-x top left; 
+	margin:0px;
+	padding:6px 14px;
+	font-size:.75em; height:14px; border:1px #cbdeeb solid;
+	color:#00355e;
+	
+}
+#settingsForm fieldset {
+	background:url(../../App_Themes/Default/Images/tab_slider_shadow_light.gif) repeat-x top left;
+	margin:0px; padding:12px 10px 16px 10px; border-style:none;
+}
+
+#settingsForm .containerRow { white-space:normal; }
+#settingsForm label {
+	display:block;
+	float:left;
+	width:12em; 
+	padding:1px 10px 1px 10px; 
+	font-size:.75em;
+	font-weight:normal;
+	text-align:left;
+	color:#666;
+}
+/*
+#settingsForm label:hover {
+	color:#036;
+	background-color:#f3f6f8;
+}
+*/
+
+
+#settingsForm input {
+	float:left;
+	margin:1px 10px 1px 0px;
+	padding:1px 3px;
+}
+
+#settingsForm .required:first-letter {
+	background:url(../../App_Themes/Default/Images/diamond.gif) no-repeat left center;
+	padding-left:20px;
+	margin-left:-10px;
+}
+#settingsForm .newRequired {
+	background:url(../../App_Themes/Default/Images/icon_required.gif) no-repeat 24.5em .4em;
+}
+#settingsForm fieldset.xSm label {
+	width:10em;
+	font-weight:bold;
+	font-size:.7em;
+}
+
+#settingsForm fieldset.sm label {
+	width:14em;
+}
+
+#settingsForm fieldset.med label {
+	width:14em;
+}
+
+#settingsForm fieldset.long label {
+	width:24em;
+}
+
+
+/* input format info displayed next to input */
+
+.inputHelpText {
+	 position:relative;left:-222px; top:-1px;
+	 font: normal .7em Verdana, Arial, Helvetica, sans-serif;
+	 color:#666;
+}
+
+
+
+/***********************************************************/
+/*    Simple Form    */
+/***********************************************************/
+
+/* original, re-use for simple forms that are broken out into area, but no need for a legend.
+.simpleForm {
+	padding:.5em 0 .5em 0;
+	border-width:0px;
+	border-top:1px #ccc solid;
+}
+*/
+.simpleForm {
+	padding:.5em 0 0 0;
+	border-width:0px;
+	margin:.5em 0 0 0;
+	border-top:.08em #ccc solid;
+}
+
+.simpleForm legend {
+	padding:10px 10px 10px 0px;
+	background-color:#fff;
+	font-size:.8em;
+	font-weight:bold;
+}
+
+.simpleForm ol {
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+.simpleForm ol li {
+	padding:.2em 0;
+	clear:left;
+}
+
+.simpleForm ol label {
+	font-size:.7em;
+	display:block;
+	width:15.05em;
+	float:left;
+	color:#666;
+	font-weight:bold;
+	padding-left:0em; /*Changed here - Vijay*/
+	padding-right:1em;
+	padding-top:2px;
+}
+.simpleForm ol label.required {
+	background:url(../../App_Themes/Default/Images/icon_required.gif) no-repeat 14.8em .4em;
+	padding:0em 1em 0em 0em;
+}
+
+.simpleForm ol label.customrequired 
+{
+	float:none;	
+	width:auto;
+	background:url(../../App_Themes/Default/Images/icon_required.gif) no-repeat 0em .3em;
+	padding-left:.8em;
+}
+
+.simpleForm .multilinelabel label.required 
+{
+	float:none;	
+	width:auto;
+	background:url(../../App_Themes/Default/Images/icon_required.gif) no-repeat 0em .3em;
+	padding-left:.8em;
+}
+
+/*label em {
+	position:absolute;
+	left:30em;
+	margin-top:.25em;
+}*/
+
+.text {
+	width:20em;
+}
+
+.simpleForm textarea {
+	margin:0;
+	padding:0;
+	width:16em;
+}
+
+.simpleForm input {
+	margin:0;
+	padding:0;
+}
+.formErrorOneLine {
+	border:1px #eda0a0 solid;
+	background:#fff url(../../App_Themes/Default/Images/form_alert_icon.gif) no-repeat 4px 4px;
+	margin-left:10px;
+	padding:2px 10px 4px 20px;
+	font-size:.7em;
+	color:#db4242;
+	text-align:left;
+	position:absolute;
+	display:inline;
+	white-space:nowrap;
+}
+
+.checkBoxValidation span {
+	position:absolute; left:210px;
+	padding-top:10px;
+	width:10em;
+	background:#fff url(../../App_Themes/Default/Images/form_alert_icon.gif) no-repeat 2px 12px;
+}
+
+/* alert box arrow */
+.simpleForm .alertArrow {
+	position:relative;
+	top:2px;
+	left:-25px;
+	margin:0px -5px 0px 0px;
+}
+
+.simpleForm ol label.level2 {
+	
+	display:inline;
+	font-size:.75em;
+	font-weight:normal;
+	margin:0;
+	float:none;
+	width:auto;
+}
+
+.simpleForm .calIconLink { 
+	position:relative;
+	top:4px;
+	left:5px;
+	border-width:0px;
+	margin-right:9px;
+}
+
+.simpleForm .rightColContainer {
+	margin-left:11.25em;
+}
+
+.simpleFormButtonRow {
+	background:url(../../App_Themes/Default/Images/gradient_footer_blue.gif) repeat-x top left;
+	padding:.8em 0em 0em 10.8em;
+	margin:0px;
+}
+
+.simpleForm .btnSmall, .simpleForm .btnRemove {
+	border-style:solid; border-width:1px; border-color:#bfbfbf #919499 #919499 #bfbfbf;
+	background:url(../../App_Themes/Default/Images/bg_glass_button.gif) center center; 
+	margin:0px 4px 0px 0px;
+	padding:2px 10px;
+	font-size:.9em;
+	color:#556;
+}
+
+.simpleForm .btnRemove {
+	font-weight:bold;
+	color:#cc0000;
+	margin:0px 4px 0px 4px;
+}
+
+
+.requiredLegend {
+	color:#AF3838;
+	font-size:.75em;
+	background-color:#fff;
+	padding:0 0;
+	margin:0px;
+}
+
+.settingsRequiredLegend {
+	color:#AF3838;
+	font-size:.75em;
+	background-color:#fff;
+	padding:0 0;
+	margin:10px;	
+}
+
+
+/* table of checkboxes */
+.simpleForm table label {
+	display:inline;
+	float:none;
+	margin-left:4px;
+	font-weight:normal;
+}
+/*
+.simpleForm table td {
+	padding:0px 20px 4px 0px;
+}
+*/
+
+/* read-only row of name/value pair of spans */
+
+.simpleForm .readOnlyRow {
+	font-size:.75em;
+	color:#999;
+	font-weight:bold;
+	padding:0px 0px 10px 0px;
+}
+/*------------------------------------------------*/
+/* multiple columns of checkboxes */
+/*------------------------------------------------*/
+
+.simpleForm .checkboxContainer {
+	clear:both;
+	position:relative;
+	left:157px;
+	top:-22px;
+	width:300px;
+}
+.simpleForm .checkboxContainer li {
+	float:left;
+	width:13em;
+	clear:none;
+}
+.simpleForm .checkboxContainer label {
+	display:block;
+	float:right;
+	width:10em;
+	position:relative;
+	left:-66px;
+	top:3px;
+	font-size:.7em;
+	font-weight:normal;
+}
+.simpleForm .checkBoxList {
+	padding:0px 0px 0px 0px;
+	margin:4px 0px 0px 24px;
+	list-style:none;
+	float:left;
+	width:40em;
+}
+
+/*------------------------------------------------*/
+/* multiple columns (5) of checkboxes */
+/*------------------------------------------------*/
+
+.simpleForm .checkboxContainer2 {
+	clear:both;
+	position:relative;
+	width:300px;
+}
+.simpleForm .checkboxContainer2 ul {
+	width:60em;	
+}
+.simpleForm .checkboxContainer2 li {
+	float:left;
+	width:10.7em;
+	clear:none;
+}
+.simpleForm .checkboxContainer2 label {
+	display:block;
+	float:right;
+	width:9em;
+	position:relative;
+	left:-5px; 
+	top:3px;
+	font-size:.7em;
+	font-weight:normal;
+	width:12em;
+}
+.simpleForm .checkBoxList2 {
+	padding:0px 0px 0px 0px;
+	margin:4px 0px 0px 24px;
+	list-style:none;
+	float:left;
+	width:40em;
+	left: -30px;
+}
+/*------------------------------------------------*/
+
+/* multi-line inputs */
+.simpleForm .inputRow {
+	 list-style:none;
+	 font-size:.75em;
+}
+.simpleForm .inputRow li {
+	clear:both;
+	padding:0px 0px 6px 0px;
+}
+.simpleForm .inputRow li.first {
+	margin-left:0em;
+}
+
+/* multi-row input table */
+.simpleForm .defaultTable .multiRowInput td {
+	padding:4px 6px 7px 6px;
+}
+/* fix margin inheritance on glassFormButtonMed inside defaultTable */
+.simpleForm .glassFormButtonMed {
+	padding: 7px 14px 8px 12px;	
+}
+
+/* temp fix for read only display of iq:formfield control. remove when control is fixed */
+.spanReadOnly {
+	clear:both;
+	font-size:.75em;
+	color:#666;
+	font-weight:bold;
+	padding:.6em 0;
+}
+.spanReadOnly span {
+	display:block;
+	float:left;
+	width:10em;
+}
+
+
+/* form table */
+.formTable label {
+	font-size:.7em;
+	color:#666;
+	font-weight:bold;
+	display:block;
+}
+
+.formTable label.required {
+	background:url(../../App_Themes/Default/Images/icon_required.gif) no-repeat right .3em;
+	padding-right:1em;
+}
+
+
+.formTable td {
+	vertical-align:top;
+}
+
+
+/* table with rows vertically aligned TOP */
+.tableAlignTop tr {
+	vertical-align:top;
+	font-size:.7em;
+}
+
+.tableAlignTop td {
+	padding:4px 10px 3px 10px;
+}
+
+
+/* new information display modules */
+
+.defaultContainer {
+	background-color:#f7f7ff;
+}
+.defaultContainer .headwrap {
+	background:#E5EBEF url(../../App_Themes/Default/Images/default_header_r.gif) no-repeat top right;
+}
+.defaultContainer h2 {
+	margin:0;
+	background:url(../../App_Themes/Default/Images/default_header_l.gif) no-repeat top left;
+	color:#0F4167;
+	text-align:center;
+	font-size:.75em;
+	font-weight:bold;
+	padding:7px;
+}
+.defaultContainer .content {
+	padding:.5em 1em;
+}
+/***************************/
+/* alternate container */
+
+.altContainer {
+	background-color:#fff5e7;
+	border-left:16px #fff solid
+}
+.altContainer .headwrap {
+	background:#E8D6BC url(../../App_Themes/Default/Images/alt_header_r.gif) no-repeat top right;
+}
+.altContainer h2 {
+	background:url(../../App_Themes/Default/Images/alt_header_l.gif) no-repeat top left;
+	color:#8B795F;
+	text-align:center;
+	font-size:.75em;
+	font-weight:bold;
+	padding:7px;
+	margin:0;
+}
+.altContainer .content {
+	padding:.5em 1em;
+}
+
+/***************************/
+/* button rows  */
+
+.defaultButtonRow {
+	text-align:center;
+	background:#F7F7FF url(../../App_Themes/Default/Images/default_container_bl.gif) no-repeat bottom left;
+	height:68px;
+	margin-top:16px;
+}
+.defaultButtonRow div {
+	background:url(../../App_Themes/Default/Images/default_container_br.gif) no-repeat bottom right;
+	height:68px;
+}
+.defaultButtonRow .glassFormButtonMed {
+	margin-top:19px;
+	padding-left:25px;
+	padding-right:25px;
+}
+
+/*alt row*/
+.altButtonRow {
+	text-align:center;
+	background:#FFF5E7 url(../../App_Themes/Default/Images/alt_container_bl.gif) no-repeat bottom left;
+	height:68px;
+	margin-top:15px;
+}
+.altButtonRow div {
+	background:url(../../App_Themes/Default/Images/alt_container_br.gif) no-repeat bottom right;
+	height:68px;
+}
+.altButtonRow .glassFormButtonMed {
+	margin-top:19px;
+	padding-left:25px;
+	padding-right:25px;
+}
+
+
+
+
+
+
+.altCell { width:38px; }
+
+.infoTable tr {
+	font-size:.75em;
+	vertical-align:top;
+}
+
+
+.infoTable td {
+	text-align:left;
+	color:#666;
+	padding:4px 0px 4px 0px;
+	width:50%;
+}
+
+.infoTable th { 
+	text-align:right;
+	color:#666;
+	padding:3px 10px 3px 0px;
+	width:50%;
+	white-space:nowrap
+}
+
+.clockIcon { float:left; margin:-2px 0px 0px 0px; }
+
+.msgPending {
+	background:url(../../App_Themes/Default/Images/icon_clock.gif) no-repeat 0px 1px;
+	color:#666;
+	font-size:.75em;
+ 	font-weight:bold;
+	padding:2px 20px 2px 25px;
+ }
+ 
+ .msgConfirmation {
+	color:#666;
+	font-size:.75em;
+ 	font-weight:bold;
+ }
+
+ 
+ 
+ /* Box container module: originally used for student proxy display */
+ 
+ .boxContainer {
+	background: url(../../App_Themes/Default/Images/default_container_bg.jpg) repeat-x 0px 29px;
+	height:231px;
+	margin:0px 20px 0px 0px;
+	padding:0px;
+	float:left;
+	width:220px;
+}
+
+.boxContainer .defaultHeader,
+.boxContainerWide .defaultHeader {
+	background:#E5EBEF url(../../App_Themes/Default/Images/default_header_r.gif) no-repeat top right;
+}
+.boxContainer .defaultHeader h2,
+.boxContainerWide .defaultHeader h2 {
+	margin:0px;
+	background:url(../../App_Themes/Default/Images/default_header_l.gif) no-repeat top left;
+	color:#0F4167;
+	text-align:left;
+	font-size:.75em;
+	font-weight:bold;
+	padding:7px 14px 7px 14px;
+}
+.boxContainer .boxContainerContent {
+	font-size:.75em;
+	margin:0px;
+	padding:10px 14px;
+}
+
+.boxContainer ul {
+	font-size:.75em;
+	margin-left:16px;
+	margin-top:8px;
+	float:left;
+}
+
+.boxContainer img,
+.boxContainerWide img {
+	position:relative;
+	float:right;
+	left:-14px;
+	top:12px;
+}
+
+/* wide */
+.boxContainerWide {
+	background: url(../../App_Themes/Default/Images/default_container_bg_sm.jpg) repeat-x 0px 29px;
+	height:140px;
+	margin:0px 20px 0px 0px;
+	padding:0px;
+	width:36em;
+}
+
+.boxContainerWide ul {
+	font-size:.75em;
+	margin-left:16px;
+	margin-top:8px;
+	float:left;
+}
+
+.boxContainerWide li {
+	float:left;
+	width:13em;
+}
+
+
+.boxContainer2 {
+	background: url(../../App_Themes/Default/Images/default_container_bg_sm.jpg) repeat-x 0px 29px;
+	height:140px;
+	margin:0px 20px 0px 0px;
+	padding:0px;
+	width:42em;
+}
+
+.boxContainer2 .defaultHeader {
+	background:#E5EBEF url(../../App_Themes/Default/Images/default_header_r.gif) no-repeat top right;
+}
+.boxContainer2 .defaultHeader h2 {
+	margin:0px;
+	background:url(../../App_Themes/Default/Images/default_header_l.gif) no-repeat top left;
+	color:#0F4167;
+	text-align:left;
+	font-size:.75em;
+	font-weight:bold;
+	padding:7px 14px 7px 14px;
+}
+.boxContainer2 .boxContainer2Content {
+	font-size:.75em;
+	margin:0px;
+	padding:10px 14px;
+}
+
+/*.boxContainer2 ul {
+	font-size:.75em;
+	padding:0px 0px 0px 0px;
+	margin:4px 0px 0px 12px;
+	list-style:none;
+	
+}*/
+
+.boxContainer2 li {
+	float:left;
+	width:12em;
+}
+
+.boxContainer2 img {
+	position:relative;
+	float:right;
+	left:-14px;
+	top:12px;
+}
+
+.boxContainer2 label {
+	display:block;
+	float:right;
+	width:9em;
+	position:relative;
+	left:-10px;
+	top:2px;
+	
+}
+.boxContainer2 input {  }
+
+.boxContainer2 .checkBoxList {
+	font-size:.75em;
+	padding:0px 0px 0px 0px;
+	margin:4px 0px 0px 24px;
+	list-style:none;
+	float:left;
+	width:36em;
+	border-right:1px #ddd solid;
+}
+.boxContainer2 .pay {
+	position:absolute;
+	left:59.2em;
+	padding-left:14px;
+	border-left:1px #ddd solid;
+	height:5em;
+}
+
+.boxContainer2 .view { 
+	float:left; 
+	font-size:.75em; 
+	font-weight:bold; 
+	position:relative; 
+	left:14px; 
+	top:3px; 
+	color:#666;
+}
+
+.boxContainer2 .nonViewItem {
+	font-size:.75em;
+	list-style:none;
+	position:absolute;
+	left:58.5em;
+	padding:0px;
+	margin:0px;
+	padding-left:14px;
+	padding-top:3px;
+
+	height:5em;
+}
+
+.boxContainer2 .nonViewItem li {
+	float:none;
+}
+
+
+/* student menu (vertical fluid version) */
+
+
+	.studentMenuCell {
+		padding:0px;
+		margin:-6px -6px -4px -6px;
+	
+	}
+	.studentMenuCell a:link,
+	.studentMenuCell a:active,
+	.studentMenuCell a:visited {
+		display:block;
+		margin:0px;
+		padding:6px;
+		text-decoration:underline;
+		margin-right:14px;
+		color:#3683ba;
+	}
+	.studentMenuCell span {
+		display:block;
+		margin-right:6px;
+	}	
+
+	.studentMenuCellOver {
+		background:url(../../App_Themes/Default/Images/bg_student_over_lg2.jpg) repeat-x bottom left;
+		border:1px #cccccc solid;
+		margin:-6px -6px -4px -6px;
+	}
+
+	.studentMenuCellOver span {
+		display:block;
+		background:url(../../App_Themes/Default/Images/student_menu_arrow.gif) no-repeat center right;
+		margin-right:6px;
+	}
+	
+	.studentMenuCellOver a:link,
+	.studentMenuCellOver a:active,
+	.studentMenuCellOver a:visited {
+		display:block;
+		padding:5px 5px 5px 5px;
+		margin-right:14px;
+		background:url(../../App_Themes/Default/Images/student_menu_divider.gif) repeat-y center right;
+		text-decoration:none;
+		color:#3683ba;
+	}
+
+.lightboxDarkOverlay {
+				display: none;
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                right:0px;
+                bottom:0px;
+                width: 100%;
+                height: 100%;
+                background-color: black;
+                z-index:1001;
+                -moz-opacity: 0.8;
+                opacity:.80;
+                filter: alpha(opacity=80);
+}
+.lightboxContent {
+				display: none;
+                position: absolute;
+                top: 25%;
+                left: 30%;
+/*           width: 50%;
+                width: 400px;
+                height: 50%;*/
+                padding: 16px;
+                border: 16px solid #6D8BA3;
+                background-color: white;
+                z-index:1002;
+                overflow: auto;
+
+}
+
+.lightboxUIContent {
+				display: none;
+                position: absolute;
+                top: 25%;
+    /*          left: 30%;
+               width: 50%;
+                width: 400px;
+                height: 50%;*/
+                padding: 16px;
+                border: 16px solid #6D8BA3;
+                background-color: white;
+                z-index:1002;
+                overflow: auto;
+
+}
+
+.lightboxContentFloating {
+				display: none;
+				width:400px;
+                position: relative;                
+                padding: 16px;        
+                margin-top: -500px;
+                left:35%;
+                border: 10px solid #6D8BA3;
+                background-color: white;
+                z-index:1002;
+                overflow: auto;
+
+}
+
+.moduleBody {
+	border-left:1px solid #7BA7C6;
+	border-right:1px solid #7BA7C6;
+	font-size:0.7em;
+	margin:0px;
+	padding-left:10px;
+}
+.moduleBody td {
+	padding:6px 0px 7px 0px;
+	border-bottom:1px #BBC9D4 solid;
+}
+
+.moduleBody td input {
+	margin:2px 3px 0px 0px;
+}
+
+.moduleBody .lastItem {
+	border-width:0px;
+}
+
+.smallModuleBot {
+	background:transparent url(../../App_Themes/Default/Images/right_module_bot_r.gif) no-repeat scroll right top;
+	height:13px;
+}
+.smallModuleBot div {
+	background:transparent url(../../App_Themes/Default/Images/right_module_bot_l.gif) no-repeat scroll left top;
+}
+
+.smallModuleBottom div{
+	background:transparent url(../../App_Themes/Default/Images/right_module_bot_680.gif) no-repeat scroll left top;
+	width:680px;
+}
+
+.expandingModuleBotSpanL 
+{
+	float:left;
+	background:transparent url(../../App_Themes/Default/Images/right_module_bot_l.gif) no-repeat left top;
+	height:13px;
+	width:7px;
+}
+.expandingModuleBotSpanR 
+{
+	float:right;
+	background:transparent url(../../App_Themes/Default/Images/right_module_bot_r.gif) no-repeat right top;
+	height:13px;
+	width:33px;
+}
+
+.expandingModuleBotMid
+{	
+	float:right;
+	background:url(../../App_Themes/Default/Images/right_module_bot_mid.gif) repeat;
+	width:100%;
+}
+
+.boldText {
+	font-weight:bold;
+}
+
+.commandImage {
+	cursor:pointer;
+}
+
+/****** Form Selection  ******/
+.formSelection ul {
+	list-style:none;
+	padding:0px;
+	font-size:.75em;
+	color:#666;
+}
+
+.formSelection li {
+	padding:5px 0px 15px 10px;
+}
+
+.formSelection a:link,
+.formSelection a:active,
+.formSelection a:visited {
+	font-size:1.2em;
+	font-weight:bold;	
+}
+
+/* ----------------------------------------------------------------------------------------------------------------*/
+/* ---------->>> thickbox specific link and font settings <<<------------------------------------------------------*/
+/* ----------------------------------------------------------------------------------------------------------------*/
+
+#TB_window 
+{
+	/*font: 12px Arial, Helvetica, sans-serif;
+	color: #333333;*/
+}
+
+#TB_secondLine {
+	/*font: 10px Arial, Helvetica, sans-serif;
+	color:#666666;*/
+}
+/*
+#TB_window a:link {color: #666666;}
+#TB_window a:visited {color: #666666;}
+#TB_window a:hover {color: #000;}
+#TB_window a:active {color: #666666;}
+#TB_window a:focus{color: #666666;}*/
+
+/* ----------------------------------------------------------------------------------------------------------------*/
+/* ---------->>> thickbox settings <<<-----------------------------------------------------------------------------*/
+/* ----------------------------------------------------------------------------------------------------------------*/
+#TB_overlay {
+	position: fixed;
+	z-index:100;
+	top: 0px;
+	left: 0px;
+	height:100%;
+	width:100%;
+}
+
+.TB_overlayMacFFBGHack {background: url(macFFBgHack.png) repeat;}
+.TB_overlayBG {
+	background-color:#000;
+	filter:alpha(opacity=75);
+	-moz-opacity: 0.75;
+	opacity: 0.75;
+}
+
+* html #TB_overlay { /* ie6 hack */
+     position: absolute;
+     height: expression(document.body.scrollHeight > document.body.offsetHeight ? document.body.scrollHeight : document.body.offsetHeight + 'px');
+}
+
+#TB_window {
+	position: fixed;
+	background: #ffffff;
+	z-index: 102;
+	color:#000000;
+	display:none;
+	border: 4px solid #525252;
+	text-align:left;
+	top:50%;
+	left:50%;
+}
+
+* html #TB_window { /* ie6 hack */
+position: absolute;
+margin-top: expression(0 - parseInt(this.offsetHeight / 2) + (TBWindowMargin = document.documentElement && document.documentElement.scrollTop || document.body.scrollTop) + 'px');
+}
+
+#TB_window img#TB_Image {
+	display:block;
+	margin: 15px 0 0 15px;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	border-top: 1px solid #666;
+	border-left: 1px solid #666;
+}
+
+#TB_caption{
+	height:25px;
+	padding:7px 30px 10px 25px;
+	float:left;
+}
+
+#TB_closeWindow{
+	height:25px;
+	padding:11px 25px 10px 0;
+	float:right;
+}
+
+#TB_closeAjaxWindow{
+	padding:7px 10px 5px 0;
+	margin-bottom:1px;
+	text-align:right;
+	float:right;
+}
+
+#TB_ajaxWindowTitle{
+	float:left;
+	padding:7px 0 5px 10px;
+	margin-bottom:1px;
+}
+
+#TB_title{
+	background-color:#e8e8e8;
+	height:27px;
+}
+
+#TB_ajaxContent{
+	clear:both;
+	padding:2px 15px 15px 15px;
+	overflow:auto;
+	text-align:left;
+	line-height:1.4em;
+}
+
+#TB_ajaxContent.TB_modal{
+	padding:15px;
+}
+
+#TB_ajaxContent p{
+	padding:5px 0px 5px 0px;
+}
+
+#TB_load{
+	position: fixed;
+	display:none;
+	height:13px;
+	width:208px;
+	z-index:103;
+	top: 50%;
+	left: 50%;
+	margin: -6px 0 0 -104px; /* -height/2 0 0 -width/2 */
+}
+
+* html #TB_load { /* ie6 hack */
+position: absolute;
+margin-top: expression(0 - parseInt(this.offsetHeight / 2) + (TBWindowMargin = document.documentElement && document.documentElement.scrollTop || document.body.scrollTop) + 'px');
+}
+
+#TB_HideSelect{
+	z-index:99;
+	position:fixed;
+	top: 0;
+	left: 0;
+	background-color:#fff;
+	border:none;
+	filter:alpha(opacity=0);
+	-moz-opacity: 0;
+	opacity: 0;
+	height:100%;
+	width:100%;
+}
+
+* html #TB_HideSelect { /* ie6 hack */
+     position: absolute;
+     height: expression(document.body.scrollHeight > document.body.offsetHeight ? document.body.scrollHeight : document.body.offsetHeight + 'px');
+}
+
+#TB_iframeContent{
+	clear:both;
+	border:none;
+	margin-bottom:-1px;
+	margin-top:1px;
+	_margin-bottom:1px;
+}
+
+/* Add More Button */
+.buttonGrey {
+	background: url(../../App_Themes/Default/Images/grey-button-right.gif) no-repeat top right;
+	float:left;
+	margin-right:10px;
+}
+
+.buttonGrey a:link,
+.buttonGrey a:active,
+.buttonGrey a:visited {
+    background: url(../../App_Themes/Default/Images/grey-button-left.gif) no-repeat top left;
+    height:17px;
+    color:#fff;
+    font-size:12px;
+    text-decoration:none;
+    display:block;
+    padding:3px 12px 2px 12px;
+    font-weight:bold;   
+}
+
+.buttonGrey a:hover {
+    color:#333;
+}
+/*************************************************************************************************************************************
+		SCHEDULE
+*************************************************************************************************************************************/
+.scheduleTable tr { height:120px;}
+/*.scheduleTable td { font-size:1%;}
+*/
+.scheduleTable {
+	border-collapse:collapse;
+}
+
+.scheduleTable .trTableHeader,
+.scheduleTable .trTableHeader th {
+    background:transparent url(../../App_Themes/Default/Images/gradient_header_blue.gif) bottom left repeat-x; 
+    text-align:center; 
+    color:#036;
+    height:32px;
+    vertical-align:middle;
+    font-weight:bold;
+    font-size:.8em;
+    border-left:1px #aaa solid;
+    border-right:1px #aaa solid;
+    border-top-width:0;
+    border-bottom-width:0;
+    border-bottom:none;
+}
+
+.scheduleTable .trTableHeader th div {
+    background:transparent url(../../App_Themes/Default/Images/table_header_arrow_r.gif) no-repeat center right;
+    margin:0;
+    margin-right:10px;
+    padding-bottom:1px;
+}
+
+.scheduleTable .trTableHeader th div div {
+    background:transparent url(../../App_Themes/Default/Images/table_header_arrow_l.gif) no-repeat center left;
+    margin-right:0px;
+    margin-left:10px;
+} 
+
+.scheduleTable .trTableHeaderInv,
+.scheduleTable .trTableHeaderInv th {
+    background:transparent url(../../App_Themes/Default/Images/gradient_header_blue.gif) bottom left repeat-x; 
+    text-align:center; 
+    color:#036;
+    height:32px;
+    vertical-align:middle;
+    font-weight:bold;
+    font-size:.8em;
+    border-left:1px #aaa solid;
+    border-right:1px #aaa solid;
+    border-top-width:0;
+    border-bottom-width:0;
+    border-bottom:none;
+}
+
+.scheduleTable .trTableHeaderInv th div {
+    background:transparent url(../../App_Themes/Default/Images/table_header_arrow_l.gif) no-repeat center right;
+    margin:0;
+    margin-right:10px;
+    padding-bottom:1px;
+}
+
+.scheduleTable .trTableHeaderInv th div div {
+    background:transparent url(../../App_Themes/Default/Images/table_header_arrow_r.gif) no-repeat center left;
+    margin-right:0px;
+    margin-left:10px;
+} 
+
+.scheduleTable tr td {
+	height:120px;
+	width:12.5%;
+	margin:0;
+	background:#fff url("../../App_Themes/Default/Images/1x1_light_blue.gif") repeat-x 0px 60px;
+	vertical-align:top;
+	border:1px #aaa solid;
+
+}
+
+.scheduleTable .timeCol {
+	text-align:right;
+	width:1%;
+	background-color:#f2f2f2;
+	padding-right:.4em;
+	white-space:nowrap;
+	font: .7em Arial, Helvetica, sans-serif;
+}
+
+/* inner table */
+table.scheduleItems {
+	position:relative;
+	margin:0;
+	padding:0;
+	border-collapse:collapse;
+	border:none;
+	background-color:#fff;
+}
+
+table.scheduleItems td {
+	vertical-align:top;
+	padding:0;
+	border:none;
+}
+
+table.scheduleItems td div {
+	position:relative;
+	height:100%;
+	margin:0;
+	padding:0;
+}
+
+table.scheduleItems td div div {
+	position:absolute;
+	border: 2px solid #666;
+	overflow:hidden;
+/*	height: 9em;*/
+	font: 11px Arial, Helvetica, sans-serif;
+	padding:3px 5px;
+	text-align:center;
+	color:#445;
+}
+
+table.scheduleItems .scheduled {
+	background:#73A3D6 url("../../App_Themes/Default/Images/bg_scheduled.png") repeat-x top left;
+	border-color:#6A91BF;
+}
+
+table.scheduleItems .waitlist {
+	background:#FF9900 url("../../App_Themes/Default/Images/bg_waitlist.png") repeat-x top left;
+	border-color:#EA9D60;
+}
+
+table.scheduleItems .cart {
+	background:#33CC66 url("../../App_Themes/Default/Images/bg_cart.png") repeat-x top left;
+	border-color:#5FB052;
+}
+
+table.scheduleItems td div div a:link,
+table.scheduleItems td div div a:active,
+table.scheduleItems td div div a:visited {
+	display:block;
+	color:#223;
+	font-weight:bold;
+}
+
+table.scheduleItems td div div a:hover {
+	color:#000099;
+	text-decoration:none;
+}
+
+.schedluleHeaderLink:link,
+.schedluleHeaderLink:active,
+.schedluleHeaderLink:visited {
+	background:transparent url(../../App_Themes/Default/Images/module_separator.gif) no-repeat center left;
+	position:absolute;
+	font-weight:normal;
+	font-size:.7em;
+	padding-left:16px;
+	color:#00355e;
+	white-space:nowrap;
+}
+
+.schedluleHeaderLink img {
+	padding:0px 4px;
+	vertical-align:middle;
+	border-width:0px;
+}
+
+
+/*for future use*/
+/*table.scheduleItems td div div a:hover {
+	color:#fff;
+	background-color:#33CC66;
+	margin:-3px -6px;
+	padding:3px 6px;
+	text-decoration:none;
+}*/
+
+.paymentDetails
+{
+    margin:0px;
+    padding: 5px 0px 5px 0px;
+    font-size:.75em;
+}
+
+.paymentDetails li
+{
+   list-style:none;
+}
+
+.makePaymentDiv {
+	margin-bottom:5px;
+}
+
+table#tAttendance {
+    border-spacing: 0px;
+}
+
+.hrAttendance { 
+	color:#6699cc;
+    display: block;
+    margin-top: 0.3em;
+    margin-bottom: 0.3em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 1px;
+} 
+
+.rowAttendanceHeader {
+   color:#fff;
+   background-color:#475766;
+}
+
+.tdAttendanceCenter {
+		text-align:center;
+}
+
+.tdAttendanceLeft {
+		text-align:left;
+}
+
+.tdAttendanceRight {
+		text-align:right;
+}
+
+.tdAttendanceTitle {
+		text-align:center;
+		font-weight:700;
+}
+
+.tdAttendanceTitleLeft {
+		text-align:left;
+		font-weight:700;
+}
