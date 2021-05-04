@@ -1,0 +1,81 @@
+/* DOM ready event */
+jQuery(function($) {
+	/* calendar module */
+	// Reload tooltips on Ajax call
+	Drupal.behaviors.reloadTooltips = {
+		attach: function (context, settings) {
+			$('.tooltip').each(function() {
+				$(this).qtip({
+					content: {
+						text: $(this).parent().parent().find('div.tooltip-content')
+					},
+					position: {
+						my: 'left center', // Position my top right...
+						at: 'right center', // at the bottom right of...
+						viewport: $(window)
+					}
+				});
+			});
+		}
+	};//Drupal.behaviors.reloadTooltips
+        
+        Drupal.behaviors.select2 = {
+          attach: function (context, settings) {
+            $('select.select-dropdown').select2({
+            minimumResultsForSearch: -1,
+            containerCss : {"display":"inline-block"},
+            adaptDropdownCssClass: function(c) {
+                if (c.indexOf("backdrop-") === 0)
+                    return c;
+                }
+            });  
+          }  
+        }
+
+	// get items list for chosen day (on smaller screens)
+	$(document).on('click', '.calendar-calendar .date-box .item-link', function(event) {
+		event.preventDefault();
+		$('.calendar-calendar .date-box .item-link').removeClass('active');
+		$(this).addClass('active');
+		var items = $(this).next(".todays-items").html();
+		$(".small-items-view").html(items);
+	});
+
+	// on ready add content from todays date
+	var items = $('.calendar-calendar .date-box .item-link.active').next(".todays-items").html();
+	$(".small-items-view").html(items);
+	// collapse sidebar on smaller screens
+	if($(window).width() <= 768) {
+		$(".calendar-fieldset").removeClass('expanded');
+		$(".calendar-fieldset").addClass('collapsed');
+	}
+
+	// if container has dark bg, add backdrop to select-dropdown
+	var dark_bg = $(".select-dropdown").parents(".bg-dark-grey");
+	if(dark_bg.length > 0) {
+		$(".bg-dark-grey").find(".select-dropdown").addClass("backdrop-au-grey");
+	}
+
+	$(".webform-client-form .select-dropdown").removeClass('links');
+	
+	$(window).resize(function() {
+		if($(window).width() <= 768) {
+			$(".calendar-fieldset").removeClass('expanded');
+			$(".calendar-fieldset").addClass('collapsed');
+		}
+	});
+
+	// fix title layout for imported images 
+	$("img").each(function(index, element) {
+		var img_class = $(this).attr("class");
+		if(img_class) {
+			if(img_class.indexOf("wp-image") > -1) {
+				var parent = $(this).parent();
+				var text = "<p class='smi text-normal img-desc'>"+parent.text()+"</p>";
+				parent.html('');
+				parent.append($(this));
+				parent.append(text);
+			}
+		}
+	})
+});

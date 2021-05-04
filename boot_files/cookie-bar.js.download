@@ -1,0 +1,88 @@
+/**
+ * script to handle privacy / cookie disclaimer
+ */
+/* define $ as jQuery */
+(function($) {
+	/* set the cookie */
+	$.fn.process_cookie_check = function() {
+		/* common vars */
+		var cookie_bar_el = $('#cookie-bar');
+		var cookie_bar_close = cookie_bar_el.find('.cookie-bar--close');
+
+		//set_cookie_data(false); /* testing set to false */
+
+		/* event handlers */
+		$(cookie_bar_close).click(function(e) {
+			e.preventDefault();
+			set_cookie_data(true);
+			cookie_bar_el.hide();
+		});
+
+		/* check for current status */
+		var current_status = get_disclaimer_cookie();
+		if (current_status.dismissed_status !== true) {
+			console.log(current_status.dismissed_status);
+			cookie_bar_el.show();
+		};
+	};
+
+	/**
+	 * global functions
+	 */
+	/**
+	 * get the disclaimer cookie
+	 */
+	function get_disclaimer_cookie() {
+		/* get the stored cookie data if it exists */
+		var disclaimer_stored_cookie = Cookies.get('disclaimer_dismissed');
+		var disclaimer_stored_data = {
+			"dismissed_status": false
+		};
+		if (disclaimer_stored_cookie !== undefined) {
+			var disclaimer_stored_data = JSON.parse(disclaimer_stored_cookie);
+		};
+		console.log(disclaimer_stored_data);
+
+		/* return the result */
+		return disclaimer_stored_data;
+	};
+
+	/**
+	 * set the cookie data
+	 */
+	function set_cookie_data(set_as_dismissed) {
+		/* validate existence of query string params before running process */
+		if (set_as_dismissed == 1) {
+
+			/**
+			 * set up the param data obj from the params
+			 * NOTE: using an object here to keep door open for breakdown by params
+			 * dates, user agents, IP address, etc.
+			 */
+			var param_values = {
+				"dismissed_status": true
+			};
+		} else {
+			var param_values = {
+				"dismissed_status": false
+			};
+		}
+
+		/* set the cookie from data */
+		Cookies.set('disclaimer_dismissed', param_values, {
+			/* expires in 30 days */
+			expires: 30
+		});
+
+		/* log to console for debug */
+		var disclaimer_new_cookie = Cookies.get('disclaimer_dismissed');
+		// if (disclaimer_new_cookie !== undefined) {
+		// 	var cookie_data = JSON.parse(disclaimer_new_cookie);
+		// 	console.log(cookie_data);
+		// };
+	};
+
+	/* init the cookie plugin */
+	$('body').process_cookie_check();
+
+})(jQuery);

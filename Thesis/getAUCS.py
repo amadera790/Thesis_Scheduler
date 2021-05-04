@@ -7,6 +7,39 @@ import requests
 import json
 import random
 import unicodedata
+import csv
+import os
+from tqdm import tqdm
+import numpy as np # linear algebra
+import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
+import spacy
+import string
+import gensim
+import operator
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+#building word dictionary
+from gensim import corpora
+from gensim.similarities import MatrixSimilarity
+from operator import itemgetter
+from IPython import get_ipython
+
+tqdm.pandas()
+
+punctuations = string.punctuation
+#creating token object
+spacy_nlp = spacy.load('en_core_web_sm')
+stop_words = spacy.lang.en.stop_words.STOP_WORDS
+descrip_tfidf_corpus = None
+descrip_lsi_corpus = None
+descrip_tfidf_model = None
+descrip_lsi_model = None
+dictionary = None
+descrip_index = None
+df_courses = None
+courses = {}
+with open('boot.html', 'r') as f:
+        html_template = f.read()
 
 # options = webdriver.ChromeOptions()
 # options.add_argument('user-data-dir={}'.format('C:\\Users\\BigMo\\AppData\\Local\\Google\\Chrome\\User Data\\Default'))
@@ -16,9 +49,9 @@ import unicodedata
 # time.sleep(10)
 # soup = BeautifulSoup(driver.page_source,"html.parser")
 
-def getAUC() -> (dict, list):
-    soup = BeautifulSoup(open('BioAUCS.html'), "html.parser")
-
+def getAUC(auc_File):
+    #soup = BeautifulSoup(requests.get(auc_File).content, "html.parser")
+    soup = BeautifulSoup(open(auc_File), "html.parser")
     courses_tags    = [values.text for values in soup.findAll(id="Courses")]
     categories_tags = [values.text for values in soup.findAll(id="Category")]
     code_tags = [values.text for values in soup.findAll(id="Code")]
@@ -91,72 +124,23 @@ def getAUC() -> (dict, list):
     print(needed_AUC)
     return needed_AUC, Needed
 
-def getMaj():
-    
-
-    soup = BeautifulSoup(open('BioPlan.html'), "html.parser")
-
-    # parse remaining list
-    remaining = []
-    section = []
-    sectionClass = {}
-    Or = False
-    orList = []
-    
-    for name in soup.find_all("a", {"href": "javascript:void(0)"}):
-        section.append(name.text.strip())
-
-    section = section[1:-1]
-
-    for t, major in enumerate(soup.find_all("table",{"class": "defaultTableAlignTop"})):
-        # remaining[t] - this will be the remaining number of courses for this specific table
-        sectionClass[section[t]] = []
-        for tr in major.find_all("tr"):
-            completed, in_progress = False, False
-            for i, td in enumerate(tr.find_all("td")):
-                if td.text.strip() == "(" and section[t] != "300 Level Major Elec" and section[t] != "Major Electives":
-                    Or = True
-                if td.text.strip() == ")":
-                    Or = False
-                    for orIndex in orList:
-                        if not (orIndex in sectionClass[section[t]]):
-                            for k in orList:
-                                if k in sectionClass[section[t]]:
-                                    sectionClass[section[t]].remove(k)
-                    orList.clear()
-                if td.find("a") and td.find("a")["title"] == "Completed":
-                    completed = True
-                if td.find("a") and td.find("a")["title"] == "In Progress":
-                    in_progress = True
-                if i == 3 and not completed and not in_progress:
-                    sectionClass[section[t]].append(td.text.strip())
-
-    print(sectionClass)
-    return sectionClass
-
-    '''
-    major_tags = soup.find("table", {"class": "defaultTableAlignTop"})
-    major = [values.text for values in major_tags.find_all("a")]
-    print(major)
-    
-    major_Tags = [values.text for values in soup.find("table", {"class": "defaultTableAlignTop"})]
-    major = 
-    
-    for atag in majorTags:
-        atags = [values.text for values in soup.find_all("a")]
-        print(atags)
-    '''
-def getCompletedCourses():
-    soup = BeautifulSoup(open('BioPlan.html'), "html.parser")
+def getCompletedCourses(html_File):
+    soup = BeautifulSoup(open(html_File), "html.parser")
     remaining = [values.text for values in soup.find_all("div",{"class": "classCols"})]
     header = [values.text.strip() for values in soup.find_all("h2",{"class": "tabSliderHeaderLight"})]
     diction = {}
     courseList = {}
     completedList = []
+    andList = []
     orList = []
+    andPar = []
     Or = False
+    And= False 
+    andComplete = False
     inProgress = 0
     x = 0
+
+    aucForm = "BioAUCS.html"
 
     for line in remaining:
         if (re.search("Courses",line)):
@@ -173,16 +157,32 @@ def getCompletedCourses():
         for tr in major.find_all("tr"):
             completed, in_progress = False, False
             for i, td in enumerate(tr.find_all("td")):
-                if td.text.strip() == "(" and header[x] != "300 Level Major Elec" and header[x] != "Major Electives":
+                if ((td.text.strip() == "(" and header[x] != "300 Level Major Elec" and header[x] != "Major Electives") and td.find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").text.strip() == "And") or And:
+                    And = True
+                    try:
+                        if all(elem in courseList[header[x]] for elem in andPar):
+                            andComplete = True
+                    except:
+                        pass
+                    if td.text.strip() == ")" and td.find_next("td").text.strip() != "Or":
+                        And = False
+                        if andComplete:
+                            for j in andList:
+                                if j in courseList[header[x]]:
+                                    courseList[header[x]].remove(j)
+                        andComplete = False
+                        andList.clear()
+                    andPar.clear()
+                if ((td.text.strip() == "(" and header[x] != "300 Level Major Elec" and header[x] != "Major Electives") and td.find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").text.strip() == "Or") or Or:
                     Or = True
-                if td.text.strip() == ")":
-                    Or = False
-                    for orIndex in orList:
-                        if not (orIndex in courseList[header[x]]):
-                            for k in orList:
-                                if k in courseList[header[x]]:
-                                    courseList[header[x]].remove(k)
-                    orList.clear()
+                    if td.text.strip() == ")":
+                        Or = False
+                        for orIndex in orList:
+                            if not (orIndex in courseList[header[x]]):
+                                for k in orList:
+                                    if k in courseList[header[x]]:
+                                        courseList[header[x]].remove(k)
+                        orList.clear()
 
                 if td.find("a") and td.find("a")["title"] == "Completed":
                     completed = True
@@ -197,6 +197,9 @@ def getCompletedCourses():
                     completedList.append(td.text.strip())
                 if Or and i == 3:
                     orList.append(td.text.strip())
+                if And and i == 3:
+                    andList.append(td.text.strip())
+                    andPar.append(td.text.strip())
 
         diction[header[x]] = diction.get(header[x]) - inProgress 
         x=x+1
@@ -210,139 +213,344 @@ def getCompletedCourses():
                 except:
                     continue
 
-    print(completedList)
-    print(courseList)
-    return courseList, completedList
+    return courseList, completedList, aucForm
 
-def getSemCourses():
-
-    soup = BeautifulSoup(open('springSem2021.html'), "html.parser")
-    courses = {}
+def getSemCourses(year, term):
+    page = requests.get("https://selfservice.arcadia.edu/SelfService/Search/SectionSearch.aspx?sort=CourseId&num=10000&year="+year+"&term="+term+"&type=Trad")
+    soup = BeautifulSoup(page.content, "html.parser")
+    global courses
     coursesSla = {}
 
     for i in soup.find_all("tr",{"valign": "top"}):
         if i.find("a") is not None and i.find("a").text != "\n\n\t\t\t\tLogin" and "summary=\"Course/Session\"" not in str(i):
            
             
-            name = i.find("a").text.split("/")[0]
+            code = i.find("a").text.split("/")[0]
             slash = i.find("a").text
-            courses[name] = {}
+            courses[code] = {}
             coursesSla[slash] = {}
+            link = i.find_next("td").find_next("td").find_next("a")['href']
             try:
-                courses[name]["Seats"] = unicodedata.normalize("NFKD", i.find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").get_text(separator = ", "))
+                courses[code]["Name"] = i.find_next("td").find_next("td").find_next("span").text.strip()
+                coursesSla[slash]["Name"] = i.find_next("td").find_next("td").find_next("span").text.strip()
+            except:
+                courses[code]["Name"] = "NA"
+                coursesSla[slash]["Name"] = "NA"
+            try:
+                courses[code]["Seats"] = unicodedata.normalize("NFKD", i.find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").get_text(separator = ", "))
                 coursesSla[slash]["Seats"] = unicodedata.normalize("NFKD", i.find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").get_text(separator = ", "))            
             except:
-                del courses[name]
+                del courses[code]
                 del coursesSla[slash]
                 continue
-            courses[name]["Credits"] = i.find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").text
+            courses[code]["Credits"] = i.find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").text
             coursesSla[slash]["Credits"] = i.find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").text
 
             dayTimeRoom = i.find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").text.strip().splitlines()
             try:
-                courses[name]["Day"] = dayTimeRoom[0].strip()
+                courses[code]["Day"] = dayTimeRoom[0].strip()
                 coursesSla[slash]["Day"] = dayTimeRoom[0].strip()
             except:
-                courses[name]["Day"] = "NA"
+                courses[code]["Day"] = "NA"
                 coursesSla[slash]["Day"] = "NA"
             try:
-                courses[name]["Time"] = dayTimeRoom[1].strip()
+                courses[code]["Time"] = dayTimeRoom[1].strip()
                 coursesSla[slash]["Time"] = dayTimeRoom[1].strip()
             except:
-                courses[name]["Time"] = "NA"
+                courses[code]["Time"] = "NA"
                 coursesSla[slash]["Time"] = "NA"
             try:
-                courses[name]["Room"] = dayTimeRoom[2].strip()
+                courses[code]["Room"] = dayTimeRoom[2].strip()
                 coursesSla[slash]["Room"] = dayTimeRoom[2].strip()
             except:
-                courses[name]["Room"] = "NA"
+                courses[code]["Room"] = "NA"
                 coursesSla[slash]["Room"] = "NA"
             try:
-                courses[name]["AUCS"] = i.find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").text
+                courses[code]["AUCS"] = i.find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").text
                 coursesSla[slash]["AUCS"] = i.find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").find_next("td").text
             except:
-                courses[name]["AUCS"] = ""
+                courses[code]["AUCS"] = ""
                 coursesSla[slash]["AUCS"] = ""
 
-    return courses, coursesSla
+            courses[code]["Link"] = link
+            coursesSla[slash]["Link"] = link
+
+    return coursesSla
 
 
-def currentSem():
+def preReqTerm(year, term):
 
-    #(?<=\Prerequisites: ).*
-    soup = BeautifulSoup(open('springSem2021.html'), "html.parser")
+    page = requests.get("https://selfservice.arcadia.edu/SelfService/Search/SectionSearch.aspx?sort=CourseId&num=10000&year="+year+"&term="+term+"&type=Trad")
+    soup = BeautifulSoup(page.content, "html.parser")
     preReqs = {}
 
-    for i in soup.find_all("tr", {"valign": "top"}):
+    # bar = tqdm(total=len(soup.find_all("tr", {"valign": "top"})))
+
+    first_one = True
+    for i in tqdm(soup.find_all("tr", {"valign": "top"})):
+        if first_one:
+            first_one = False
+            continue
         for a in i.find_all("a", href=True):
             if "sectiondetailsdialog" in a['href']:
-                print(a['href'])
                 page = requests.get(a['href'])
                 courseWindow = BeautifulSoup(page.content, "html.parser")
                 td = courseWindow.find("td")
                 if re.search("(?<=Prerequisites: ).*|(?<=Prerequisite: ).*", td.text) != None:
-                    preReqs[td.find_next("span").find_next("span").text.split("\/")[0]] = re.search("(?<=Prerequisites: ).*|(?<=Prerequisite: ).*", td.text).group()
+                    preReqs[td.find_next("span").find_next("span").text.split("/")[0].strip()] = re.search("(?<=Prerequisites: ).*|(?<=Prerequisite: ).*", td.text).group()
                 else:
-                    preReqs[td.find_next("span").find_next("span").text.split("\/")[0]] = "None"
+                    preReqs[td.find_next("span").find_next("span").text.split("/")[0].strip()] = "None"
 
     with open('data.json', 'w') as fp:
         json.dump(preReqs, fp,  indent=4)
 
-def availableCourses(courses, sectionClass, neededAUCS, aucCodes, coursesSla):
+def availableCourses(sectionClass, neededAUCS, aucCodes, coursesSla):
+    global courses
+    global html_template
     preData = open('data.json',)
     preReq = json.load(preData)
     dupe = []
+    cdni = []
+    csvList = []
+    neededMajCourses = []
+    neededAucCourses = []
+    aucPlaceholder = ""
     print("Availibale Major Courses and Electives")
     for section,neededCor in sectionClass.items():
         for cla in neededCor:
-            if cla in courses and courses[cla] not in dupe:
-                print(cla + " " + str(courses[cla]))
-                if cla in preReq and courses[cla] not in dupe:
-                    print(preReq[cla])
-                dupe.append(courses[cla])
+            if cla in courses and courses[cla]:
+                neededMajCourses.append(cla)
+
+    writeHtmlFile("majPlaceholder", neededMajCourses)
 
     print("Availiable Auc requirements")
     for section in coursesSla.keys():
         for key in aucCodes.keys():
             if key in coursesSla[section]["AUCS"]:
-                print(section + " " +str(coursesSla[section]))
-                break
+                neededAucCourses.append(section)
+
+    writeHtmlFile("aucPlaceholder", neededAucCourses)
+
+def semantic_search():
+    global dictionary, spacy_nlp, stop_words, punctuations, descrip_tfidf_model, descrip_lsi_model, descrip_tfidf_corpus, descrip_lsi_corpus, descrip_index, df_courses
+    #read in dataset
+    df_courses = pd.read_csv('auc.csv', sep='|')
+    # adding column name to the respective columns
+    df_courses.columns =['Course Code', 'Course Name', 'Instructor', 'Description']
+    #data cleaning and processing
+    #create list of punctuations and stopwords
+    #function for data cleaning and processing
+    #This can be further enhanced by adding / removing reg-exps as desired.
+    print ('Cleaning and Tokenizing...')
+    df_courses = df_courses.drop_duplicates(subset=['Course Code']).reset_index(drop=True)
+    df_courses['DescriptionTokenized'] = df_courses['Description'].progress_apply(lambda x: spacy_tokenizer(x))
+    courseDescrip = df_courses['DescriptionTokenized']
+    courseDescrip[0:5]
+    # series = pd.Series(np.concatenate(courseDescrip)).value_counts()[:100]
+    # wordcloud = WordCloud(background_color='white').generate_from_frequencies(series)
+    # plt.figure(figsize=(15,15), facecolor = None)
+    # plt.imshow(wordcloud, interpolation='bilinear')
+    # plt.axis('off')
+
+    #creating term dictionary
+    dictionary = corpora.Dictionary(courseDescrip)
+    #list of things which can be further removed
+    stoplist = set('hello and if this can would should could tell ask stop come go')
+    stop_ids = [dictionary.token2id[stopword] for stopword in stoplist if stopword in dictionary.token2id]
+    dictionary.filter_tokens(stop_ids)
+
+    #print top 50 items from the dictionary with their unique token-id
+    dict_tokens = [[[dictionary[key], dictionary.token2id[dictionary[key]]] for key, value in dictionary.items() if key <= 50]]
+
+    #bag of words model(BoW)
+    #a way of extracting features from text for use in modelling
+    #needs a vocab of known word and a measure of the presence of known words
+
+    corpus = [dictionary.doc2bow(desc) for desc in courseDescrip]
+
+    word_frequencies = [[(dictionary[id], frequency) for id, frequency in line] for line in corpus[0:]]
+
+    #build Tf-Idf and LSI Model
+    descrip_tfidf_model = gensim.models.TfidfModel(corpus, id2word=dictionary)
+    descrip_lsi_model = gensim.models.LsiModel(descrip_tfidf_model[corpus], id2word=dictionary, num_topics=300)
+
+    #serialize and store for easy retrieval
+    gensim.corpora.MmCorpus.serialize('descrip_tfidf_model_mm', descrip_tfidf_model[corpus])
+    gensim.corpora.MmCorpus.serialize('descrip_lsi_model_mm',descrip_lsi_model[descrip_tfidf_model[corpus]])
     
 
+    descrip_tfidf_corpus = gensim.corpora.MmCorpus('descrip_tfidf_model_mm')
+    descrip_lsi_corpus = gensim.corpora.MmCorpus('descrip_lsi_model_mm')
 
-neededAUCS, aucCodes = getAUC()
-remCourses, compCourses  = getCompletedCourses()
-courses, coursesSla = getSemCourses()
-availableCourses(courses, remCourses, neededAUCS, aucCodes, coursesSla)
+    print(descrip_tfidf_corpus)
+    print(descrip_lsi_corpus)
 
-'''
-courseList = {}
-courses = {}
+    descrip_index = MatrixSimilarity(descrip_lsi_corpus, num_features = descrip_lsi_corpus.num_terms)
 
-courses = getSemCourses()
-courseList = getNumofCourses()
-available = {}
+    # search for courses that are related to below search parameters
+    keyword = input("Type a word that you would like to recommend classes based on: ")
+    print(search_similar_courses(keyword))
 
-print(courseList)
-print(courses)
+def spacy_tokenizer(sentence):
+ 
+    global punctuations
+    global stop_words
+    #creating token object
+    global spacy_nlp
+    #remove distracting single quotes
+    sentence = re.sub('\'','',sentence)
 
-for key in courseList:
-    for k in range(len(courseList[key])):
-        for x in courses:
-            if courseList[key][k] in x:
-                if key not in available:
-                    available[key] = []
-                available[key].append(x)
+    #remove digits adnd words containing digits
+    sentence = re.sub('\w*\d\w*','',sentence)
 
-print(available)
+    #replace extra spaces with single space
+    sentence = re.sub(' +',' ',sentence)
+    #remove unwanted lines starting from special charcters
+    sentence = re.sub(r'\n: \'\'.*','',sentence)
+    sentence = re.sub(r'\n!.*','',sentence)
+    sentence = re.sub(r'^:\'\'.*','',sentence)
+    
+    #remove non-breaking new line characters
+    sentence = re.sub(r'\n',' ',sentence)
+    
+    #remove punctunations
+    sentence = re.sub(r'[^\w\s]',' ',sentence)
+    
+    tokens = spacy_nlp(sentence)
+
+    #lower, strip and lemmatize
+    tokens = [word.lemma_.lower().strip() if word.lemma_ != "-PRON-" else word.lower_ for word in tokens]
+    #remove stopwords, and exclude words less than 2 characters
+    tokens = [word for word in tokens if word not in stop_words and word not in punctuations and len(word) > 2]
+    #print(tokens)
+    #return tokens
+    return tokens
+
+def search_similar_courses(search_term):
+    global dictionary, punctuations, spacy_nlp, stop_words, descrip_tfidf_corpus, descrip_lsi_corpus, descrip_lsi_model, descrip_tfidf_model, descrip_index, df_courses
+    global courses, html_template
+    query_bow = dictionary.doc2bow(spacy_tokenizer(search_term))
+    query_tfidf = descrip_tfidf_model[query_bow]
+    query_lsi = descrip_lsi_model[query_tfidf]
+
+    descrip_index.num_best = 10
+
+    descrip_list = descrip_index[query_lsi]
+
+    descrip_list.sort(key=itemgetter(1), reverse=True)
+    course_names = []
+    codes = []
+    preData = open('data.json')
+    preReq = json.load(preData)
+    for j, course in enumerate(descrip_list):
+        course_names.append (
+            {
+                'Relevance': round((course[1] * 100),2),
+                'Course Code': df_courses['Course Code'][course[0]],
+                'Course Name': df_courses['Course Name'][course[0]],
+                'Description': df_courses['Description'][course[0]]
+            }
+        )
+        codes.append(str(df_courses['Course Code'][course[0]]))
+        if j == (descrip_index.num_best-1):
+            break
+
+    writeHtmlFile("recPlaceholder", codes)
+
+    return codes
+
+def writeHtmlFile(htmlPlaceholder, codes):
+    global html_template, courses
+    preData = open('data.json')
+    preReq = json.load(preData)
+    tableCreation = ""
+    for cla in codes:
+        if "/" in cla:
+            cla = cla.split("/")[0]
+        tableCreation += '<tr> <td>' + '<a href="'+courses[cla]["Link"]+'" target="_blank">'+ cla + '</a> </td> <td>' + courses[cla]["Name"] + '</td> <td>' + courses[cla]["Seats"] + '</td> <td>' + courses[cla]["Time"] + '</td> <td>' + courses[cla]["Day"] + '</td> <td>' + courses[cla]["Credits"] + '</td>'
+        if cla in preReq and courses[cla]:
+            tableCreation += "<td>" + preReq[cla] + "</td> </tr>"
+        else:
+            tableCreation += "<td> </td> </tr>" 
+
+    html_template = html_template.replace(htmlPlaceholder, tableCreation)
+
+    with open('data.html', 'w') as f:
+        f.write(html_template)
+
+def makeCSV(year, term):
+    page = requests.get("https://selfservice.arcadia.edu/SelfService/Search/SectionSearch.aspx?sort=CourseId&num=10000&year="+year+"&term="+term+"&type=Trad")
+    soup = BeautifulSoup(page.content, "html.parser")
+    instructors = []
+    code = []
+    name = []
+    des = []
+    csvList = []
+
+    for i in soup.find_all("tr", {"valign": "top"}):
+        for a in i.find_all("a", href=True):
+            if "sectiondetailsdialog" in a['href']:
+                cdni = []
+                page = requests.get(a['href'])
+                courseWindow = BeautifulSoup(page.content, "html.parser")
+                td = courseWindow.find("td")
+                tr = courseWindow.find("tr")
+                br = courseWindow.find("br")
+                try:
+                    cdni.append(unicodedata.normalize("NFKD", td.find_next("span").find_next("span").text.split("/")[0].strip()))
+                except:
+                    cdni.append("None")
+                try:
+                    cdni.append(unicodedata.normalize("NFKD", td.find_next("span").find_next("span").text.split("-")[1].strip()))
+                except:
+                    cdni.append("None")
+                try:
+                    ints = unicodedata.normalize("NFKD", tr.find_next("tr").find_next("tr").find_next("tr").find_next("td").find_next("td").text.strip())
+                    cdni.append(ints)
+                except:
+                    cdni.append("None")
+                try:
+                    p = td.text.strip().splitlines()
+                    for x in range(len(p)):
+                        if x < len(p) - 3:
+                            if re.search("\.00", p[x]):
+                                if re.search("Prerequisites:", p[x+3]) or re.search("Prerequisite:", p[x+3]) or re.search("(AUC)", p[x+3]):
+                                    k = p[x+2].strip()
+                                elif re.search("(AUC)", p[x+2]) or re.search("(AUC)", p[x+3]):
+                                        k = "No description provided"
+                                else:
+                                    k = p[x+2].strip() +""+ p[x+3].strip()
+                    if k == '':
+                        k = "No description provided"
+                    cdni.append(unicodedata.normalize("NFKD",k))
+                except:
+                    cdni.append("No description provided")
+
+                csvList.append(cdni)
+    
+    with open('auc.csv', 'w', newline='', encoding="utf-8") as file:
+        writer = csv.writer(file, delimiter='|')
+        writer.writerows(csvList[:len(csvList)//2])
 
 
 
 if __name__ == '__main__':
-    AUC, placement_tags = getAUC()
-    print(AUC, placement_tags)
-([0-9]+)(?!.*[0-9])
-(\d+)(?!.*\d)
+    
+    html_page = input("Enter path to your saved academic html page: ")
+    term = input("Enter the term Fall or Spring (summer works but is untested): ")
+    year = input("Enter the year: ")
+    if not os.path.exists(html_page):
+        print('File ' + html_page +' does not exist')
+        exit(1)
+
+    makeCSV(year, term)
+    preReqTerm(year, term)
+    coursesSla = getSemCourses(year, term)
+    remCourses, compCourses, aucForm  = getCompletedCourses(html_page)
+    neededAUCS, aucCodes = getAUC(aucForm)
+    semantic_search()
+    availableCourses(remCourses, neededAUCS, aucCodes, coursesSla)
+
+
 # print(driver.page_source)
 #driver.quit()
-'''

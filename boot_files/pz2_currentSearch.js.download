@@ -1,0 +1,630 @@
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+//                              HELPER FUNCTIONS
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+function _fixAbbr (word) {
+  var key = {
+    "CLOSED STK":	"Please Ask At Circulation Desk",
+    "CURR-BATES":	"Curriculum Lab - Bates Collection",
+    "CURRIC-FIC":	"Curriculum Lab - Juvenile Fiction",
+    "CURRIC-JUV":	"Curriculum Lab - Juvenile Non-Fiction",
+    "CURRIC-PER":	"Curriculum Lab - Periodicals",
+    "CURRICULUM":	"Curriculum Lab - Texts and Teacher's Resources",
+    "MCNLEISURE":	"McNaughton Leisure Collection",
+    "MCN_BOOK": "Mcnaughton",
+    "READYREF":	"Ready Reference",
+    "STEIN":	"Stein Periodical Browsing Room"
+  };
+  // If word is in the key, change word 
+  if (key[word]) {word = key[word];} // Fix the Abbreviation if there is one
+  
+  return word;
+}
+
+function _fixCaps (dirty_words) {
+  var words = dirty_words.toString();
+  words = words.replace(/[\[\]]/g,''); // Clean out brackets [ ]
+  words = words.split(/\s/); // split into array on spaces
+  for(var i = 0; i < words.length; i++) {
+    words[i] = _fixAbbr(words[i]); // Fix abbreviations if there are any
+    if (i !== 0 && (words[i] === "is" || words[i] === "and" || words[i] === "are" || words[i] === "of" || words[i] === "or" || words[i] === "the" || words[i] === "an" || words[i] === "in" || words[i] === "by")) {
+      words[i] = words[i].toLowerCase();
+    } else if (words[i].toLowerCase() === 'url') {
+      words[i] = words[i].toUpperCase();
+    } else {
+      words[i] = words[i].substring(0,1).toUpperCase() + words[i].substring(1).toLowerCase();
+      if (words[i].indexOf('/') !== -1) {words[i] = words[i].substring(0,words[i].indexOf('/')+1)+words[i].substring(words[i].indexOf('/')+1,words[i].indexOf('/')+2).toUpperCase()+words[i].substring(words[i].indexOf('/')+2);}
+    }
+  }
+  return words.join(' ');
+}
+
+function _delSpaces (str) {
+  return str.toString().replace(/[\s,\.]*/g,'');
+}
+
+function _formatResults(result){
+  if (result.length > 1) {
+    var recordList = "<ul>";
+    for (var i = 0; i < result.length; i++){
+      if (i === 0 || result[i] !== result[i-1]){
+        recordList += "<li>"+_fixCaps(result[i])+"</li>";
+      }  
+    }
+    recordList += "</ul>";
+    return recordList;
+  } else {
+    return _fixCaps(result);
+  }
+}
+
+//var url_info = {
+//  'location': ,
+//  'issn': ,
+//  'issn': ,
+//  'url': ,
+//  'text': ,
+//  'note': ,
+//  'format-type': ,
+//  'format-instruction': 
+//}
+function _generateURL(url_data) {
+  var html = '', url = '';
+  var prefix = 'http://ezproxy.arcadia.edu:2048/login?url=';
+  for (var i=0; i < url_data['url'].length; i++) {
+    //Link Text
+    
+    if (url_data['note'] && url_data['note'][i]) {
+      text = url_data['note'][i]
+    } else if(url_data['text'] && url_data['text'][i]) {
+      text = url_data['text'][i]
+    } else {
+      text = 'Direct Link'
+    };
+    if (url_data['format-type'] && url_data['format-type'][i]) text = text + ' <em>('+url_data['format-type'][i]+')</em>';
+    //Link URL
+    if (url_data["location"].id === "proquest-z3950.umi.com:210/PQ_current") {
+      url = prefix+'http://gateway.proquest.com/openurl?ctx_ver=Z39.88-2004&res_id=xri:pqd&rft_val_fmt=ori/fmt:kev:mtx:journal&issn='+url_data["md-issn"]+'&atitle='+url_data["md-title"];
+    } else {
+      url = (url_data['url'].toString().indexOf("ezproxy") === -1 && url_data['url'].toString().indexOf("morholt") === -1)?prefix+url_data['url'][i]:url_data['url'][i];
+    };
+    
+    var alt = (url_data['format-instruction'] && url_data['format-instruction'][i])?url_data['format-instruction'][i]:'Open '+text;
+    
+    html += '<li class="url"><a href="'+url+'" target="_blank" title="'+alt+' in new window">'+text+'</a></li>';
+  };
+  return html;
+}
+
+// prevent execution of more than once
+if(typeof window.currentSearch === "undefined") {
+  var currentSearch = function (params) {
+    this.currentPage = 1;
+    this.totalRecords = 0;
+    
+    this.recordsPerPage = params.recordsPerPage || 20;
+    this.sortBy = params.sortBy || 'relevance';
+    
+    this.curDetRecId = null;
+    this.curDetRecData = null;
+    this.curJSONRecId = null;
+    
+    this.advancedOn = false;
+    
+    this.curHash = document.location.hash.substring(1);
+    this.terms = '';
+    this.adv = {};
+    
+    this.settings = params.settings || false;
+    
+    this.intervalTime = 500;
+    this.pz2 = params.pz2Class;
+    
+    // Hide the appropriate message
+    ($('#pazpar2-search-form input.form-radio:disabled').length)?$('#federated_help').addClass('disabled'):$('#federated_help').addClass('enabled');
+    // Show the right help information
+    if ($('#edit-pazpar2-select-search-1:checked').length) {
+     this.setupForm('federated')
+    }
+    if ($('#edit-pazpar2-select-search-2:checked').length) {
+      this.setupForm('catalog')
+    }
+    $('#help_wrapper').slideDown('slow')
+    $('#help_tail').fadeIn()
+    
+    
+    var context = this;
+    // Online Database search radio click
+    $('#edit-pazpar2-select-search-1-wrapper').click(function(){
+      context.setupForm('federated')
+    });
+    // Library Catalog search radio
+    $('#edit-pazpar2-select-search-2-wrapper').click(function(){
+    console.log("clicky");
+      context.setupForm('catalog')
+    })
+    
+  };
+  
+  currentSearch.prototype = {
+    setupForm: function(setting){
+      if (setting == 'federated') {
+        if ($('#help_wrapper_inner').height() != $('#federated_help').height()) {
+          $('#help_wrapper_inner').animate({'height':$('#federated_help').height()},'fast')
+        };
+        $('#help_tail').animate({'left':$('#edit-pazpar2-select-search-1').position().left-23},'fast')
+        $('#catalog_help').hide();
+        $('#federated_help').fadeIn('slow');
+        $('#advanced').removeAttr('href').bind('click',function(){
+          $('#advanced_search').slideToggle();
+        });
+        if ($('#pazpar2-search-form input.form-radio:disabled').length == 0) {$('#edit-pazpar2-accessibility-wrapper').slideDown('fast');}
+      } else if (setting == 'catalog') {
+        if ($('#help_wrapper_inner').height() != $('#catalog_help').height()) {
+          $('#help_wrapper_inner').animate({'height':$('#catalog_help').height()},'fast')
+        };
+        $('#help_tail').animate({'left':$('#edit-pazpar2-select-search-2').position().left-23},'fast')
+        $('#federated_help').hide();
+        //Have advanced link go directly to the advanced search page in koha
+        $('#advanced').attr('href','http://koha.arcadia.edu/cgi-bin/koha/opac-search.pl').unbind('click');
+        
+        $('#edit-pazpar2-accessibility-wrapper').slideUp('fast');
+        $('#catalog_help').fadeIn('slow');
+        $('#advanced_search').slideUp('fast')
+      }
+    },
+    
+    setupSearch: function () {
+    console.log("setup search");
+      //Hide everything until results start coming in
+      $('#bytarget').hide();
+      $('#advanced_search').hide();
+      
+      //Add the slide toggle on the more info link in search footer
+      $('#showhide_targets').click(function(){
+        $('#bytarget').slideToggle();
+      });
+      
+      if ( this.pz2.initStatusOK ) {
+        if ( this.settings) { this.pz2.settings(this.settings); }
+        //console.log("SetupSearch")
+        this.parseURL();
+        this.updateForm();
+        this.beginSearch();
+        this.checkInterval();
+      }
+    },
+        
+    submitForm: function (event) {
+      console.log('submitForm')
+      var context = this;
+      //Is the library catalog selected?
+      if ($('#edit-pazpar2-select-search-2:checked').length) {
+        // Google Analytics
+        _gaq.push(['_trackEvent', 'Search', 'Catalog', location.pathname]);
+        
+        context.detirmineTerms();
+        window.location = "http://koha.arcadia.edu/cgi-bin/koha/opac-search.pl?q="+this.terms;
+        // Is accessible search NOT selected?
+      } else if ($("#edit-pazpar2-accessibility:checked").length == 0) { 
+        // Google Analytics
+        _gaq.push(['_trackEvent', 'Search', 'Federated', location.pathname]);
+        
+        context.detirmineTerms();
+        context.updateURL()
+        if (location.href.indexOf("ajaxresults") != -1) context.beginSearch(); 
+      } else {
+        $("#pazpar2-search-form").submit();
+      } 
+      
+    },
+    
+    beginSearch: function (id) {
+      if (this.terms === '' && this.advancedOn === false) {
+        var error = {code: 417,message: "No search terms provided! I can't search for nothing!"};
+        this.errorHandler(error);
+      } else{
+        this.currentPage = 1;
+        //Construct Query
+        var query = '';
+        var and = '';
+        if (this.advancedOn) {
+          if (this.terms !== '') {
+            query += this.terms;
+            and = ' and ';
+          }
+          //Cycle through advanced terms
+          for ( var index in this.adv ) {
+            query += and + index + "=" + this.adv[index];
+            and = ' and ';
+          }
+        } else {
+          query = this.terms;
+        }
+        //query += ' and supress!=1';
+  
+        $('#search_status').removeClass('error complete').addClass('searching').slideDown();
+        
+        $('#term_list').empty();
+        $('#search_info').empty();
+        
+        // Display currently "searching" message
+        $('#records').empty().hide().append('<div class="record" id="searching">Beginning Search...If results do not appear after a minute, please try refreshing.</div>').fadeIn('slow');
+        
+        if (id) {
+          this.pz2.search(query, this.recordsPerPage, this.sortBy,'pz:id='+id);
+        } else {
+          this.pz2.search(query, this.recordsPerPage, this.sortBy);
+        }
+
+      }
+    },
+    
+    filterResults: function (field,value,dbid) {
+    	//console.log(field)
+      if (field === 'xtargets') {
+        this.beginSearch(dbid);
+      } else {
+        this.adv[field]=value;
+        this.advancedOn = true;
+        
+        this.updateURL();
+        this.updateForm();
+        this.beginSearch();
+      }
+    },
+    
+    checkInterval: function () {
+      var context = this;
+      function checkURL() {
+        if (document.location.hash.substring(1) !== context.curHash) {
+          context.parseURL();
+          context.updateForm();
+          context.beginSearch();
+        }
+      }
+      setInterval(checkURL,this.intervalTime);
+    },
+    
+    detirmineTerms: function () {
+      this.terms = ($('#edit-pazpar2-search-term').attr('value') !== '')?$('#edit-pazpar2-search-term').attr('value'):'';
+      this.adv = {};
+      this.advancedOn = false;
+      var advInputs = $('#advanced_search :input');
+      for (var i = advInputs.length - 1; i >= 0; i--){
+        if (advInputs[i].value !== 'any' && advInputs[i].value !== '') {
+          this.adv[advInputs[i].name] = advInputs[i].value;
+          this.advancedOn = true;
+        }
+      }
+      
+      if (this.advancedOn === false) {
+        $('#advanced_search').slideUp();
+      }
+    },
+    
+    updateForm: function () {
+      $('#edit-pazpar2-search-term').val(this.terms);
+      var advInputs = $('#advanced_search :input'); //Throw the current form value into an object
+      for (var i = advInputs.length - 1; i >= 0; i--){//Iterate through them
+        if (this.adv[advInputs[i].name]!==undefined) {//does the search object have a term for this field?
+          // Is it a select drop down
+          if (advInputs[i].name === "location" || advInputs[i].name === "type") {
+            $("#edit-"+advInputs[i].name+" option[value="+this.adv[advInputs[i].name]+"]").attr("selected","selected");
+          } else{
+            $("#advanced_search input[name='"+advInputs[i].name+"']").val(this.adv[advInputs[i].name]);
+          }
+        } else {
+          if (advInputs[i].name === "location" || advInputs[i].name === "type") {
+            $('#edit-'+advInputs[i].name+' option:selected').removeAttr("selected");
+          } else{
+            $("#advanced_search input[name='"+advInputs[i].name+"']").val("");
+          }
+        }
+      }
+      if (this.advancedOn) {
+        $('#advanced_search').slideDown();
+      } else {
+        $('#advanced_search').slideUp();
+      }
+    },
+    
+    parseURL: function () {
+      this.curHash = document.location.hash.substring(1);
+      this.adv = {};
+      this.advancedOn = false;
+      if (this.curHash !== null) {
+        var termsArray = this.curHash.split('/');
+        for( var key in termsArray) {
+          var valueArray = (termsArray[key].indexOf('=') !== -1)?termsArray[key].split('='):termsArray[key].split('%3D');
+          if ((valueArray[0]==='au' || valueArray[0]==='ti' || valueArray[0]==='su' || valueArray[0]==='isbn' || valueArray[0]==='issn' || (valueArray[0]==='location') || valueArray[0]==='type') && valueArray[1] !== '' && valueArray[1] !== "any") {
+            this.advancedOn = true;
+            this.adv[valueArray[0]] = valueArray[1].replace('%20',' ');
+          } else if (valueArray[0]==='term' && valueArray[1] !== '') {
+            this.terms = valueArray[1].replace('%20',' ');
+          }
+        }
+      }       
+    },
+    
+    resetForm: function () {
+      $('#edit-pazpar2-search-term').val('');
+      $('#advanced_search :input').each(function(){
+        $(this).val('');
+        $('option[value=any]').attr("selected","selected")
+      });
+      $('#edit-pazpar2-accessibility-0').attr("checked","checked")
+    },
+    
+    updateURL: function () {
+      var hash = '';
+      var sep = '';
+      if (this.terms!=='') {
+        hash += 'term='+this.terms;
+        sep = '/';
+      }
+      for( var type in this.adv){
+        if (this.adv[type] !== '' || this.adv[type] !== 'any') {
+          hash += sep + type + "=" + this.adv[type];
+          sep = '/';
+        }
+      }
+      this.curHash = hash;
+      if (location.href.indexOf("ajaxresults") == -1) {
+        //console.log(location.hostname+"/ajaxresults/home#"+hash);
+        window.location = "http://"+location.hostname+"/ajaxresults/"+Drupal.settings.pazpar2.nid+"#"+hash;
+      } else {
+        document.location.hash = hash;
+      }
+    },
+    
+    errorHandler: function (err) {
+      //console.log(err.message,"Error");
+      $('#search_status').show().removeClass('searching complete').addClass('error');
+      $('#search_status_icon').text('Error');
+      $('#search_status_content').html('<p>'+err.message+'</p>');
+    },
+    
+    showResults: function (data){
+      this.totalRecords = data.merged;
+    
+      $('#toolbar').show();
+      
+      if (data.total !== 0){
+        $('#search_info').empty().append('Displaying: ' + (data.start+1) + ' to ' + (data.start + data.num) + ' of ' + data.merged);
+      }
+      // - - - - - Pager display and logic
+      var prev = $('<a title="Previous Results" onclick="showPrevious()" id="pager_prev" class="inactive">&#60;&#60; Prev</a>');
+      var next = $('<a title="Next set of Results" onclick="showNext()" id="pager_next">Next &#62;&#62</a>');
+      
+      if (data.total > 20) {
+        $('#pager').empty().append(prev).append(' - ').append(next);
+        if (this.currentPage > 1) {
+          $('#pager_prev').removeClass('inactive');
+        }
+        if ( this.totalRecords - this.recordsPerPage*this.currentPage > 0 ) {
+          $('#pager_next').removeClass('inactive');
+        } else {
+          $('#pager_next').addClass('inactive');
+        }
+      }
+      
+      // - - - - - insert records
+      $('#records').empty();
+      if(data.activeclients === 0 && data.hits.length === 0) {
+        $('#records').append('<p>No Results</p>');
+      } else {
+        for (var i = 0; i < data.hits.length; i++) {
+          var hit = data.hits[i];
+        	var html = '<div class="record" id="rec_' + hit.recid + '" onclick="search.getRecord(this.id)">';
+  	      html += '<em class="result_num">' + (i + 1 + this.recordsPerPage * ( this.currentPage - 1)) + '. </em>';
+  	      html += '<h3>';
+   	      html+=_fixCaps(hit["md-title"]); 
+        	if (hit["md-title-remainder"] !== undefined) {
+        	  html += ' <span class="record_title_remainder">, ' + _fixCaps(hit["md-title-remainder"]) + '</span>';
+        	}
+        	if (hit["md-title-number-section"] !== undefined) {
+        	  html += ', <span class="record_title_number_section">, ' + _fixCaps(hit["md-title-number-section"]) + '</span>';
+        	}
+        	if (hit["md-title-responsibility"] !== undefined) {
+        	  html += ', <span class="record_title_responsibility">' + _fixCaps(hit["md-title-responsibility"]) + '</span>';
+        	}
+  	      html += '</h3>';
+  	      html += '<span class="location">'+hit['location'][0].name+'</span>';
+  	      
+  	      $('#records').append(html);
+  	      
+          if ( hit.recid == this.curDetRecId ) {
+            this.showRecordDetails();
+          }
+        } //End item for loop
+      }
+    },
+    
+    getRecord: function (prefixRecId) {
+      var recId = prefixRecId.replace('rec_', '');
+      // if the same record is clicked do not redraw
+      if ( recId === this.curDetRecId ) {return;}
+      
+      // remove current detailed view if any
+      // Couldn't use jquery here...it doesnt like the spaces in the ID
+      if (this.curDetRecId) {
+        var RecIdDiv = document.getElementById('rec_'+this.curDetRecId);
+        var detRecordDiv = document.getElementById('det_'+this.curDetRecId);
+        if (detRecordDiv !== null) {
+          RecIdDiv.removeChild(detRecordDiv);
+          RecIdDiv.className='record';
+        }
+      }
+      
+      this.curDetRecId = recId;
+  
+      // request the record
+      this.pz2.record(recId);
+    },
+    
+    showRecord: function (data){
+      this.curDetRecData = null;
+      // in case on_show was faster to redraw element
+      var detRecordDiv = document.getElementById('det_'+data.recid);
+      if ( detRecordDiv ) return;
+      this.curDetRecData = data;
+      this.showRecordDetails();
+    },
+    
+    showRecordDetails: function () {
+      var data = this.curDetRecData;
+      this.curJSONRecId = data.recid;
+      var recordDiv = document.getElementById('rec_'+data.recid);
+      var details = '<div class="details" id="det_'+data.recid+'"><ul id="detail_list">';
+      
+      if (data["md-title-alternative"])
+        details += '<li class="url"><strong>Alternative Title(s):</strong> '+_formatResults(data["md-title-alternative"])+'</li>';
+      
+      if (data["md-author"]) {
+        details += '<li class="author">By <strong>' + _fixCaps(data["md-author"]) + '</strong>';
+        if (data["md-date"])
+          details += ' in <strong>' + data["md-date"] + '</strong>';
+        details +='</li>';
+      } else if (data["md-date"]) {
+        details += '<li> Written in <strong>' + data["md-date"] + '</strong></li>';
+      }
+      //if (data["md-title"]) {
+      //  details += '<li class="title"><strong>Title:</strong> ' + data["md-title"] + '</li>';
+      //};
+      if (data["md-medium"]) {
+        details += '<li class="medium"><strong>Type:</strong> ' + _fixCaps(data["md-medium"]) + '</li>';
+      }
+      if (data["md-journal-title"] && data["md-journal-subpart"]) {
+        details += '<li class="journal"><strong>Journal:</strong> ' + data["md-journal-title"] + ', ' + data["md-journal-subpart"] + '</li>';
+      }
+      if (data["md-holdings-print"]) {
+        details += '<li><strong>Print Holdings: </strong>'+_formatResults(data["md-holdings-print"]);
+        if (data["md-holdings-note"]){
+          details+=' <i>'+data["md-holdings-note"]+'</i>';
+        }  
+        details+='</li>';
+      }
+      if (data["md-edition"])
+        {details += '<li class="edition"><strong>Edition:</strong> ' + _fixCaps(data["md-edition"]) + '</li>';}
+      
+      //Let's iterate through our locations
+      for (var i=0; i < data["location"].length; i++) {
+        var location = data["location"][i];
+        details += '<li class="source"><strong>Database: </strong>' + location["name"] + '</li>';
+        
+        if (location["md-electronic-url"]){
+          var url_info = {
+            'location': (location.id)?location.id:null,
+            'issn': (location["md-issn"])?location["md-issn"]:null,
+            'issn': (location["md-title"])?location["md-title"]:null,
+            'url': (location["md-electronic-url"])?location["md-electronic-url"]:null,
+            'text': (location["md-electronic-text"])?location["md-electronic-text"]:null,
+            'note': (location["md-electronic-note"])?location["md-electronic-note"]:null,
+            'format-type': (location["md-electronic-format-type"])?location["md-electronic-format-type"]:null,
+            'format-instruction': (location["md-electronic-format-instruction"])?location["md-electronic-format-instruction"]:null
+          }
+          details += _generateURL(url_info);
+        } else {
+          details += "<li><strong>No additional informatino available.</strong></li>"
+        }
+      };
+      
+      if (data["location"][0]["md-biblio-number"]) {
+      	details += '<li class="koha"><a href="http://koha.arcadia.edu/cgi-bin/koha/opac-detail.pl?biblionumber='+data["location"][0]["md-biblio-number"]+'" title="Full details" target="_blank">Full Details <em>(in new window)</em></a></li>';
+      };
+      
+      details += '</ul><div id="more_details_wrapper"><ul class="more_details">';
+      
+      if (data["md-description"]){
+        details += '<li class="description"><strong>Description:</strong> ' + _formatResults(data["md-description"]) + '</li>';
+      }
+      if (data["md-subject-long"]){
+        details += '<li><strong>Subjects:</strong>'+_formatResults(data["md-subject-long"])+'</li>';
+      }
+      else if (data["md-subject"]){
+        details += '<li><strong>Subjects:</strong>'+_formatResults(data["md-subject"])+'</li>';
+      }
+      details +='</ul></div></div>';
+      
+      $(recordDiv).addClass('selected').append(details);
+      
+      if (data["location"][0]["md-subject"]||data["md-description"]){
+        $('#more_details_wrapper').append('<a id="more_details_showhide" onclick="showMoreRecordDetails(this.id)" title="Click to see more information">More Information</a>');
+      }
+    },
+    
+    showTerms: function (data) {
+      $('#termlist').empty();
+      if (data.xtargets && data.xtargets.length){
+        $('#termlist').append('<h4>Source:</h4><ul id="term_xtargets"></ul>');
+      }
+      else {
+        $('#termlist').append('<p>Nothing to filter!</p>');
+      }
+      if (data.medium && data.medium.length){
+        $('#termlist').append('<h4>Resource Type:</h4><ul id="term_medium"></ul>');
+      }  
+      if (data.author && data.author.length){
+        $('#termlist').append('<h4>Author:</h4><ul id="term_author"></ul>');
+      }  
+      if (data.subject && data.subject.length){
+        $('#termlist').append('<h4>Subject:</h4><ul id="term_subject"></ul>');
+      }  
+      if (data.date && data.date.length){
+        $('#termlist').append('<h4>Date:</h4><ul id="term_date"></ul>');
+      }  
+      if (data.location && data.location.length){
+        $('#termlist').append('<h4>Location:</h4><ul id="term_location"></ul>');
+      }  
+      for (var key in data){
+        if (key === "activeclients"){
+          continue;
+        }
+        for (var i = 0; i < data[key].length; i++){
+          var name = data[key][i].name;
+          var listItem = '';
+          if (key === 'xtargets') {
+            var dbid = data[key][i].id;
+            listItem = $('<li><a class="listItem" title="Filter result to '+name+'" id="'+key+i+'" db="'+dbid+'" key="'+key+'" value="'+name+'">'+_fixCaps(name)+'</a></li>');
+            listItem.appendTo('#term_' + key);
+            $('#'+key+i).bind("click",function (e) { search.filterResults( $(this).attr("key"), $(this).attr("value"), $(this).attr("db") ); });
+          } else {
+            var abbrKey = (key === 'author')?'au':(key === 'subject')?'su':(key === 'title')?'ti':(key === 'medium')?'type':key;
+            listItem = $('<li><a class="listItem" id="'+_delSpaces(abbrKey+name)+'" title="Filter result to '+name+'" key="'+abbrKey+'" value="'+name+'">'+_fixCaps(name)+' <span class="freq">('+data[key][i].freq+')</span></a></li>');
+            listItem.appendTo('#term_' + key);
+            $('#'+_delSpaces(abbrKey+name)).bind("click",function (e) { search.filterResults($(this).attr("key"),$(this).attr("value")); });
+          }
+        }
+      }
+    },
+    
+    showTargets: function (data) {
+      var table = '<thead><tr><td>Target ID</td><td>Hits</td><td>Diags</td><td>Records</td><td>State</td></tr></thead><tbody>';
+      $.each(data, function (i,data) {
+        table += "<tr><td>" + data.id + "</td><td>" + data.hits + "</td><td>" + data.diagnostic + "</td><td>" + data.records + "</td><td>" + data.state + "</td></tr>";
+      });
+      table += '</tbody>';
+      $('#bytarget').empty().append(table);
+    },
+    
+    showStats: function (data) {
+      
+      if (data.activeclients > 0 ) {
+        $('#search_status').removeClass('complete error attention').addClass('searching');
+        $('#search_status_icon').empty().text('Searching...');
+        $('#search_status_content').html('<span class="searching_info">Searching <span class="number">'+data.clients+'</span> database(s).</span><br /> (<span class="content_total">Searching: <span class="number">'+data.activeclients+'</span></span> <span class="content_complete">Complete: <span class="number">'+data.idle+'</span></span> </span>)');
+      } else if (data.activeclients == 0 && data.records === 0) {
+        $('#search_status').removeClass('complete error searching').addClass('attention');
+        $('#search_status_icon').empty().text('No Results');
+        $('#search_status_content').html('<p>Didn\'t find a thing. Did you spell it right?</p>');
+      } else if (data.activeclients == 0 && data.records > 0){
+        $('#search_status').removeClass('searching error attention').addClass('complete');
+        $('#search_status_icon').empty().text('Complete!');
+        $('#search_status_content').html('<p>Your search returned <strong>' + data.records + '</strong> results</p>');
+        $('#search_status').fadeOut(3000);
+      }
+      $('#stat_info').empty().prepend('<span>Active clients: '+ data.activeclients + '/' + data.clients + ' | </span>' + 
+                                      '<span>Retrieved records: ' + data.records  + '/' + data.hits + '</span>');
+    }
+  };
+}

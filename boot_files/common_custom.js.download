@@ -1,0 +1,86 @@
+/* DOM ready event */
+jQuery(function($) {
+	customSectionLayout();
+	Drupal.behaviors.customSectionLayout = {
+		attach: function (context, settings) {
+			customSectionLayout();
+		}
+	};
+
+	function customSectionLayout() {
+
+		// show custom buttons instead of select
+		$(".custom-select-buttons").each(function(index, val) {
+			if($(this).parent().find(".custom-section-wrapper").length == 0) {
+
+				// hide row heights on load
+				$(".tabledrag-toggle-weight").each(function(){
+					if($(this).text() == "Hide row weights") {
+						$(this).trigger('click');
+					}
+				});
+
+				var $section_wrapper = $("<div>", {class: "custom-section-wrapper"});
+				$(this).parent().append($section_wrapper);
+				button = "";
+				var button_icons = $(this).parent().parent().find(".button-icons");
+				console.log(button_icons);
+				var count = $("option", this).length;
+				
+				if (count <= 5) {
+					$(this).parent().find($(".custom-section-wrapper")).addClass('not-full');
+				}
+				$("option", this).each(function(index, value) {
+					var child = $("img:nth-child("+parseInt(index+1)+")", button_icons);
+					button += "<a class='custom-section-button' href='#' data-index='"+index+"'>"+child[0].outerHTML+"<span>"+$(this).text()+"</span>"+"</a>";
+				});
+				$(this).parent().find($(".custom-section-wrapper")).append(button);
+			}
+		});
+
+		// add custom classes to parents
+		$(".paragraph-title-wrapper").closest('table').addClass('custom-drag');
+		$(".paragraph-title-wrapper").closest('tr').addClass('custom-drag-row');
+		$(".paragraph-title-wrapper").closest('fieldset').addClass('custom-fieldset');
+
+		if($(".paragraph-title-wrapper").length == 0) {
+			$('.custom-fieldset').removeClass('custom-fieldset');
+		}
+		$(".custom-section-wrapper").parent().parent().addClass('custom-section-select');
+	}
+
+
+	$(document).on('click', '.custom-section-button', function(event) {
+		event.preventDefault();
+		/* Act on the event */
+		var index = $(this).attr("data-index");
+		var custom_select = $(this).parent().parent().find(".custom-select-buttons");
+		index = parseInt(index) + 1;
+		$("option:nth-child("+index+")", custom_select).attr('selected', 'selected');
+
+		$(".custom-section-button").removeClass('active');
+		$(this).addClass('active');
+		var section = $(this).find("span").text();
+
+		$(this).parent().parent().parent().find(".field-add-more-submit").val("Add a "+section);
+	});
+
+	$(document).on('click', '.toggle-accordion', function(event) {
+		event.preventDefault();
+		/* Act on the event */
+		$(this).next(".accordion-loader").show();
+		var accordion_submit = $(this).parent().parent().find(".toggle-accordion-submit");
+		accordion_submit.trigger('mousedown');
+	});
+});
+
+(function($) {
+
+  Drupal.behaviors.console_log = {
+    attach: function(context, settings) {
+      if(typeof Drupal.settings.common_custom !== "undefined") {
+        console.log (Drupal.settings.common_custom.msg);
+      }
+    }
+  }
+})(jQuery);

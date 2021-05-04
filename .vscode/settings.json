@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "C:\\Users\\BigMo\\AppData\\Local\\Programs\\Python\\Python38-32\\python.exe",
+    "python.pythonPath": "C:\\Users\\BigMo\\AppData\\Local\\Programs\\Python\\Python37\\python.exe",
     "python.linting.pylintPath": "c:\\users\\bigmo\\appdata\\local\\packages\\pythonsoftwarefoundation.python.3.8_qbz5n2kfra8p0\\localcache\\local-packages\\python38\\site-packages",
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": false

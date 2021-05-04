@@ -1,0 +1,14 @@
+/* DOM ready event */
+jQuery(function($) {
+
+	// direct link to tab
+	var url = window.location.href;
+	var tab =  window.location.hash.substr(1);
+	if(tab != "" && $("#"+tab).length > 0) {
+		var tabId = "#"+tab;
+		$(".tab-list-wrapper .tab.sm").removeClass('active');
+		$(".tab-list-wrapper .tab.sm[href='#"+tab+"']").addClass("active");
+		$(".tab-content").addClass('hidden');
+        $(tabId).removeClass('hidden');
+	} 
+});

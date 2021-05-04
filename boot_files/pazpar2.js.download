@@ -1,0 +1,64 @@
+Drupal.behaviors.pazpar2 = function (context) {
+  var options = {};
+  console.log("dude");
+  if (settings = Drupal.settings.pazpar2) {
+    
+    options.settings = (typeof(settings.dbs)!=null)? settings.dbs:false;
+    
+    if (settings.init) {
+      pz2 = new pz2({ 
+        "onshow": onShow,
+        "showtime": 1000,            //each timer (show, stat, term, bytarget) can be specified this way
+        "pazpar2path": '/search.pz2',
+        "onstat": onStat,
+        "oninit": onInit,
+        "stattime": 250,
+        "onterm": onTerm,
+        "termlist": "xtargets,location,medium,author",
+        "errorhandler": errorHandler,
+        "onbytarget": onByTarget,
+        "usesessions" : true,
+        "onrecord": onRecord
+      });
+      
+      options.pz2Class = pz2;
+    };
+  }
+  // get the current search class ready
+  search = new currentSearch(options);
+  
+  //Bind the magic to the submit button
+  $("#pazpar2-search-form").submit(function(event){
+      event.preventDefault();
+      search.submitForm();
+    });
+};
+
+// Event functions/DOM manipulation
+
+
+function showMoreRecordDetails(id) {
+  $('.more_details').slideToggle();
+  ($('#more_details_showhide').text()=='More Information')?$('#more_details_showhide').text('Less Information'):$('#more_details_showhide').text('More Information');
+}
+
+function showNext() {
+  if ( search.totalRecords - search.recordsPerPage * search.currentPage > 0) {
+    pz2.showNext();
+    search.currentPage++;
+  }
+}
+
+function showPrevious() {
+  if ( pz2.showPrev() != false)
+    search.currentPage--;
+}
+
+// Pass through functions to work around scope issues with two objects
+function onInit () {search.setupSearch()};
+function onShow (data) {search.showResults(data)};
+function onStat (data) {search.showStats(data)};
+function onTerm (data) {search.showTerms(data)};
+function errorHandler (data) {search.errorHandler(data)};
+function onByTarget (data) {search.showTargets(data)};
+function onRecord (data) {search.showRecord(data)};
